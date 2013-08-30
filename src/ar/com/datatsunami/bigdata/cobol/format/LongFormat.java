@@ -15,6 +15,7 @@ public class LongFormat extends Format<Long> {
 		if (value == null)
 			throw new InvalidFormatException("value no debe ser null");
 
+		value = value.trim();
 		try {
 			return Long.parseLong(value);
 		} catch (NumberFormatException nfe) {
