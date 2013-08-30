@@ -1,5 +1,13 @@
 package ar.com.datatsunami.bigdata.cobol.format;
 
+/**
+ * Parses strings to Long. Valid values are '1', '-1', ' 1 ', ' -1 '.
+ * 
+ * Is NOT valid: '+1' or '1.0'
+ * 
+ * @author Horacio G. de Oro
+ * 
+ */
 public class LongFormat extends Format<Long> {
 
 	public LongFormat() {
@@ -7,7 +15,7 @@ public class LongFormat extends Format<Long> {
 	}
 
 	public LongFormat(Long valueForEmpty) {
-		this.valueForEmpty = valueForEmpty;
+		super(valueForEmpty);
 	}
 
 	@Override
