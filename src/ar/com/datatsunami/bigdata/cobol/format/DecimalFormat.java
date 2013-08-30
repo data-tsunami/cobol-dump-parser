@@ -5,14 +5,14 @@ import java.util.regex.Pattern;
 
 public class DecimalFormat extends Format<Float> {
 
-	boolean conSigno;
+	boolean withSign;
 	int cantidadDecimales;
 	Pattern pattern;
 
 	public DecimalFormat(int cantidadDecimales, boolean conSigno) {
-		this.conSigno = conSigno;
+		this.withSign = conSigno;
 		this.cantidadDecimales = cantidadDecimales;
-		if (this.conSigno)
+		if (this.withSign)
 			this.pattern = Pattern.compile("^(\\d+)(\\d{" + this.cantidadDecimales + "})(.)$");
 		else
 			this.pattern = Pattern.compile("^(\\d+)(\\d{" + this.cantidadDecimales + "})$");
@@ -33,7 +33,7 @@ public class DecimalFormat extends Format<Float> {
 		if (!matcher.matches())
 			throw new InvalidFormatException("No es un decimal con signo valido: " + value);
 		try {
-			if (this.conSigno)
+			if (this.withSign)
 				return Float.valueOf("" + matcher.group(3) + "" + matcher.group(1) + "." + matcher.group(2));
 			else
 				return Float.valueOf("" + matcher.group(1) + "." + matcher.group(2));

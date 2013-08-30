@@ -19,29 +19,29 @@ import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
  */
 public class CobolParser {
 
-	List<Field<?>> items = new ArrayList<Field<?>>();
+	List<Field<?>> fields = new ArrayList<Field<?>>();
 	Pattern pattern = null;
-	int anchoDeLinea = 0;
+	int lineWidth = 0;
 
 	public CobolParser() {
 	}
 
 	public CobolParser(Field<?>... items) {
 		for (Field<?> item : items) {
-			this.items.add(item);
+			this.fields.add(item);
 		}
 	}
 
 	public void add(Field<?> item) {
-		this.items.add(item);
+		this.fields.add(item);
 	}
 
 	public Pattern getPattern() {
 		if (this.pattern == null) {
 			String pat = "^";
-			for (Field<?> item : items) {
+			for (Field<?> item : fields) {
 				pat += item.genRegex();
-				this.anchoDeLinea += item.cantidadLugares;
+				this.lineWidth += item.width;
 			}
 			pat += ".*$";
 			this.pattern = Pattern.compile(pat);
@@ -53,18 +53,18 @@ public class CobolParser {
 
 		Matcher matcher = this.getPattern().matcher(line);
 		if (!matcher.matches()) {
-			String msg = "No matcheo!\n";
-			msg += " - Valor: '" + line + "'\n";
-			msg += " - RegEx: '" + this.getPattern().pattern() + "'\n";
-			msg += " - Valor (ancho): '" + line.length() + "'\n";
-			msg += " - RegEx (ancho): " + this.anchoDeLinea + "\n";
+			String msg = "Line didn't matched!\n";
+			msg += " - Line: '" + line + "'\n";
+			msg += " - Pattern: '" + this.getPattern().pattern() + "'\n";
+			msg += " - Line width: '" + line.length() + "'\n";
+			msg += " - Expected line width: " + this.lineWidth + "\n";
 			throw new IllegalArgumentException(msg);
 		}
 
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
-		for (int i = 0; i < this.items.size(); i++) {
+		for (int i = 0; i < this.fields.size(); i++) {
 
-			Field<?> item = this.items.get(i);
+			Field<?> item = this.fields.get(i);
 			String label = item.label;
 			while (map.containsKey(label))
 				label += "@";
@@ -86,8 +86,8 @@ public class CobolParser {
 
 	public Set<String> getHeader() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
-		for (int i = 0; i < this.items.size(); i++) {
-			String label = this.items.get(i).label;
+		for (int i = 0; i < this.fields.size(); i++) {
+			String label = this.fields.get(i).label;
 			while (map.containsKey(label))
 				label += "@";
 			map.put(label, null);

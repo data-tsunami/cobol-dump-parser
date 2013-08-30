@@ -15,9 +15,9 @@ import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
 public class Field<I> {
 
 	/**
-	 * Count of places it uses.
+	 * Width in characters.
 	 */
-	int cantidadLugares = -1;
+	int width = -1;
 
 	/**
 	 * Label to identify the field.
@@ -30,24 +30,24 @@ public class Field<I> {
 	Format<I> format;
 
 	public Field(int cantidadLugares, String label) {
-		this.cantidadLugares = cantidadLugares;
+		this.width = cantidadLugares;
 		this.label = label;
 		this.format = null;
 	}
 
 	public Field(int cantidadLugares, String label, Format<I> format) {
-		this.cantidadLugares = cantidadLugares;
+		this.width = cantidadLugares;
 		this.label = label;
 		this.format = format;
 	}
 
 	public String genRegex() {
-		return "(.{" + cantidadLugares + "})";
+		return "(.{" + width + "})";
 	}
 
 	public String toString() {
 		String formatName = this.format != null ? this.format.getClass().getSimpleName()
 				: StringFormat.DEFAULT.getClass().getSimpleName();
-		return formatName + "[" + this.cantidadLugares + "] (" + this.label + ")";
+		return formatName + "[" + this.width + "] (" + this.label + ")";
 	}
 }
