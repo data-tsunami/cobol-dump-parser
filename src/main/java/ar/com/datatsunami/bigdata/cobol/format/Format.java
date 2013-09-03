@@ -12,12 +12,11 @@ public abstract class Format<T> {
 	}
 
 	/**
-	 * Chequea si el valor es empty string, y si lo es, y hay configurado un
-	 * valor por default, devuelve el valor por default.
+	 * Checks if the received value to parse is an empty string. If it is, and
+	 * there is a default value configured, returns that default value.
 	 * 
-	 * En cualquier otro caso lanza excepcion, por lo tanto, el contrato es: si
-	 * devuelve valor, es el que se debe utilizar. Sino: lanza excepcion
-	 * NoDefaultDefinedOrValueNotEmptyException
+	 * In any other case (no default configured or the value received is not an
+	 * empty string) the NoDefaultDefinedOrValueNotEmptyException is thrown
 	 * 
 	 * @param value
 	 * @return

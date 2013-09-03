@@ -18,8 +18,12 @@ import java.util.regex.Pattern;
  */
 public class DecimalFormat extends Format<Float> {
 
+	/** Whenever the field includes a + or - sign at the end */
 	boolean withSign;
-	int cantidadDecimales;
+
+	/** How many places (at the end of the string) are for the decimals */
+	int decimalPlaces;
+
 	Pattern pattern;
 
 	/**
@@ -30,14 +34,14 @@ public class DecimalFormat extends Format<Float> {
 	 */
 	public DecimalFormat(int cantidadDecimales, boolean conSigno) {
 		this.withSign = conSigno;
-		this.cantidadDecimales = cantidadDecimales;
-		if (this.cantidadDecimales <= 0)
+		this.decimalPlaces = cantidadDecimales;
+		if (this.decimalPlaces <= 0)
 			throw new IllegalArgumentException("cantidadDecimales must be greater than 0");
 
 		if (this.withSign)
-			this.pattern = Pattern.compile("^(\\d+)(\\d{" + this.cantidadDecimales + "})(.)$");
+			this.pattern = Pattern.compile("^(\\d+)(\\d{" + this.decimalPlaces + "})(.)$");
 		else
-			this.pattern = Pattern.compile("^(\\d+)(\\d{" + this.cantidadDecimales + "})$");
+			this.pattern = Pattern.compile("^(\\d+)(\\d{" + this.decimalPlaces + "})$");
 	}
 
 	/**

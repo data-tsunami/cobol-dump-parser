@@ -45,3 +45,4 @@ To get the data:
 ## TODO
 
 - Translate variable names, exception menssages, etc.
+- Lazy parser: parse only when the field is accessed
