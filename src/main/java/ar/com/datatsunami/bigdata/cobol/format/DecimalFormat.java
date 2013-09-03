@@ -3,6 +3,19 @@ package ar.com.datatsunami.bigdata.cobol.format;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * Parses strings to Float. You must specify how many places occupy the
+ * decimals, and if the string contains the sign or not.
+ * 
+ * Assuming 2 position for decimals and including the sign, valid values are:
+ * '123+', '123-' (both equals to +/-1.23).
+ * 
+ * Assuming 3 position for decimals and NOT including the sign, valid values
+ * are: '7654' (equals to 7.654).
+ * 
+ * @author Horacio G. de Oro
+ * 
+ */
 public class DecimalFormat extends Format<Float> {
 
 	boolean withSign;
