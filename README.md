@@ -1,5 +1,5 @@
-CobolParser
-===========
+cobol-dump-parser
+=================
 
 Parser for Cobol dumps
 
@@ -8,3 +8,7 @@ Parser for Cobol dumps
 To build using Maven:
 
     $ mvn clean package
+
+## TODO
+
+- Translate variable names, exception menssages, etc.

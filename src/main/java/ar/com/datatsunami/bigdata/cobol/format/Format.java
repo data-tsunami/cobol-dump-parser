@@ -33,4 +33,8 @@ public abstract class Format<T> {
 
 	public abstract T format(String value) throws InvalidFormatException;
 
+	public void setValueForEmpty(T valueforEmpty) {
+		this.valueForEmpty = valueforEmpty;
+	}
+
 }
