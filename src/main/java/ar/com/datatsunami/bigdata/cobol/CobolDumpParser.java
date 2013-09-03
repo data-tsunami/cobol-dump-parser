@@ -17,16 +17,16 @@ import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
  * @author Horacio G. de Oro
  * 
  */
-public class CobolParser {
+public class CobolDumpParser {
 
 	List<Field<?>> fields = new ArrayList<Field<?>>();
 	Pattern pattern = null;
 	int lineWidth = 0;
 
-	public CobolParser() {
+	public CobolDumpParser() {
 	}
 
-	public CobolParser(Field<?>... items) {
+	public CobolDumpParser(Field<?>... items) {
 		for (Field<?> item : items) {
 			this.fields.add(item);
 		}

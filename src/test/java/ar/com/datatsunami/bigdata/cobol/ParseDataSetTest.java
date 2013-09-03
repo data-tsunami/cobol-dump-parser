@@ -74,7 +74,7 @@ public class ParseDataSetTest {
 		final String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
 		final String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
 
-		CobolParser cp = new CobolParser();
+		CobolDumpParser cp = new CobolDumpParser();
 		cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
 		cp.add(new Field<String>(5, "Code"));
 		cp.add(new Field<String>(15, "Description"));
