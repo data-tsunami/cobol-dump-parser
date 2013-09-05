@@ -115,6 +115,21 @@ public class Dumper {
 	}
 
 	/**
+	 * Prints a header
+	 */
+	public void printCsvHeader() {
+		boolean first = true;
+		for (String head : this.cobolParser.getHeader()) {
+			if (!first) {
+				System.out.print(",");
+			}
+			System.out.print(head);
+			first = false;
+		}
+		System.out.println("");
+	}
+
+	/**
 	 * Prints a report about lines and errors.
 	 */
 	public void printReport() {
