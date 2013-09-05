@@ -47,18 +47,18 @@ public class DecimalFormat extends Format<Float> {
 	/**
 	 * Creates a DecimalFormat instance, by default, with sign.
 	 * 
-	 * @param cantidadDecimales
+	 * @param decimalPlaces
 	 */
-	public DecimalFormat(int cantidadDecimales) {
-		// Default: con signo
-		this(cantidadDecimales, true);
+	public DecimalFormat(int decimalPlaces) {
+		// Default: WITH SIGN
+		this(decimalPlaces, true);
 	}
 
 	@Override
 	public Float format(String value) throws InvalidFormatException {
 
 		if (value == null)
-			throw new InvalidFormatException("value no debe ser null");
+			throw new InvalidFormatException("Value can't be null");
 
 		value = value.trim();
 
@@ -68,7 +68,7 @@ public class DecimalFormat extends Format<Float> {
 				return this.checkEmpty(value);
 			} catch (NoDefaultDefinedOrValueNotEmptyException e) {
 			}
-			throw new InvalidFormatException("No es un decimal con signo valido: " + value);
+			throw new InvalidFormatException("The value isn't a valid decimal with sign: " + value);
 		}
 
 		try {
