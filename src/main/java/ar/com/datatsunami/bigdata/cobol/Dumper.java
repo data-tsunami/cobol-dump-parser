@@ -55,8 +55,10 @@ public class Dumper {
 		lineErrorsCount++;
 
 		String msg = "# ERROR at line " + lineNum;
-		if (pe.field != null)
+		if (pe.field != null) {
 			msg += " - " + pe.field;
+			pe.field.errorCount++;
+		}
 
 		if (pe.value != null)
 			msg += " - Value: '" + pe.value + "'";
@@ -118,6 +120,10 @@ public class Dumper {
 		System.out.println("" + (this.lineNum - this.lineErrorsCount) + " lines were valid");
 		System.out.println("" + (((this.lineErrorsCount * 1.0) / (this.lineNum * 1.0)) * 100.0)
 				+ "% of lines are non-parseables.");
+
+		for (Field<?> field : cobolParser.getFieldsWithError()) {
+			System.out.println("  * " + field.errorCount + " errors -> " + field);
+		}
 	}
 
 	/* -------------------- Getters & setters -------------------- */

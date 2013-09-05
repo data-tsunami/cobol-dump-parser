@@ -95,4 +95,11 @@ public class CobolDumpParser {
 		return map.keySet();
 	}
 
+	public List<Field<?>> getFieldsWithError() {
+		List<Field<?>> withErrors = new ArrayList<Field<?>>();
+		for (Field<?> field : this.fields)
+			if (field.errorCount > 0)
+				withErrors.add(field);
+		return withErrors;
+	}
 }

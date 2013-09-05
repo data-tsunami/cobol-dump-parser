@@ -29,6 +29,11 @@ public class Field<I> {
 	 */
 	Format<I> format;
 
+	/**
+	 * Count of errors associated with this field
+	 */
+	long errorCount = 0;
+
 	public Field(int cantidadLugares, String label) {
 		this.width = cantidadLugares;
 		this.label = label;
