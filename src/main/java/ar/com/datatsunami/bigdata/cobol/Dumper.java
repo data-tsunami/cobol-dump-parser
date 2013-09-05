@@ -27,6 +27,11 @@ public class Dumper {
 	 */
 	long lineNum = 0; // First line is 1
 
+	/**
+	 * Errors found
+	 */
+	long lineErrorsCount = 0;
+
 	/** The current line been processed */
 	String line = null;
 
@@ -45,7 +50,10 @@ public class Dumper {
 		this.setBufferedReader(new BufferedReader(new InputStreamReader(is)));
 	}
 
-	protected void reportError(ParserException pe) throws InterruptedException {
+	protected void handleError(ParserException pe) throws InterruptedException {
+
+		lineErrorsCount++;
+
 		String msg = "# ERROR at line " + lineNum;
 		if (pe.field != null)
 			msg += " - " + pe.field;
@@ -97,11 +105,19 @@ public class Dumper {
 					System.out.println(sb.toString());
 
 			} catch (ParserException pe) {
-				reportError(pe);
+				handleError(pe);
 				continue;
 			}
 		}
 
+	}
+
+	public void printReport() {
+		System.out.println("" + this.lineNum + " lines read");
+		System.out.println("" + this.lineErrorsCount + " lines with errors");
+		System.out.println("" + (this.lineNum - this.lineErrorsCount) + " lines were valid");
+		System.out.println("" + (((this.lineErrorsCount * 1.0) / (this.lineNum * 1.0)) * 100.0)
+				+ "% of lines are non-parseables.");
 	}
 
 	/* -------------------- Getters & setters -------------------- */
