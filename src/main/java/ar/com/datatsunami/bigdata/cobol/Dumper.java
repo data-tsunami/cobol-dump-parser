@@ -11,32 +11,8 @@ import java.util.Map;
 
 public class Dumper {
 
-	/**
-	 * Set this environment variable to 'true' to print debug messages for each
-	 * line.
-	 */
-	public static final String DEBUG = "DEBUG";
-
-	/**
-	 * Set this environment variable to 'true' to avoid printing information,
-	 * and only reports the errors.
-	 */
-	public static final String REPORT_ERRORS_ONLY = "REPORT_ERRORS_ONLY";
-
-	/**
-	 * Set this environment variable to 'true' to sleep 2 seconds after
-	 * reporting an error.
-	 */
-	public static final String SLEEP_AFTER_ERROR = "SLEEP_AFTER_ERROR";
-
-	/** Got from environment */
-	boolean debug = "true".equals(System.getenv().get(DEBUG));
-
-	/** Got from environment */
-	boolean reportErrorOnly = "true".equals(System.getenv().get(REPORT_ERRORS_ONLY));
-
-	/** Got from environment */
-	boolean sleepAfterError = "true".equals(System.getenv().get(SLEEP_AFTER_ERROR));
+	/** Options to use for this execution */
+	DumperOpts dumperOpts = new DumperOpts();
 
 	/** Reader for the file */
 	BufferedReader bufferedReader = null;
@@ -79,7 +55,7 @@ public class Dumper {
 
 		System.out.println(msg);
 		pe.printStackTrace(System.out);
-		if (sleepAfterError)
+		if (dumperOpts.sleepAfterError)
 			Thread.sleep(2000);
 	}
 
@@ -96,7 +72,7 @@ public class Dumper {
 		while ((line = this.bufferedReader.readLine()) != null) {
 			lineNum++;
 
-			if (debug)
+			if (dumperOpts.debug)
 				System.out.println("# linea: " + line.substring(0, 15) + "...");
 
 			try {
@@ -106,10 +82,10 @@ public class Dumper {
 				for (String key : map.keySet()) {
 					String value = map.get(key).toString();
 
-					if (debug)
+					if (dumperOpts.debug)
 						System.out.println("#  - " + key + ": " + value);
 
-					if (!this.reportErrorOnly) {
+					if (!dumperOpts.reportErrorOnly) {
 						if (sb.length() > 0)
 							sb.append(",");
 
@@ -117,7 +93,7 @@ public class Dumper {
 					}
 				}
 
-				if (!this.reportErrorOnly)
+				if (!dumperOpts.reportErrorOnly)
 					System.out.println(sb.toString());
 
 			} catch (ParserException pe) {
