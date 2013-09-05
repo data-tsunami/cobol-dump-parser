@@ -95,6 +95,11 @@ public class CobolDumpParser {
 		return map.keySet();
 	}
 
+	/**
+	 * Returns the list of fields which had at least one error.
+	 * 
+	 * @return
+	 */
 	public List<Field<?>> getFieldsWithError() {
 		List<Field<?>> withErrors = new ArrayList<Field<?>>();
 		for (Field<?> field : this.fields)

@@ -114,6 +114,9 @@ public class Dumper {
 
 	}
 
+	/**
+	 * Prints a report about lines and errors.
+	 */
 	public void printReport() {
 		System.out.println("" + this.lineNum + " lines read");
 		System.out.println("" + this.lineErrorsCount + " lines with errors");
