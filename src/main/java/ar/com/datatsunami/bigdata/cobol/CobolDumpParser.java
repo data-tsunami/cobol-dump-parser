@@ -27,7 +27,7 @@ public class CobolDumpParser {
 	boolean useRegex = true;
 
 	public CobolDumpParser() {
-		this.line = new Line();
+		this.line = new LineHandler();
 	}
 
 	public CobolDumpParser add(Field<?> item) {
@@ -36,7 +36,7 @@ public class CobolDumpParser {
 		return this;
 	}
 
-	public class Line {
+	public class LineHandler {
 
 		/**
 		 * Regular expresion pattern to use (if activated).
@@ -85,7 +85,7 @@ public class CobolDumpParser {
 		}
 	}
 
-	Line line = null;
+	LineHandler line = null;
 
 	/**
 	 * Parses the line, using regular expresions, and returns a map with the
