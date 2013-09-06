@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author Horacio G. de Oro
  * 
  */
-public class LineHandler {
+public class RegexLineHandler {
 
 	/**
 	 * Regular expresion pattern to use (if activated).
@@ -26,7 +26,7 @@ public class LineHandler {
 
 	List<Field<?>> fields;
 
-	public LineHandler(List<Field<?>> fields) {
+	public RegexLineHandler(List<Field<?>> fields) {
 		this.fields = fields;
 	}
 

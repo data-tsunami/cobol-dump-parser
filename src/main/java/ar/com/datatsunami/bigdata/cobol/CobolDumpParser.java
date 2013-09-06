@@ -24,10 +24,10 @@ public class CobolDumpParser {
 
 	boolean useRegex = true;
 
-	LineHandler line = null;
+	RegexLineHandler line = null;
 
 	public CobolDumpParser() {
-		this.line = new LineHandler(fields);
+		this.line = new RegexLineHandler(fields);
 	}
 
 	public CobolDumpParser add(Field<?> item) {
