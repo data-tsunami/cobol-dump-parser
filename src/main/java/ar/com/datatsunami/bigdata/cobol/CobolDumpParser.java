@@ -5,8 +5,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import ar.com.datatsunami.bigdata.cobol.format.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
@@ -26,66 +24,16 @@ public class CobolDumpParser {
 
 	boolean useRegex = true;
 
+	LineHandler line = null;
+
 	public CobolDumpParser() {
-		this.line = new LineHandler();
+		this.line = new LineHandler(fields);
 	}
 
 	public CobolDumpParser add(Field<?> item) {
 		this.fields.add(item);
-		this.line.OnAddField(item);
 		return this;
 	}
-
-	public class LineHandler {
-
-		/**
-		 * Regular expresion pattern to use (if activated).
-		 */
-		Pattern pattern = null;
-
-		/**
-		 * How many characters this field 'consumes'.
-		 */
-		int lineWidth = 0;
-
-		Matcher matcher = null;
-
-		public void OnAddField(Field<?> field) {
-			field.startIndex = lineWidth;
-			lineWidth += field.width;
-		}
-
-		public Pattern getPattern() {
-			if (this.pattern == null) {
-				String pat = "^";
-				for (Field<?> item : fields) {
-					pat += item.genRegex();
-					this.lineWidth += item.width;
-				}
-				pat += ".*$";
-				this.pattern = Pattern.compile(pat);
-			}
-			return this.pattern;
-		}
-
-		public void prepareLine(String line) {
-			matcher = this.getPattern().matcher(line);
-			if (!matcher.matches()) {
-				String msg = "Line didn't matched!\n";
-				msg += " - Line: '" + line + "'\n";
-				msg += " - Pattern: '" + this.getPattern().pattern() + "'\n";
-				msg += " - Line width: '" + line.length() + "'\n";
-				msg += " - Expected line width: " + this.lineWidth + "\n";
-				throw new IllegalArgumentException(msg);
-			}
-		}
-
-		public String getValueForField(int field) {
-			return matcher.group(field + 1);
-		}
-	}
-
-	LineHandler line = null;
 
 	/**
 	 * Parses the line, using regular expresions, and returns a map with the
