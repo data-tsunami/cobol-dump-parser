@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * @author Horacio G. de Oro
  * 
  */
-public class RegexLineHandler {
+public class RegexLineHandler implements LineHandler {
 
 	/**
 	 * Regular expresion pattern to use (if activated).
@@ -45,6 +45,10 @@ public class RegexLineHandler {
 		return this.pattern;
 	}
 
+	/* (non-Javadoc)
+	 * @see ar.com.datatsunami.bigdata.cobol.LineHandler#prepareLine(java.lang.String)
+	 */
+	@Override
 	public void prepareLine(String line) {
 		matcher = this.getPattern().matcher(line);
 		if (!matcher.matches()) {
@@ -57,6 +61,10 @@ public class RegexLineHandler {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see ar.com.datatsunami.bigdata.cobol.LineHandler#getValueForField(int)
+	 */
+	@Override
 	public String getValueForField(int field) {
 		return matcher.group(field + 1);
 	}

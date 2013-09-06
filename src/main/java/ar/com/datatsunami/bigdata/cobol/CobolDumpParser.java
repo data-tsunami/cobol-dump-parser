@@ -24,7 +24,7 @@ public class CobolDumpParser {
 
 	boolean useRegex = true;
 
-	RegexLineHandler line = null;
+	LineHandler line = null;
 
 	public CobolDumpParser() {
 		this.line = new RegexLineHandler(fields);
