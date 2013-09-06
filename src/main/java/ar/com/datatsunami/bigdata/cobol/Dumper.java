@@ -37,7 +37,7 @@ public class Dumper {
 	String line = null;
 
 	PrintStream out = System.out;
-	
+
 	public void setBufferedReader(BufferedReader br) {
 		if (this.bufferedReader != null)
 			throw new RuntimeException("You have setted bufferedReader, and can't be overiden");
@@ -75,11 +75,14 @@ public class Dumper {
 	/**
 	 * Parses the data and prints it as a CSV
 	 * 
+	 * Returns: line read
+	 * 
 	 * @throws IllegalArgumentException
 	 * @throws IOException
 	 * @throws InterruptedException
+	 * 
 	 */
-	public void printCsv() throws IllegalArgumentException, IOException, InterruptedException {
+	public long printCsv() throws IllegalArgumentException, IOException, InterruptedException {
 
 		lineNum = 0;
 		while ((line = this.bufferedReader.readLine()) != null) {
@@ -114,6 +117,8 @@ public class Dumper {
 				continue;
 			}
 		}
+
+		return lineNum;
 
 	}
 
@@ -157,4 +162,7 @@ public class Dumper {
 		this.cobolParser = cobolParser;
 	}
 
+	public void setOutput(PrintStream out) {
+		this.out = out;
+	}
 }
