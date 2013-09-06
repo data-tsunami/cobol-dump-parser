@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.PrintStream;
 import java.util.Map;
 
 public class Dumper {
@@ -35,6 +36,8 @@ public class Dumper {
 	/** The current line been processed */
 	String line = null;
 
+	PrintStream out = System.out;
+	
 	public void setBufferedReader(BufferedReader br) {
 		if (this.bufferedReader != null)
 			throw new RuntimeException("You have setted bufferedReader, and can't be overiden");
@@ -63,8 +66,8 @@ public class Dumper {
 		if (pe.value != null)
 			msg += " - Value: '" + pe.value + "'";
 
-		System.out.println(msg);
-		pe.printStackTrace(System.out);
+		out.println(msg);
+		pe.printStackTrace(out);
 		if (dumperOpts.sleepAfterError)
 			Thread.sleep(2000);
 	}
@@ -83,7 +86,7 @@ public class Dumper {
 			lineNum++;
 
 			if (dumperOpts.debug)
-				System.out.println("# linea: " + line.substring(0, 15) + "...");
+				out.println("# linea: " + line.substring(0, 15) + "...");
 
 			try {
 				Map<String, Object> map = cobolParser.getItemsWithLabels(line);
@@ -93,7 +96,7 @@ public class Dumper {
 					String value = map.get(key).toString();
 
 					if (dumperOpts.debug)
-						System.out.println("#  - " + key + ": " + value);
+						out.println("#  - " + key + ": " + value);
 
 					if (!dumperOpts.reportErrorOnly) {
 						if (sb.length() > 0)
@@ -104,7 +107,7 @@ public class Dumper {
 				}
 
 				if (!dumperOpts.reportErrorOnly)
-					System.out.println(sb.toString());
+					out.println(sb.toString());
 
 			} catch (ParserException pe) {
 				handleError(pe);
@@ -121,26 +124,26 @@ public class Dumper {
 		boolean first = true;
 		for (String head : this.cobolParser.getHeader()) {
 			if (!first) {
-				System.out.print(",");
+				out.print(",");
 			}
-			System.out.print(head);
+			out.print(head);
 			first = false;
 		}
-		System.out.println("");
+		out.println("");
 	}
 
 	/**
 	 * Prints a report about lines and errors.
 	 */
 	public void printReport() {
-		System.out.println("" + this.lineNum + " lines read");
-		System.out.println("" + this.lineErrorsCount + " lines with errors");
-		System.out.println("" + (this.lineNum - this.lineErrorsCount) + " lines were valid");
-		System.out.println("" + (((this.lineErrorsCount * 1.0) / (this.lineNum * 1.0)) * 100.0)
+		out.println("" + this.lineNum + " lines read");
+		out.println("" + this.lineErrorsCount + " lines with errors");
+		out.println("" + (this.lineNum - this.lineErrorsCount) + " lines were valid");
+		out.println("" + (((this.lineErrorsCount * 1.0) / (this.lineNum * 1.0)) * 100.0)
 				+ "% of lines are non-parseables.");
 
 		for (Field<?> field : cobolParser.getFieldsWithError()) {
-			System.out.println("  * " + field.errorCount + " errors -> " + field);
+			out.println("  * " + field.errorCount + " errors -> " + field);
 		}
 	}
 
