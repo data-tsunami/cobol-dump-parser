@@ -19,71 +19,117 @@ import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
  */
 public class CobolDumpParser {
 
+	/**
+	 * The fields to be found in each line
+	 */
 	List<Field<?>> fields = new ArrayList<Field<?>>();
-	Pattern pattern = null;
-	int lineWidth = 0;
+
+	boolean useRegex = true;
 
 	public CobolDumpParser() {
+		this.line = new Line();
 	}
 
-	public CobolDumpParser(Field<?>... items) {
-		for (Field<?> item : items) {
-			this.fields.add(item);
-		}
-	}
-
-	public void add(Field<?> item) {
+	public CobolDumpParser add(Field<?> item) {
 		this.fields.add(item);
+		this.line.OnAddField(item);
+		return this;
 	}
 
-	public Pattern getPattern() {
-		if (this.pattern == null) {
-			String pat = "^";
-			for (Field<?> item : fields) {
-				pat += item.genRegex();
-				this.lineWidth += item.width;
-			}
-			pat += ".*$";
-			this.pattern = Pattern.compile(pat);
+	public class Line {
+
+		/**
+		 * Regular expresion pattern to use (if activated).
+		 */
+		Pattern pattern = null;
+
+		/**
+		 * How many characters this field 'consumes'.
+		 */
+		int lineWidth = 0;
+
+		Matcher matcher = null;
+
+		public void OnAddField(Field<?> field) {
+			field.startIndex = lineWidth;
+			lineWidth += field.width;
 		}
-		return this.pattern;
+
+		public Pattern getPattern() {
+			if (this.pattern == null) {
+				String pat = "^";
+				for (Field<?> item : fields) {
+					pat += item.genRegex();
+					this.lineWidth += item.width;
+				}
+				pat += ".*$";
+				this.pattern = Pattern.compile(pat);
+			}
+			return this.pattern;
+		}
+
+		public void prepareLine(String line) {
+			matcher = this.getPattern().matcher(line);
+			if (!matcher.matches()) {
+				String msg = "Line didn't matched!\n";
+				msg += " - Line: '" + line + "'\n";
+				msg += " - Pattern: '" + this.getPattern().pattern() + "'\n";
+				msg += " - Line width: '" + line.length() + "'\n";
+				msg += " - Expected line width: " + this.lineWidth + "\n";
+				throw new IllegalArgumentException(msg);
+			}
+		}
+
+		public String getValueForField(int field) {
+			return matcher.group(field + 1);
+		}
 	}
 
+	Line line = null;
+
+	/**
+	 * Parses the line, using regular expresions, and returns a map with the
+	 * field found.
+	 * 
+	 * @param line
+	 * @return
+	 * @throws ParserException
+	 */
 	public Map<String, Object> getItemsWithLabels(String line) throws ParserException {
 
-		Matcher matcher = this.getPattern().matcher(line);
-		if (!matcher.matches()) {
-			String msg = "Line didn't matched!\n";
-			msg += " - Line: '" + line + "'\n";
-			msg += " - Pattern: '" + this.getPattern().pattern() + "'\n";
-			msg += " - Line width: '" + line.length() + "'\n";
-			msg += " - Expected line width: " + this.lineWidth + "\n";
-			throw new IllegalArgumentException(msg);
-		}
+		this.line.prepareLine(line);
 
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		for (int i = 0; i < this.fields.size(); i++) {
 
-			Field<?> item = this.fields.get(i);
+			final Field<?> item = this.fields.get(i);
+			final String fieldString = this.line.getValueForField(i);
+
 			String label = item.label;
 			while (map.containsKey(label))
 				label += "@";
 
 			try {
+
 				Object value;
 				if (item.format == null)
-					value = StringFormat.DEFAULT.format(matcher.group(i + 1));
+					value = StringFormat.DEFAULT.format(fieldString);
 				else
-					value = item.format.format(matcher.group(i + 1));
+					value = item.format.format(fieldString);
 
 				map.put(label, value);
 			} catch (InvalidFormatException ifv) {
-				throw new ParserException("No se pudo formatear field", ifv, item, matcher.group(i + 1));
+				throw new ParserException("No se pudo formatear field", ifv, item, fieldString);
 			}
 		}
 		return map;
 	}
 
+	/**
+	 * Returns a sorted set with the headers names.
+	 * 
+	 * @return
+	 */
 	public Set<String> getHeader() {
 		Map<String, String> map = new LinkedHashMap<String, String>();
 		for (int i = 0; i < this.fields.size(); i++) {

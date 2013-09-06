@@ -34,6 +34,8 @@ public class Field<I> {
 	 */
 	long errorCount = 0;
 
+	int startIndex = -1;
+
 	public Field(int cantidadLugares, String label) {
 		this.width = cantidadLugares;
 		this.label = label;
