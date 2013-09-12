@@ -55,4 +55,9 @@ public class Field<I> {
 				: StringFormat.DEFAULT.getClass().getSimpleName();
 		return formatName + "[" + this.width + "] (" + this.label + ")";
 	}
+
+	public int getWidth() {
+		return width;
+	}
+
 }

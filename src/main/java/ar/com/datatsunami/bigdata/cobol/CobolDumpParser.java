@@ -8,6 +8,8 @@ import java.util.Set;
 
 import ar.com.datatsunami.bigdata.cobol.format.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
+import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
+import ar.com.datatsunami.bigdata.cobol.linehandler.RegexLineHandler;
 
 /**
  * Class to parse a line and returns a map with the values.

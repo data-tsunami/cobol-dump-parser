@@ -1,8 +1,10 @@
-package ar.com.datatsunami.bigdata.cobol;
+package ar.com.datatsunami.bigdata.cobol.linehandler;
 
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ar.com.datatsunami.bigdata.cobol.Field;
 
 /**
  * Handles the parsing and extracting of data from a line
@@ -37,7 +39,7 @@ public class RegexLineHandler implements LineHandler {
 		String pat = "^";
 		for (Field<?> item : this.fields) {
 			pat += item.genRegex();
-			this.lineWidth += item.width;
+			this.lineWidth += item.getWidth();
 		}
 		pat += ".*$";
 		this.pattern = Pattern.compile(pat);

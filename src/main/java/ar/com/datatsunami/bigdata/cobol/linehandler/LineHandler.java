@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol;
+package ar.com.datatsunami.bigdata.cobol.linehandler;
 
 public interface LineHandler {
 
