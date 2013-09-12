@@ -1,13 +1,25 @@
 cobol-dump-parser
 =================
 
-Parser for Cobol dumps
+Parser for Cobol dumps in fixed-line-width format
 
 ## How to build
 
 To build using Maven:
 
     $ mvn clean package
+
+To install to the local repository:
+
+    $ mvn install
+
+## Performance
+
+Using `CobolDumpParser.getItemsWithLabels()` I've processed a dump with 45.000.000 lines (> 8GB) and took 6 minutes.
+
+Using `PositionalLineHandler` and `CobolDumpParser.getItemsValues()` I've processed the same dump (45.000.000 lines) and took 3 minutes 45 seconds.
+
+TODO: make it map-reduce friendly: add support for Hadoop's types: Text, LongWritable, etc.
 
 ## Example
 
@@ -41,6 +53,8 @@ To get the data:
     fields.get("ItemID")      -> returns a Long
     fields.get("Description") -> returns a String
     fields.get("Price")       -> returns a Float
+
+TODO: add example with `PositionalLineHandler` + `CobolDumpParser.getItemsValues()`
 
 ## TODO
 
