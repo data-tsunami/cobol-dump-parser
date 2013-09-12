@@ -8,6 +8,7 @@ import static org.junit.Assert.*;
 
 import ar.com.datatsunami.bigdata.cobol.format.DecimalFormat;
 import ar.com.datatsunami.bigdata.cobol.format.LongFormat;
+import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public class ParseDataSetTest {
 
@@ -62,19 +63,16 @@ public class ParseDataSetTest {
 	// ------=====---------------========------
 	// \-A--/\-B-/\------C------/\---D--/\--E-/
 
-	@Test
-	public void parseLineText() throws ParserException {
+	// xx ITEMID PIC 9(6).
+	// xx CODE PIC X(5).
+	// xx DESCRIPTION PIC X(15).
+	// xx PRICE PIC S9(5)V99. **************
+	// xx INDEX PIC 9(3)V999.
 
-		// xx ITEMID PIC 9(6).
-		// xx CODE PIC X(5).
-		// xx DESCRIPTION PIC X(15).
-		// xx PRICE PIC S9(5)V99. **************
-		// xx INDEX PIC 9(3)V999.
+	final String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
+	final String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
 
-		final String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
-		final String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
-
-		CobolDumpParser cp = new CobolDumpParser();
+	private void parse(CobolDumpParser cp) throws ParserException {
 		cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
 		cp.add(new Field<String>(5, "Code"));
 		cp.add(new Field<String>(15, "Description"));
@@ -95,7 +93,18 @@ public class ParseDataSetTest {
 		assertEquals("Film 8mm x 7mm", fields.get("Description"));
 		assertEquals(Float.valueOf((float) -71.99), fields.get("Price"));
 		assertEquals(Float.valueOf((float) 1.5), fields.get("Index"));
+	}
 
+	@Test
+	public void parseLineText() throws ParserException {
+		CobolDumpParser cp = new CobolDumpParser();
+		this.parse(cp);
+	}
+
+	@Test
+	public void parseLineTextWithPositionalLineHandler() throws ParserException {
+		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		this.parse(cp);
 	}
 
 }

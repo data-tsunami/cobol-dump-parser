@@ -4,6 +4,12 @@ import java.util.List;
 
 import ar.com.datatsunami.bigdata.cobol.Field;
 
+/**
+ * Handles the parsing and extracting of data from a line using substring()
+ * 
+ * @author Horacio G. de Oro
+ * 
+ */
 public class PositionalLineHandler implements LineHandler {
 
 	List<Field<?>> fields;
@@ -15,6 +21,9 @@ public class PositionalLineHandler implements LineHandler {
 	int[] fieldSizes = null;
 
 	String line = null;
+
+	public PositionalLineHandler() {
+	}
 
 	public PositionalLineHandler(List<Field<?>> fields) {
 		this.fields = fields;
@@ -30,14 +39,20 @@ public class PositionalLineHandler implements LineHandler {
 				startPositions[i] = lineWidth;
 				lineWidth += fieldSizes[i];
 			}
-
 		}
 		this.line = line;
 	}
 
 	@Override
 	public String getValueForField(int field) {
-		return this.line.substring(startPositions[field], fieldSizes[field]);
+		if (field < 0 || field >= this.fieldSizes.length)
+			throw new IllegalArgumentException("Invalid field index: " + field);
+		return this.line.substring(startPositions[field], startPositions[field] + fieldSizes[field]);
+	}
+
+	@Override
+	public void setFields(List<Field<?>> fields) {
+		this.fields = fields;
 	}
 
 }

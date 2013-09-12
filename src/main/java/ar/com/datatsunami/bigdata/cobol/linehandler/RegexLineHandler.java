@@ -7,7 +7,8 @@ import java.util.regex.Pattern;
 import ar.com.datatsunami.bigdata.cobol.Field;
 
 /**
- * Handles the parsing and extracting of data from a line
+ * Handles the parsing and extracting of data from a line using regular
+ * expressions.
  * 
  * @author Horacio G. de Oro
  * 
@@ -32,7 +33,7 @@ public class RegexLineHandler implements LineHandler {
 		this.fields = fields;
 	}
 
-	public Pattern getPattern() {
+	private Pattern getPattern() {
 		if (this.pattern != null)
 			return this.pattern;
 
@@ -47,8 +48,12 @@ public class RegexLineHandler implements LineHandler {
 		return this.pattern;
 	}
 
-	/* (non-Javadoc)
-	 * @see ar.com.datatsunami.bigdata.cobol.LineHandler#prepareLine(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * ar.com.datatsunami.bigdata.cobol.LineHandler#prepareLine(java.lang.String
+	 * )
 	 */
 	@Override
 	public void prepareLine(String line) {
@@ -63,11 +68,17 @@ public class RegexLineHandler implements LineHandler {
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see ar.com.datatsunami.bigdata.cobol.LineHandler#getValueForField(int)
 	 */
 	@Override
 	public String getValueForField(int field) {
 		return matcher.group(field + 1);
+	}
+
+	public void setFields(List<Field<?>> fields) {
+		this.fields = fields;
 	}
 }

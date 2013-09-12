@@ -20,16 +20,22 @@ import ar.com.datatsunami.bigdata.cobol.linehandler.RegexLineHandler;
 public class CobolDumpParser {
 
 	/**
-	 * The fields to be found in each line
+	 * The fields to be found in each line. This list is shared with
+	 * LineHandlers.
 	 */
-	List<Field<?>> fields = new ArrayList<Field<?>>();
+	private final List<Field<?>> fields = new ArrayList<Field<?>>();
 
 	boolean useRegex = true;
 
-	LineHandler line = null;
+	LineHandler lineHandler = null;
 
 	public CobolDumpParser() {
-		this.line = new RegexLineHandler(fields);
+		this.lineHandler = new RegexLineHandler(fields);
+	}
+
+	public CobolDumpParser(LineHandler lineHandler) {
+		this.lineHandler = lineHandler;
+		this.lineHandler.setFields(this.fields);
 	}
 
 	public CobolDumpParser add(Field<?> item) {
@@ -47,13 +53,13 @@ public class CobolDumpParser {
 	 */
 	public Map<String, Object> getItemsWithLabels(String line) throws ParserException {
 
-		this.line.prepareLine(line);
+		this.lineHandler.prepareLine(line);
 
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		for (int i = 0; i < this.fields.size(); i++) {
 
 			final Field<?> item = this.fields.get(i);
-			final String fieldString = this.line.getValueForField(i);
+			final String fieldString = this.lineHandler.getValueForField(i);
 
 			String label = item.label;
 			while (map.containsKey(label))
