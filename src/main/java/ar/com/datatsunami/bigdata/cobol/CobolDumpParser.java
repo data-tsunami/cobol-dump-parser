@@ -1,6 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ public class CobolDumpParser {
 
 	LineHandler lineHandler = null;
 
+	protected Map<String, Integer> fieldNameToIndexMap = null;
+
 	public CobolDumpParser() {
 		this.lineHandler = new RegexLineHandler(fields);
 	}
@@ -41,6 +44,20 @@ public class CobolDumpParser {
 	public CobolDumpParser add(Field<?> item) {
 		this.fields.add(item);
 		return this;
+	}
+
+	protected Map<String, Integer> getFieldNameToIndexMap() {
+		if (fieldNameToIndexMap == null) {
+			Map<String, Integer> tmp = new HashMap<String, Integer>();
+			for (int i = 0; i < this.fields.size(); i++) {
+				String fieldName = this.fields.get(i).label;
+				while (tmp.containsKey(fieldName))
+					fieldName += "@";
+				tmp.put(fieldName, Integer.valueOf(i));
+			}
+			this.fieldNameToIndexMap = tmp;
+		}
+		return this.fieldNameToIndexMap;
 	}
 
 	/**
@@ -65,20 +82,32 @@ public class CobolDumpParser {
 			while (map.containsKey(label))
 				label += "@";
 
-			try {
+			map.put(label, getObjectFromString(fieldString, item));
 
-				Object value;
-				if (item.format == null)
-					value = StringFormat.DEFAULT.format(fieldString);
-				else
-					value = item.format.format(fieldString);
-
-				map.put(label, value);
-			} catch (InvalidFormatException ifv) {
-				throw new ParserException("No se pudo formatear field", ifv, item, fieldString);
-			}
 		}
 		return map;
+	}
+
+	protected Object getObjectFromString(String string, Field<?> field) throws ParserException {
+		try {
+			if (field.format == null)
+				return StringFormat.DEFAULT.format(string);
+			else
+				return field.format.format(string);
+		} catch (InvalidFormatException ifv) {
+			throw new ParserException("No se pudo formatear field", ifv, field, string);
+		}
+	}
+
+	public Object[] getItemsValues(String line, String[] fieldsNames) throws ParserException {
+		this.lineHandler.prepareLine(line);
+		Object[] ret = new Object[fieldsNames.length];
+		for (int i = 0; i < fieldsNames.length; i++) {
+			int fieldIndex = getFieldNameToIndexMap().get(fieldsNames[i]);
+			String string = this.lineHandler.getValueForField(fieldIndex);
+			ret[i] = getObjectFromString(string, fields.get(fieldIndex));
+		}
+		return ret;
 	}
 
 	/**

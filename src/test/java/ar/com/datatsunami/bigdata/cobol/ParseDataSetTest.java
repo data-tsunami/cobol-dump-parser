@@ -72,13 +72,15 @@ public class ParseDataSetTest {
 	final String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
 	final String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
 
-	private void parse(CobolDumpParser cp) throws ParserException {
+	private void addFieldsToCobolDumpParser(CobolDumpParser cp) {
 		cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
 		cp.add(new Field<String>(5, "Code"));
 		cp.add(new Field<String>(15, "Description"));
 		cp.add(new Field<Float>(8, "Price", new DecimalFormat(2, true)));
 		cp.add(new Field<Float>(6, "Index", new DecimalFormat(3, false)));
+	}
 
+	private void parse(CobolDumpParser cp) throws ParserException {
 		Map<String, Object> fields = cp.getItemsWithLabels(line1);
 		assertEquals(Long.valueOf(2541), fields.get("ItemID"));
 		assertEquals("PTRYY", fields.get("Code"));
@@ -93,18 +95,57 @@ public class ParseDataSetTest {
 		assertEquals("Film 8mm x 7mm", fields.get("Description"));
 		assertEquals(Float.valueOf((float) -71.99), fields.get("Price"));
 		assertEquals(Float.valueOf((float) 1.5), fields.get("Index"));
+
+		// Test getItemsValues()
+		Object[] values = cp.getItemsValues(line1, new String[] { "ItemID", "Price" });
+		assertEquals(2, values.length);
+		assertEquals(Long.valueOf(2541), values[0]);
+		assertEquals(Float.valueOf((float) 71.99), values[1]);
 	}
 
 	@Test
 	public void parseLineText() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser();
+		this.addFieldsToCobolDumpParser(cp);
 		this.parse(cp);
 	}
 
 	@Test
 	public void parseLineTextWithPositionalLineHandler() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		this.addFieldsToCobolDumpParser(cp);
 		this.parse(cp);
 	}
 
+	@Test
+	public void comparePerformance() throws ParserException {
+		/*
+		 * Default
+		 */
+		CobolDumpParser cdpDefault = new CobolDumpParser();
+		this.addFieldsToCobolDumpParser(cdpDefault);
+
+		final long startDefault = System.currentTimeMillis();
+		for (int i = 0; i < 1000000; i++)
+			cdpDefault.getItemsWithLabels(line1).get("Code");
+		final long endDefault = System.currentTimeMillis();
+
+		/*
+		 * Positional
+		 */
+		CobolDumpParser cdpPositional = new CobolDumpParser(new PositionalLineHandler());
+		this.addFieldsToCobolDumpParser(cdpPositional);
+
+		final long startPositional = System.currentTimeMillis();
+		String[] fieldsNamed = new String[] { "Code" };
+		for (int i = 0; i < 1000000; i++)
+			cdpDefault.getItemsValues(line1, fieldsNamed);
+		final long endPositional = System.currentTimeMillis();
+
+		/*
+		 * Print results
+		 */
+		System.out.println("Default: " + ((endDefault - startDefault) / 1000.0) + " secs.");
+		System.out.println("Positional: " + ((endPositional - startPositional) / 1000.0) + " secs.");
+	}
 }
