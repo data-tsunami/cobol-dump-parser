@@ -71,6 +71,7 @@ public class ParseDataSetTest {
 
 	final String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
 	final String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
+	final String shortLine = "002541PTRYYFilm 8mm x 7mm 0007199-00150";
 
 	private void addFieldsToCobolDumpParser(CobolDumpParser cp) {
 		cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
@@ -110,11 +111,25 @@ public class ParseDataSetTest {
 		this.parse(cp);
 	}
 
+	@Test(expected = IllegalArgumentException.class)
+	public void parseShortLineText() throws ParserException {
+		CobolDumpParser cp = new CobolDumpParser();
+		this.addFieldsToCobolDumpParser(cp);
+		cp.getItemsWithLabels(shortLine);
+	}
+
 	@Test
 	public void parseLineTextWithPositionalLineHandler() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
 		this.addFieldsToCobolDumpParser(cp);
 		this.parse(cp);
+	}
+
+	@Test(expected = IllegalArgumentException.class)
+	public void parseShortLineTextWithPositionalLineHandler() throws ParserException {
+		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		this.addFieldsToCobolDumpParser(cp);
+		cp.getItemsValues(shortLine, new String[] { "ItemID", "Price" });
 	}
 
 	@Test

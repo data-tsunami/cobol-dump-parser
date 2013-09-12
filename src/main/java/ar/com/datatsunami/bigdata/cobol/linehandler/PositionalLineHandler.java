@@ -40,6 +40,15 @@ public class PositionalLineHandler implements LineHandler {
 				lineWidth += fieldSizes[i];
 			}
 		}
+
+		if (line.length() != lineWidth) {
+			String msg = "Line didn't matched!\n";
+			msg += " - Line: '" + line + "'\n";
+			msg += " - Line width: '" + line.length() + "'\n";
+			msg += " - Expected line width: " + this.lineWidth + "\n";
+			throw new IllegalArgumentException(msg);
+		}
+
 		this.line = line;
 	}
 
