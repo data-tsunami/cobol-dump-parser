@@ -60,3 +60,22 @@ TODO: add example with `PositionalLineHandler` + `CobolDumpParser.getItemsValues
 
 - Translate variable names, exception menssages, etc.
 - Lazy parser: parse only when the field is accessed
+
+# License
+
+    Copyright (C) 2013 - Horacio G. de Oro <hgdeoro@gmail.com>
+
+    This file is part of cobol-dump-parser.
+
+    cobol-dump-parser is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Lesser General Public License as published by
+    the Free Software Foundation version 3.
+
+    cobol-dump-parser is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Lesser General Public License for more details.
+
+    You should have received a copy of the GNU Lesser General Public License
+    along with cobol-dump-parser.  If not, see <http://www.gnu.org/licenses/>.
+
