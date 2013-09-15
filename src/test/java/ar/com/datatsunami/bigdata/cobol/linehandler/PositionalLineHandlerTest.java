@@ -6,6 +6,7 @@ import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
+import ar.com.datatsunami.bigdata.cobol.CobolDumpParserForHadoop;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
 
 public class PositionalLineHandlerTest {
@@ -21,14 +22,14 @@ public class PositionalLineHandlerTest {
 	public void parseShortLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
-		cp.getItemsValues(LineHandlerTestUtils.shortLine, new String[] { "ItemID", "Price" });
+		cp.getValues(LineHandlerTestUtils.shortLine, new String[] { "ItemID", "Price" });
 	}
 
 	@Test
 	public void parseHadoopText() throws ParserException {
 
 		PositionalLineHandler lineHandler = new PositionalLineHandler();
-		CobolDumpParser cp = new CobolDumpParser(lineHandler);
+		CobolDumpParserForHadoop cp = new CobolDumpParserForHadoop(lineHandler);
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
 
 		Text output = new Text();
@@ -65,7 +66,7 @@ public class PositionalLineHandlerTest {
 
 		Text inputValue = LineHandlerTestUtils.line1AsText;
 
-		cp.copyItemsValuesByFieldIndexes(inputValue, fieldIndexes, outputKeyAndValue);
+		cp.copyValuesToTextArray(inputValue, fieldIndexes, outputKeyAndValue);
 
 		assertEquals("PTRYY", outputKeyAndValue[0].toString().trim());
 		assertEquals("Film 8mm x 7mm", outputKeyAndValue[1].toString().trim());
@@ -76,7 +77,7 @@ public class PositionalLineHandlerTest {
 
 		Text outputs[] = new Text[] { new Text(), new Text() };
 
-		cp.copyItemsValuesByFieldIndexes(
+		cp.copyValuesToTextArray(
 				LineHandlerTestUtils.line1AsText,
 				new int[] { cp.getFieldIndexFromFieldName("ItemID"), cp.getFieldIndexFromFieldName("Price") },
 				outputs);

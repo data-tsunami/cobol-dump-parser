@@ -39,8 +39,8 @@ public class LineHandlerPerformanceTest {
 		startTime = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
-				cdpDefault.getItemsWithLabels(LineHandlerTestUtils.line1).get("Code");
-				cdpDefault.getItemsWithLabels(LineHandlerTestUtils.line2).get("Code");
+				cdpDefault.getValuesAsMap(LineHandlerTestUtils.line1).get("Code");
+				cdpDefault.getValuesAsMap(LineHandlerTestUtils.line2).get("Code");
 				iterationsRegexLineHandler++;
 			}
 		}
@@ -60,8 +60,8 @@ public class LineHandlerPerformanceTest {
 		startTime = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
-				cdpDefault.getItemsValues(LineHandlerTestUtils.line1, fieldsNamed);
-				cdpDefault.getItemsValues(LineHandlerTestUtils.line2, fieldsNamed);
+				cdpDefault.getValues(LineHandlerTestUtils.line1, fieldsNamed);
+				cdpDefault.getValues(LineHandlerTestUtils.line2, fieldsNamed);
 				iterationsPositionalLineHandler++;
 			}
 		}
@@ -73,15 +73,14 @@ public class LineHandlerPerformanceTest {
 		 */
 		System.out.println(" - Checking performance of PositionalLineHandler 'byFieldIndex'...");
 		int[] fieldIndexes = new int[] { cdpPositional.getFieldIndexFromFieldName("Code") };
-		Object[] objects = new Object[fieldIndexes.length];
 		final long startPositionalLineHandlerByFieldIndex = System.currentTimeMillis();
 
 		// --- 8< 8< 8< ---
 		startTime = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
-				cdpDefault.copyItemsValuesByFieldIndexes(LineHandlerTestUtils.line1, fieldIndexes, objects);
-				cdpDefault.copyItemsValuesByFieldIndexes(LineHandlerTestUtils.line2, fieldIndexes, objects);
+				cdpDefault.getValues(LineHandlerTestUtils.line1, fieldIndexes);
+				cdpDefault.getValues(LineHandlerTestUtils.line2, fieldIndexes);
 				iterationsPositionalLineHandlerByFieldIndex++;
 			}
 		}

@@ -1,65 +1,26 @@
 package ar.com.datatsunami.bigdata.cobol;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-import org.apache.hadoop.io.Text;
-
-import ar.com.datatsunami.bigdata.cobol.format.InvalidFormatException;
-import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
-import ar.com.datatsunami.bigdata.cobol.linehandler.RegexLineHandler;
 
 /**
- * Class to parse a line and returns a map with the values.
+ * Class to get values from a line of the dump.
+ * 
+ * This is a simpler version, not optimized for speed.
  * 
  * @author Horacio G. de Oro
  * 
  */
-public class CobolDumpParser {
-
-	/**
-	 * The fields to be found in each line. This list is shared with
-	 * LineHandlers.
-	 */
-	private final List<Field<?>> fields = new ArrayList<Field<?>>();
-
-	boolean useRegex = true;
-
-	LineHandler lineHandler = null;
-
-	protected Map<String, Integer> fieldNameToIndexMap = null;
+public class CobolDumpParser extends BaseCobolDumpParser {
 
 	public CobolDumpParser() {
-		this.lineHandler = new RegexLineHandler(fields);
+		super();
 	}
 
 	public CobolDumpParser(LineHandler lineHandler) {
-		this.lineHandler = lineHandler;
-		this.lineHandler.setFields(this.fields);
-	}
-
-	public CobolDumpParser add(Field<?> item) {
-		this.fields.add(item);
-		return this;
-	}
-
-	protected Map<String, Integer> getFieldNameToIndexMap() {
-		if (fieldNameToIndexMap == null) {
-			Map<String, Integer> tmp = new HashMap<String, Integer>();
-			for (int i = 0; i < this.fields.size(); i++) {
-				String fieldName = this.fields.get(i).label;
-				while (tmp.containsKey(fieldName))
-					fieldName += "@";
-				tmp.put(fieldName, Integer.valueOf(i));
-			}
-			this.fieldNameToIndexMap = tmp;
-		}
-		return this.fieldNameToIndexMap;
+		super(lineHandler);
 	}
 
 	/**
@@ -69,8 +30,7 @@ public class CobolDumpParser {
 	 * @return
 	 * @throws ParserException
 	 */
-	public Map<String, Object> getItemsWithLabels(String line) throws ParserException {
-
+	public Map<String, Object> getValuesAsMap(String line) throws ParserException {
 		this.lineHandler.prepareLine(line);
 
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
@@ -89,38 +49,20 @@ public class CobolDumpParser {
 		return map;
 	}
 
-	/**
-	 * Same than {@link #getItemsWithLabels(String)}, but receives a
-	 * {@link Text} instead of a String.
-	 * 
-	 * @param line
-	 * @return
-	 * @throws ParserException
-	 */
-	public Map<String, Object> getItemsWithLabels(Text line) throws ParserException {
-		return getItemsWithLabels(line.toString());
-	}
-
-	protected Object getObjectFromString(String string, Field<?> field) throws ParserException {
-		try {
-			if (field.format == null)
-				return StringFormat.DEFAULT.format(string);
-			else
-				return field.format.format(string);
-		} catch (InvalidFormatException ifv) {
-			throw new ParserException("No se pudo formatear field", ifv, field, string);
-		}
+	@Deprecated
+	public Map<String, Object> getItemsWithLabels(String line) throws ParserException {
+		return getValuesAsMap(line);
 	}
 
 	/**
-	 * Returns the values of the fields requested
+	 * Returns the values of the requested fields
 	 * 
 	 * @param line
 	 * @param fieldsNames
 	 * @return
 	 * @throws ParserException
 	 */
-	public Object[] getItemsValues(String line, String[] fieldsNames) throws ParserException {
+	public Object[] getValues(String line, String[] fieldsNames) throws ParserException {
 		this.lineHandler.prepareLine(line);
 		Object[] ret = new Object[fieldsNames.length];
 		for (int i = 0; i < fieldsNames.length; i++) {
@@ -132,91 +74,38 @@ public class CobolDumpParser {
 	}
 
 	/**
-	 * The same than {@link getItemsValues(String, String[])} , but receives a
-	 * {@link Text} instead of a String.
+	 * Returns the values of the requested fields
 	 * 
 	 * @param line
 	 * @param fieldsNames
 	 * @return
 	 * @throws ParserException
 	 */
-	public Object[] getItemsValues(Text line, int[] fieldIndexes) throws ParserException {
-		this.lineHandler.prepareText(line);
-		Object[] ret = new Object[fieldIndexes.length];
-
-		for (int i = 0; i < fieldIndexes.length; i++) {
-			String string = this.lineHandler.getValueForField(fieldIndexes[i]);
-			ret[i] = getObjectFromString(string, fields.get(fieldIndexes[i]));
+	public Object[] getValues(String line, int[] fields) throws ParserException {
+		this.lineHandler.prepareLine(line);
+		Object[] ret = new Object[fields.length];
+		for (int i = 0; i < fields.length; i++) {
+			String string = this.lineHandler.getValueForField(fields[i]);
+			ret[i] = getObjectFromString(string, this.fields.get(fields[i]));
 		}
 		return ret;
 	}
 
 	/**
-	 * Copies to <code>ret</code> the values of the fields referenced by
-	 * <code>indexes</code>
+	 * Returns the value of the requested field
 	 * 
 	 * @param line
-	 * @param fieldIndexes
-	 * @param ret
+	 * @param fieldName
+	 * @return
 	 * @throws ParserException
 	 */
-	public void copyItemsValuesByFieldIndexes(String line, int[] fieldIndexes, Object[] ret)
-			throws ParserException {
-		this.lineHandler.prepareLine(line);
-		for (int i = 0; i < fieldIndexes.length; i++) {
-			ret[i] = getObjectFromString(this.lineHandler.getValueForField(fieldIndexes[i]),
-					fields.get(fieldIndexes[i]));
-		}
+	public Object getValue(String line, String fieldName) throws ParserException {
+		return getValues(line, new String[] { fieldName })[0];
 	}
 
-	public void copyItemsValuesByFieldIndexes(Text text, int[] fieldIndexes, Text[] out)
-			throws ParserException {
-		this.lineHandler.prepareText(text);
-		for (int i = 0; i < fieldIndexes.length; i++) {
-			this.lineHandler.copyValue(fieldIndexes[i], out[i]);
-		}
-	}
-
-	public void copyItemsValuesByFieldIndexes(Text text, int[] fieldIndexes, Object[] ret)
-			throws ParserException {
-		this.lineHandler.prepareText(text);
-		for (int i = 0; i < fieldIndexes.length; i++) {
-			ret[i] = getObjectFromString(this.lineHandler.getValueForField(fieldIndexes[i]),
-					fields.get(fieldIndexes[i]));
-		}
-	}
-
-	/**
-	 * Returns a sorted set with the headers names.
-	 * 
-	 * @return
-	 */
-	public Set<String> getHeader() {
-		Map<String, String> map = new LinkedHashMap<String, String>();
-		for (int i = 0; i < this.fields.size(); i++) {
-			String label = this.fields.get(i).label;
-			while (map.containsKey(label))
-				label += "@";
-			map.put(label, null);
-		}
-		return map.keySet();
-	}
-
-	/**
-	 * Returns the list of fields which had at least one error.
-	 * 
-	 * @return
-	 */
-	public List<Field<?>> getFieldsWithError() {
-		List<Field<?>> withErrors = new ArrayList<Field<?>>();
-		for (Field<?> field : this.fields)
-			if (field.errorCount > 0)
-				withErrors.add(field);
-		return withErrors;
-	}
-
-	public int getFieldIndexFromFieldName(String fieldName) {
-		return getFieldNameToIndexMap().get(fieldName);
+	@Deprecated
+	public Object[] getItemsValues(String line, String[] fieldsNames) throws ParserException {
+		return getValues(line, fieldsNames);
 	}
 
 }

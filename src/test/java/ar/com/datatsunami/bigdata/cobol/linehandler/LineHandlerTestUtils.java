@@ -102,7 +102,7 @@ public class LineHandlerTestUtils {
 	}
 
 	public static void parse(CobolDumpParser cp) throws ParserException {
-		Map<String, Object> fields = cp.getItemsWithLabels(line1);
+		Map<String, Object> fields = cp.getValuesAsMap(line1);
 		assertEquals(Long.valueOf(2541), fields.get("ItemID"));
 		assertEquals("PTRYY", fields.get("Code"));
 		assertEquals("Film 8mm x 7mm", fields.get("Description"));
@@ -110,7 +110,7 @@ public class LineHandlerTestUtils {
 		assertEquals(Float.valueOf((float) 1.5), fields.get("Index"));
 
 		// Test negative values
-		fields = cp.getItemsWithLabels(line2);
+		fields = cp.getValuesAsMap(line2);
 		assertEquals(Long.valueOf(2541), fields.get("ItemID"));
 		assertEquals("PTRYY", fields.get("Code"));
 		assertEquals("Film 8mm x 7mm", fields.get("Description"));
@@ -118,7 +118,7 @@ public class LineHandlerTestUtils {
 		assertEquals(Float.valueOf((float) 1.5), fields.get("Index"));
 
 		// Test getItemsValues()
-		Object[] values = cp.getItemsValues(line1, new String[] { "ItemID", "Price" });
+		Object[] values = cp.getValues(line1, new String[] { "ItemID", "Price" });
 		assertEquals(2, values.length);
 		assertEquals(Long.valueOf(2541), values[0]);
 		assertEquals(Float.valueOf((float) 71.99), values[1]);

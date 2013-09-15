@@ -92,7 +92,7 @@ public class Dumper {
 				out.println("# linea: " + line.substring(0, 15) + "...");
 
 			try {
-				Map<String, Object> map = cobolParser.getItemsWithLabels(line);
+				Map<String, Object> map = cobolParser.getValuesAsMap(line);
 
 				StringBuffer sb = new StringBuffer();
 				for (String key : map.keySet()) {

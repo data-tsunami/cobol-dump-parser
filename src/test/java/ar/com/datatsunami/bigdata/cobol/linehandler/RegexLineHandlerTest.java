@@ -18,7 +18,7 @@ public class RegexLineHandlerTest {
 	public void parseShortLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser();
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
-		cp.getItemsWithLabels(LineHandlerTestUtils.shortLine);
+		cp.getValuesAsMap(LineHandlerTestUtils.shortLine);
 	}
 
 }
