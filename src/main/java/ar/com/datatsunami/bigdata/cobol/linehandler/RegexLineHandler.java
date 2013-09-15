@@ -29,6 +29,10 @@ public class RegexLineHandler implements LineHandler {
 
 	List<Field<?>> fields;
 
+	public RegexLineHandler() {
+		this.fields = null;
+	}
+
 	public RegexLineHandler(List<Field<?>> fields) {
 		this.fields = fields;
 	}

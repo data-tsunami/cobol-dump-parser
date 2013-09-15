@@ -10,40 +10,77 @@ public class LineHandlerPerformanceTest {
 	@Test
 	public void comparePerformance() throws ParserException {
 
-		long iterations;
-		if (System.getenv().containsKey("ITERATIONS"))
-			iterations = Long.parseLong(System.getenv("ITERATIONS"));
+		// How many iterations have run
+		long iterationsRegexLineHandler = 0;
+		long iterationsPositionalLineHandler = 0;
+
+		// Hoy many operations each iteration does
+		final long iterationSize = 100000;
+
+		// Start time
+		long startTime = -1;
+
+		final long msToRun;
+		if (System.getenv().containsKey("MS_TO_RUN"))
+			msToRun = Long.parseLong(System.getenv("MS_TO_RUN"));
 		else
-			iterations = 100000;
+			msToRun = 2000;
 
 		/*
-		 * Default
+		 * RegexLineHandler
 		 */
-		CobolDumpParser cdpDefault = new CobolDumpParser();
+		System.out.println(" - Checking performance of RegexLineHandler...");
+		CobolDumpParser cdpDefault = new CobolDumpParser(new RegexLineHandler());
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cdpDefault);
+		final long startRegexLineHandler = System.currentTimeMillis();
 
-		final long startDefault = System.currentTimeMillis();
-		for (int i = 0; i < iterations; i++)
-			cdpDefault.getItemsWithLabels(LineHandlerTestUtils.line1).get("Code");
-		final long endDefault = System.currentTimeMillis();
+		// --- 8< 8< 8< ---
+		startTime = System.currentTimeMillis();
+		while ((System.currentTimeMillis() - startTime) < msToRun) {
+			for (int i = 0; i < iterationSize; i++) {
+				cdpDefault.getItemsWithLabels(LineHandlerTestUtils.line1).get("Code");
+				iterationsRegexLineHandler++;
+			}
+		}
+		// --- >8 >8 >8 ---
+		final long endRegexLineHandler = System.currentTimeMillis();
 
 		/*
-		 * Positional
+		 * PositionalLineHandler
 		 */
+		System.out.println(" - Checking performance of PositionalLineHandler...");
 		CobolDumpParser cdpPositional = new CobolDumpParser(new PositionalLineHandler());
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cdpPositional);
-
-		final long startPositional = System.currentTimeMillis();
 		String[] fieldsNamed = new String[] { "Code" };
-		for (int i = 0; i < iterations; i++)
-			cdpDefault.getItemsValues(LineHandlerTestUtils.line1, fieldsNamed);
-		final long endPositional = System.currentTimeMillis();
+		final long startPositionalLineHandler = System.currentTimeMillis();
+
+		// --- 8< 8< 8< ---
+		startTime = System.currentTimeMillis();
+		while ((System.currentTimeMillis() - startTime) < msToRun) {
+			for (int i = 0; i < iterationSize; i++) {
+				cdpDefault.getItemsValues(LineHandlerTestUtils.line1, fieldsNamed);
+				iterationsPositionalLineHandler++;
+			}
+		}
+		// --- 8< 8< 8< ---
+		final long endPositionalLineHandler = System.currentTimeMillis();
 
 		/*
 		 * Print results
 		 */
-		System.out.println(" - Default: " + ((endDefault - startDefault) / 1000.0) + " secs.");
-		System.out.println(" - Positional: " + ((endPositional - startPositional) / 1000.0) + " secs.");
-	}
+		final double iterPerSecRegexLineHandler = iterationsRegexLineHandler
+				/ ((endRegexLineHandler - startRegexLineHandler) / 1000.0);
+		System.out.println(" - RegexLineHandler: " + iterationsRegexLineHandler + " iters in "
+				+ (endRegexLineHandler - startRegexLineHandler) + " ms. -> " + iterPerSecRegexLineHandler
+				+ " iter/sec");
 
+		final double iterPerSecPositionalLineHandler = (iterationsPositionalLineHandler / ((endPositionalLineHandler - startPositionalLineHandler) / 1000.0));
+		System.out.println(" - PositionalLineHandler: " + iterationsPositionalLineHandler + " iters in "
+				+ (endPositionalLineHandler - startPositionalLineHandler) + " ms. -> "
+				+ iterPerSecPositionalLineHandler + " iter/sec");
+
+		System.out.format("  + Enhancement: %.2fX\n", iterPerSecPositionalLineHandler
+				/ iterPerSecRegexLineHandler);
+
+	}
 }
