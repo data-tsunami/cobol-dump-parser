@@ -51,19 +51,28 @@ public class PositionalLineHandlerTest {
 		 * Check using CobolDumpParser
 		 */
 
-		Text outputs[] = new Text[] { new Text(), new Text() };
+		// Lets simulate a mapper function
 
-		cp.copyItemsValuesByFieldIndexes(
-				LineHandlerTestUtils.line1AsText,
-				new int[] { cp.getFieldIndexFromFieldName("Description"),
-						cp.getFieldIndexFromFieldName("Code") }, outputs);
+		// setup() { ... }
+		Text outputKeyAndValue[] = new Text[] { new Text(), new Text() };
 
-		assertEquals("Film 8mm x 7mm", outputs[0].toString().trim());
-		assertEquals("PTRYY", outputs[1].toString().trim());
+		int fieldIndexes[] = new int[] { cp.getFieldIndexFromFieldName("Code"),
+				cp.getFieldIndexFromFieldName("Description") };
+
+		// map() { ... }
+
+		Text inputValue = LineHandlerTestUtils.line1AsText;
+
+		cp.copyItemsValuesByFieldIndexes(inputValue, fieldIndexes, outputKeyAndValue);
+
+		assertEquals("PTRYY", outputKeyAndValue[0].toString().trim());
+		assertEquals("Film 8mm x 7mm", outputKeyAndValue[1].toString().trim());
 
 		/*
 		 * Now check non-String fields...
 		 */
+
+		Text outputs[] = new Text[] { new Text(), new Text() };
 
 		cp.copyItemsValuesByFieldIndexes(
 				LineHandlerTestUtils.line1AsText,

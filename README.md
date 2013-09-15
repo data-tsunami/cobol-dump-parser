@@ -19,7 +19,7 @@ Using `CobolDumpParser.getItemsWithLabels()` I've processed a dump with 45.000.0
 
 Using `PositionalLineHandler` and `CobolDumpParser.getItemsValues()` I've processed the same dump (45.000.000 lines) and took 3 minutes 45 seconds.
 
-TODO: make it map-reduce friendly: add support for Hadoop's types: Text, LongWritable, etc.
+TODO: check performance of `copyItemsValuesByFieldIndexes(Text text, int[] fieldIndexes, Text[] out)`. That method uses Text's byte[] buffers, avoiding converting to String.
 
 ## Example
 
@@ -54,12 +54,26 @@ To get the data:
     fields.get("Description") -> returns a String
     fields.get("Price")       -> returns a Float
 
+To avoid converting to String(), and use Hadoop's Text instances:
+
+	// Taken from src/test/java/ar/com/datatsunami/bigdata/cobol/linehandler/PositionalLineHandlerTest.java
+
+	// setup() { ... }
+	Text outputKeyAndValue[] = new Text[] { new Text(), new Text() };
+
+	int fieldIndexes[] = new int[] { cp.getFieldIndexFromFieldName("Code"),
+		cp.getFieldIndexFromFieldName("Description") };
+
+	// map() { ... }
+
+	Text inputValue = LineHandlerTestUtils.line1AsText;
+
+	cp.copyItemsValuesByFieldIndexes(inputValue, fieldIndexes, outputKeyAndValue);
+
+	assertEquals("PTRYY", outputKeyAndValue[0].toString().trim());
+	assertEquals("Film 8mm x 7mm", outputKeyAndValue[1].toString().trim());
+
 TODO: add example with `PositionalLineHandler` + `CobolDumpParser.getItemsValues()`
-
-## TODO
-
-- Translate variable names, exception menssages, etc.
-- Lazy parser: parse only when the field is accessed
 
 # License
 
