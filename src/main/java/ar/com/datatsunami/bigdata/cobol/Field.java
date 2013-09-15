@@ -1,7 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol;
 
 import ar.com.datatsunami.bigdata.cobol.format.Format;
-import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
 
 /**
  * Represents a field to parse.
@@ -27,18 +26,12 @@ public class Field<I> {
 	/**
 	 * The associated format.
 	 */
-	Format<I> format;
+	final Format<I> format;
 
 	/**
 	 * Count of errors associated with this field
 	 */
 	long errorCount = 0;
-
-	public Field(int cantidadLugares, String label) {
-		this.width = cantidadLugares;
-		this.label = label;
-		this.format = null;
-	}
 
 	public Field(int cantidadLugares, String label, Format<I> format) {
 		this.width = cantidadLugares;
@@ -51,8 +44,7 @@ public class Field<I> {
 	}
 
 	public String toString() {
-		String formatName = this.format != null ? this.format.getClass().getSimpleName()
-				: StringFormat.DEFAULT.getClass().getSimpleName();
+		String formatName = this.format.getClass().getSimpleName();
 		return formatName + "[" + this.width + "] (" + this.label + ")";
 	}
 

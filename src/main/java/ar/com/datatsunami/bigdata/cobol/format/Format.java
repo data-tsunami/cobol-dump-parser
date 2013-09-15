@@ -2,6 +2,8 @@ package ar.com.datatsunami.bigdata.cobol.format;
 
 public abstract class Format<T> {
 
+	public static final Format<String> DEFAULT_FORMAT = new StringFormat();
+
 	protected T valueForEmpty = null;
 
 	public Format() {

@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.Set;
 
 import ar.com.datatsunami.bigdata.cobol.format.InvalidFormatException;
-import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
 import ar.com.datatsunami.bigdata.cobol.linehandler.RegexLineHandler;
 
@@ -91,15 +90,18 @@ public abstract class BaseCobolDumpParser {
 		return getFieldNameToIndexMap().get(fieldName);
 	}
 
+	/**
+	 * Transform the string in an object, raising a ParserException if an error
+	 * is detected.
+	 * 
+	 * @param string
+	 * @param field
+	 * @return
+	 * @throws ParserException
+	 */
 	protected Object getObjectFromString(String string, Field<?> field) throws ParserException {
-		//
-		// This exists because Field.format can be null... s**t!!
-		//
 		try {
-			if (field.format == null)
-				return StringFormat.DEFAULT.format(string);
-			else
-				return field.format.format(string);
+			return field.format.format(string);
 		} catch (InvalidFormatException ifv) {
 			throw new ParserException("No se pudo formatear field", ifv, field, string);
 		}

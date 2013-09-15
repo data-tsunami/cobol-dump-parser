@@ -11,6 +11,7 @@ import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
 import ar.com.datatsunami.bigdata.cobol.Field;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
 import ar.com.datatsunami.bigdata.cobol.format.DecimalFormat;
+import ar.com.datatsunami.bigdata.cobol.format.Format;
 import ar.com.datatsunami.bigdata.cobol.format.LongFormat;
 
 public class LineHandlerTestUtils {
@@ -95,8 +96,8 @@ public class LineHandlerTestUtils {
 
 	public static void addFieldsToCobolDumpParser(CobolDumpParser cp) {
 		cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
-		cp.add(new Field<String>(5, "Code"));
-		cp.add(new Field<String>(15, "Description"));
+		cp.add(new Field<String>(5, "Code", Format.DEFAULT_FORMAT));
+		cp.add(new Field<String>(15, "Description", Format.DEFAULT_FORMAT));
 		cp.add(new Field<Float>(8, "Price", new DecimalFormat(2, true)));
 		cp.add(new Field<Float>(6, "Index", new DecimalFormat(3, false)));
 	}
