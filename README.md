@@ -56,22 +56,22 @@ To get the data:
 
 To avoid converting to String(), and use Hadoop's Text instances:
 
-	// Taken from src/test/java/ar/com/datatsunami/bigdata/cobol/linehandler/PositionalLineHandlerTest.java
+	// Taken from src/test/java/ar/com/datatsunami/bigdata/cobol/linehandler/PositionalLineHandlerForHadoopTest.java
 
 	// setup() { ... }
-	Text outputKeyAndValue[] = new Text[] { new Text(), new Text() };
-
-	int fieldIndexes[] = new int[] { cp.getFieldIndexFromFieldName("Code"),
-		cp.getFieldIndexFromFieldName("Description") };
-
+	
+	Text OUTPUT_KEY = new Text();
+	Text OUTPUT_VALUE = new Text();
+	
+	int cobolFieldWithKey = cp.getFieldIndexFromFieldName("Code");
+	int cobolFieldWithValue = cp.getFieldIndexFromFieldName("Description");
+	
 	// map() { ... }
-
+	
 	Text inputValue = LineHandlerTestUtils.line1AsText;
-
-	cp.copyItemsValuesByFieldIndexes(inputValue, fieldIndexes, outputKeyAndValue);
-
-	assertEquals("PTRYY", outputKeyAndValue[0].toString().trim());
-	assertEquals("Film 8mm x 7mm", outputKeyAndValue[1].toString().trim());
+	
+	cp.copyValueToText(inputValue, cobolFieldWithKey, OUTPUT_KEY);
+	cp.copyValueToText(inputValue, cobolFieldWithValue, OUTPUT_VALUE);
 
 TODO: add example with `PositionalLineHandler` + `CobolDumpParser.getItemsValues()`
 
