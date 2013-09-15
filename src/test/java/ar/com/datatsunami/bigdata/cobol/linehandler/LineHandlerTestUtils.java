@@ -72,12 +72,12 @@ public class LineHandlerTestUtils {
 	// xx PRICE PIC S9(5)V99. **************
 	// xx INDEX PIC 9(3)V999.
 
-	final static String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
-	final static String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
-	final static String shortLine = "002541PTRYYFilm 8mm x 7mm 0007199-00150";
+	public final static String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
+	public final static String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
+	public final static String shortLine = "002541PTRYYFilm 8mm x 7mm 0007199-00150";
 
-	final static Text line1AsText;
-	final static Text line2AsText;
+	public final static Text line1AsText;
+	public final static Text line2AsText;
 
 	static {
 		Text tmp1 = null;
