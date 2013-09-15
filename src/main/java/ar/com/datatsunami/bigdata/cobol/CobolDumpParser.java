@@ -177,6 +177,15 @@ public class CobolDumpParser {
 		}
 	}
 
+	public void copyItemsValuesByFieldIndexes(Text text, int[] fieldIndexes, Object[] ret)
+			throws ParserException {
+		this.lineHandler.prepareText(text);
+		for (int i = 0; i < fieldIndexes.length; i++) {
+			ret[i] = getObjectFromString(this.lineHandler.getValueForField(fieldIndexes[i]),
+					fields.get(fieldIndexes[i]));
+		}
+	}
+
 	/**
 	 * Returns a sorted set with the headers names.
 	 * 
