@@ -40,6 +40,7 @@ public class LineHandlerPerformanceTest {
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
 				cdpDefault.getItemsWithLabels(LineHandlerTestUtils.line1).get("Code");
+				cdpDefault.getItemsWithLabels(LineHandlerTestUtils.line2).get("Code");
 				iterationsRegexLineHandler++;
 			}
 		}
@@ -60,6 +61,7 @@ public class LineHandlerPerformanceTest {
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
 				cdpDefault.getItemsValues(LineHandlerTestUtils.line1, fieldsNamed);
+				cdpDefault.getItemsValues(LineHandlerTestUtils.line2, fieldsNamed);
 				iterationsPositionalLineHandler++;
 			}
 		}
@@ -79,6 +81,7 @@ public class LineHandlerPerformanceTest {
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
 				cdpDefault.copyItemsValuesByFieldIndexes(LineHandlerTestUtils.line1, fieldIndexes, objects);
+				cdpDefault.copyItemsValuesByFieldIndexes(LineHandlerTestUtils.line2, fieldIndexes, objects);
 				iterationsPositionalLineHandlerByFieldIndex++;
 			}
 		}
