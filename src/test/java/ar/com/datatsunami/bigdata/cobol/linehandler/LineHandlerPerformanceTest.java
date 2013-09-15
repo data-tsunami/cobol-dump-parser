@@ -13,6 +13,7 @@ public class LineHandlerPerformanceTest {
 		// How many iterations have run
 		long iterationsRegexLineHandler = 0;
 		long iterationsPositionalLineHandler = 0;
+		long iterationsPositionalLineHandlerByFieldIndex = 0;
 
 		// Hoy many operations each iteration does
 		final long iterationSize = 100000;
@@ -66,6 +67,25 @@ public class LineHandlerPerformanceTest {
 		final long endPositionalLineHandler = System.currentTimeMillis();
 
 		/*
+		 * PositionalLineHandler II
+		 */
+		System.out.println(" - Checking performance of PositionalLineHandler 'byFieldIndex'...");
+		int[] fieldIndexes = new int[] { cdpPositional.getFieldIndexFromFieldName("Code") };
+		Object[] objects = new Object[fieldIndexes.length];
+		final long startPositionalLineHandlerByFieldIndex = System.currentTimeMillis();
+
+		// --- 8< 8< 8< ---
+		startTime = System.currentTimeMillis();
+		while ((System.currentTimeMillis() - startTime) < msToRun) {
+			for (int i = 0; i < iterationSize; i++) {
+				cdpDefault.copyItemsValuesByFieldIndexes(LineHandlerTestUtils.line1, fieldIndexes, objects);
+				iterationsPositionalLineHandlerByFieldIndex++;
+			}
+		}
+		// --- 8< 8< 8< ---
+		final long endPositionalLineHandlerByFieldIndex = System.currentTimeMillis();
+
+		/*
 		 * Print results
 		 */
 		final double iterPerSecRegexLineHandler = iterationsRegexLineHandler
@@ -79,8 +99,17 @@ public class LineHandlerPerformanceTest {
 				+ (endPositionalLineHandler - startPositionalLineHandler) + " ms. -> "
 				+ iterPerSecPositionalLineHandler + " iter/sec");
 
-		System.out.format("  + Enhancement: %.2fX\n", iterPerSecPositionalLineHandler
-				/ iterPerSecRegexLineHandler);
+		System.out.format("  + Performance: %.2fX (compared to RegexLineHandler)\n",
+				iterPerSecPositionalLineHandler / iterPerSecRegexLineHandler);
+
+		final double iterPerSecPositionalLineHandlerByFieldIndex = (iterationsPositionalLineHandlerByFieldIndex / ((endPositionalLineHandlerByFieldIndex - startPositionalLineHandlerByFieldIndex) / 1000.0));
+		System.out.println(" - PositionalLineHandlerByFieldIndex: "
+				+ iterationsPositionalLineHandlerByFieldIndex + " iters in "
+				+ (endPositionalLineHandlerByFieldIndex - startPositionalLineHandlerByFieldIndex)
+				+ " ms. -> " + iterPerSecPositionalLineHandlerByFieldIndex + " iter/sec");
+
+		System.out.format("  + Performance: %.2fX (compared to PositionalLineHandler)\n",
+				iterPerSecPositionalLineHandlerByFieldIndex / iterPerSecPositionalLineHandler);
 
 	}
 }

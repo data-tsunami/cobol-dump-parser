@@ -145,6 +145,24 @@ public class CobolDumpParser {
 	}
 
 	/**
+	 * Copies to <code>ret</code> the values of the fields referenced by
+	 * <code>indexes</code>
+	 * 
+	 * @param line
+	 * @param fieldIndexes
+	 * @param ret
+	 * @throws ParserException
+	 */
+	public void copyItemsValuesByFieldIndexes(String line, int[] fieldIndexes, Object[] ret)
+			throws ParserException {
+		this.lineHandler.prepareLine(line);
+		for (int i = 0; i < fieldIndexes.length; i++) {
+			ret[i] = getObjectFromString(this.lineHandler.getValueForField(fieldIndexes[i]),
+					fields.get(fieldIndexes[i]));
+		}
+	}
+
+	/**
 	 * Returns a sorted set with the headers names.
 	 * 
 	 * @return
@@ -172,4 +190,9 @@ public class CobolDumpParser {
 				withErrors.add(field);
 		return withErrors;
 	}
+
+	public int getFieldIndexFromFieldName(String fieldName) {
+		return getFieldNameToIndexMap().get(fieldName);
+	}
+
 }
