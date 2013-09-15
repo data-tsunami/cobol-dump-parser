@@ -79,6 +79,9 @@ public class PositionalLineHandler implements LineHandler {
 		/*
 		 * Now check if the line is valid. To make this check fast, only the
 		 * line width is checked.
+		 * 
+		 * DANGER! This will work for ASCII and encodings that have 1byte for
+		 * each character!
 		 */
 		if (line.length() != lineWidth) {
 			String msg = "Line didn't matched!\n";
