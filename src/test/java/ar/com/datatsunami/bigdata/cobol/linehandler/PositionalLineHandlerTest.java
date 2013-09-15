@@ -35,6 +35,10 @@ public class PositionalLineHandlerTest {
 
 		lineHandler.prepareText(LineHandlerTestUtils.line1AsText);
 
+		/*
+		 * Check using LineHandler
+		 */
+
 		// cp.add(new Field<String>(15, "Description"));
 		lineHandler.copyValue(cp.getFieldIndexFromFieldName("Description"), output);
 		assertEquals("Film 8mm x 7mm", output.toString().trim());
@@ -42,6 +46,34 @@ public class PositionalLineHandlerTest {
 		// cp.add(new Field<String>(5, "Code"));
 		lineHandler.copyValue(cp.getFieldIndexFromFieldName("Code"), output);
 		assertEquals("PTRYY", output.toString().trim());
+
+		/*
+		 * Check using CobolDumpParser
+		 */
+
+		Text outputs[] = new Text[] { new Text(), new Text() };
+
+		cp.copyItemsValuesByFieldIndexes(
+				LineHandlerTestUtils.line1AsText,
+				new int[] { cp.getFieldIndexFromFieldName("Description"),
+						cp.getFieldIndexFromFieldName("Code") }, outputs);
+
+		assertEquals("Film 8mm x 7mm", outputs[0].toString().trim());
+		assertEquals("PTRYY", outputs[1].toString().trim());
+
+		/*
+		 * Now check non-String fields...
+		 */
+
+		cp.copyItemsValuesByFieldIndexes(
+				LineHandlerTestUtils.line1AsText,
+				new int[] { cp.getFieldIndexFromFieldName("ItemID"), cp.getFieldIndexFromFieldName("Price") },
+				outputs);
+
+		// Long
+		assertEquals("002541", outputs[0].toString().trim());
+		// Decimal
+		assertEquals("0007199+", outputs[1].toString().trim());
 
 	}
 }
