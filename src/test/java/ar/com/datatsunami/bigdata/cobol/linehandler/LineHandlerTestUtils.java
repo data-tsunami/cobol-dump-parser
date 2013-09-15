@@ -8,11 +8,10 @@ import java.util.Map;
 import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
-import ar.com.datatsunami.bigdata.cobol.Field;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
-import ar.com.datatsunami.bigdata.cobol.format.DecimalFormat;
-import ar.com.datatsunami.bigdata.cobol.format.Format;
-import ar.com.datatsunami.bigdata.cobol.format.LongFormat;
+import ar.com.datatsunami.bigdata.cobol.field.DecimalField;
+import ar.com.datatsunami.bigdata.cobol.field.LongField;
+import ar.com.datatsunami.bigdata.cobol.field.StringField;
 
 public class LineHandlerTestUtils {
 
@@ -95,11 +94,11 @@ public class LineHandlerTestUtils {
 	}
 
 	public static void addFieldsToCobolDumpParser(CobolDumpParser cp) {
-		cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
-		cp.add(new Field<String>(5, "Code", Format.DEFAULT_FORMAT));
-		cp.add(new Field<String>(15, "Description", Format.DEFAULT_FORMAT));
-		cp.add(new Field<Float>(8, "Price", new DecimalFormat(2, true)));
-		cp.add(new Field<Float>(6, "Index", new DecimalFormat(3, false)));
+		cp.add(new LongField(6, "ItemID"));
+		cp.add(new StringField(5, "Code"));
+		cp.add(new StringField(15, "Description"));
+		cp.add(new DecimalField(8, "Price", 2, true));
+		cp.add(new DecimalField(6, "Index", 3, false));
 	}
 
 	public static void parse(CobolDumpParser cp) throws ParserException {

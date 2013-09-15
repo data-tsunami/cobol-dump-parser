@@ -13,7 +13,7 @@ import ar.com.datatsunami.bigdata.cobol.format.Format;
  * 
  * @param <I>
  */
-public class Field<I> {
+public abstract class Field<I> {
 
 	/**
 	 * Width in characters.
