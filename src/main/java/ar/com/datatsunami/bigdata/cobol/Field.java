@@ -6,6 +6,8 @@ import ar.com.datatsunami.bigdata.cobol.format.Format;
  * Represents a field to parse.
  * 
  * A Field has an associated Format instance and the count of spaces it uses.
+ * The format represents some way to interpret the text, and allows converting
+ * that text to a Java object.
  * 
  * @author Horacio G. de Oro
  * 

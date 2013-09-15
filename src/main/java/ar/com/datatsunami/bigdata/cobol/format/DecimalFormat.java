@@ -30,10 +30,10 @@ public class DecimalFormat extends Format<Float> {
 	 * Creates a DecimalFormat instance.
 	 * 
 	 * @param cantidadDecimales
-	 * @param conSigno
+	 * @param withSign
 	 */
-	public DecimalFormat(int cantidadDecimales, boolean conSigno) {
-		this.withSign = conSigno;
+	public DecimalFormat(int cantidadDecimales, boolean withSign) {
+		this.withSign = withSign;
 		this.decimalPlaces = cantidadDecimales;
 		if (this.decimalPlaces <= 0)
 			throw new IllegalArgumentException("cantidadDecimales must be greater than 0");
