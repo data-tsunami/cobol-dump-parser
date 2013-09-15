@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol;
+package ar.com.datatsunami.bigdata.cobol.field;
 
 import ar.com.datatsunami.bigdata.cobol.format.Format;
 
@@ -18,22 +18,22 @@ public abstract class Field<I> {
 	/**
 	 * Width in characters.
 	 */
-	int width = -1;
+	public final int width;
 
 	/**
 	 * Label to identify the field.
 	 */
-	String label = null;
+	public final String label;
 
 	/**
 	 * The associated format.
 	 */
-	final Format<I> format;
+	public final Format<I> format;
 
 	/**
 	 * Count of errors associated with this field
 	 */
-	long errorCount = 0;
+	protected long errorCount = 0;
 
 	public Field(int cantidadLugares, String label, Format<I> format) {
 		this.width = cantidadLugares;
@@ -54,4 +54,11 @@ public abstract class Field<I> {
 		return width;
 	}
 
+	public void incrErrorCount() {
+		this.errorCount++;
+	}
+
+	public long getErrorCount() {
+		return this.errorCount;
+	}
 }

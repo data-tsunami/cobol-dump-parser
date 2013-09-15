@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ar.com.datatsunami.bigdata.cobol.field.Field;
 import ar.com.datatsunami.bigdata.cobol.format.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
 import ar.com.datatsunami.bigdata.cobol.linehandler.RegexLineHandler;
@@ -75,7 +76,7 @@ public abstract class BaseCobolDumpParser {
 	public List<Field<?>> getFieldsWithError() {
 		List<Field<?>> withErrors = new ArrayList<Field<?>>();
 		for (Field<?> field : this.fields)
-			if (field.errorCount > 0)
+			if (field.getErrorCount() > 0)
 				withErrors.add(field);
 		return withErrors;
 	}

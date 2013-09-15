@@ -1,6 +1,5 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
-import ar.com.datatsunami.bigdata.cobol.Field;
 import ar.com.datatsunami.bigdata.cobol.format.DecimalFormat;
 
 public class DecimalField extends Field<Float> {

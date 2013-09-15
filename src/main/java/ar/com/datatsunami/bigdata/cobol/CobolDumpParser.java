@@ -3,6 +3,7 @@ package ar.com.datatsunami.bigdata.cobol;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import ar.com.datatsunami.bigdata.cobol.field.Field;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
 
 /**

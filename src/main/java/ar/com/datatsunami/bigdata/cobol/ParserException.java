@@ -1,5 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol;
 
+import ar.com.datatsunami.bigdata.cobol.field.Field;
+
 /**
  * Represents some problem when parsing the line.
  * 

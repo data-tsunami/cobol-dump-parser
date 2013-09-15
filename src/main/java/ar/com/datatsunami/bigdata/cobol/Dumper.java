@@ -10,6 +10,8 @@ import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.util.Map;
 
+import ar.com.datatsunami.bigdata.cobol.field.Field;
+
 public class Dumper {
 
 	/** Options to use for this execution */
@@ -60,7 +62,7 @@ public class Dumper {
 		String msg = "# ERROR at line " + lineNum;
 		if (pe.field != null) {
 			msg += " - " + pe.field;
-			pe.field.errorCount++;
+			pe.field.incrErrorCount();
 		}
 
 		if (pe.value != null)
@@ -148,7 +150,7 @@ public class Dumper {
 				+ "% of lines are non-parseables.");
 
 		for (Field<?> field : cobolParser.getFieldsWithError()) {
-			out.println("  * " + field.errorCount + " errors -> " + field);
+			out.println("  * " + field.getErrorCount() + " errors -> " + field);
 		}
 	}
 

@@ -7,7 +7,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang.NotImplementedException;
 import org.apache.hadoop.io.Text;
 
-import ar.com.datatsunami.bigdata.cobol.Field;
+import ar.com.datatsunami.bigdata.cobol.field.Field;
 
 /**
  * Handles the parsing and extracting of data from a line using regular

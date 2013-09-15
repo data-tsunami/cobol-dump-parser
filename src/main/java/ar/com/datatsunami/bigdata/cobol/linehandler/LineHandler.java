@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.apache.hadoop.io.Text;
 
-import ar.com.datatsunami.bigdata.cobol.Field;
+import ar.com.datatsunami.bigdata.cobol.field.Field;
 
 /**
  * Handles a line of text, extract values from each line.
