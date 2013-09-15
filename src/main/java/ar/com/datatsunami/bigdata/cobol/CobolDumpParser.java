@@ -49,11 +49,6 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 		return map;
 	}
 
-	@Deprecated
-	public Map<String, Object> getItemsWithLabels(String line) throws ParserException {
-		return getValuesAsMap(line);
-	}
-
 	/**
 	 * Returns the values of the requested fields
 	 * 
@@ -101,11 +96,6 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	 */
 	public Object getValue(String line, String fieldName) throws ParserException {
 		return getValues(line, new String[] { fieldName })[0];
-	}
-
-	@Deprecated
-	public Object[] getItemsValues(String line, String[] fieldsNames) throws ParserException {
-		return getValues(line, fieldsNames);
 	}
 
 }
