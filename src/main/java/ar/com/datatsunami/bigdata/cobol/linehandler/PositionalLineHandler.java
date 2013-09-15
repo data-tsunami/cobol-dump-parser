@@ -2,6 +2,8 @@ package ar.com.datatsunami.bigdata.cobol.linehandler;
 
 import java.util.List;
 
+import org.apache.hadoop.io.Text;
+
 import ar.com.datatsunami.bigdata.cobol.Field;
 
 /**
@@ -22,6 +24,8 @@ public class PositionalLineHandler implements LineHandler {
 
 	String line = null;
 
+	Text text = null;
+
 	public PositionalLineHandler() {
 	}
 
@@ -29,8 +33,13 @@ public class PositionalLineHandler implements LineHandler {
 		this.fields = fields;
 	}
 
-	@Override
-	public void prepareLine(String line) {
+	private String getLineAsString() {
+		if (this.line != null)
+			return this.line;
+		return this.text.toString();
+	}
+
+	private void setupPositions() {
 		/*
 		 * If the fields' boudaries were not calculated, we do that first
 		 */
@@ -43,6 +52,28 @@ public class PositionalLineHandler implements LineHandler {
 				lineWidth += fieldSizes[i];
 			}
 		}
+	}
+
+	@Override
+	public void prepareText(Text text) {
+		this.setupPositions();
+
+		if (text.getLength() != lineWidth) {
+			String msg = "Line length in bytes didn't matched!\n";
+			msg += " - Line: '" + text + "'\n";
+			msg += " - Line width: '" + text.getLength() + "'\n";
+			msg += " - Expected line width: " + this.lineWidth + "\n";
+			throw new IllegalArgumentException(msg);
+		}
+
+		this.line = null;
+		this.text = text;
+	}
+
+	@Override
+	public void prepareLine(String line) {
+
+		this.setupPositions();
 
 		/*
 		 * Now check if the line is valid. To make this check fast, only the
@@ -57,6 +88,7 @@ public class PositionalLineHandler implements LineHandler {
 		}
 
 		this.line = line;
+		this.text = null;
 	}
 
 	@Override
@@ -66,12 +98,18 @@ public class PositionalLineHandler implements LineHandler {
 		// This creates a new String object. We should look for some way to
 		// avoid creating instances, and inject the data directly to the
 		// instance of Hadoop's writeables
-		return this.line.substring(startPositions[field], startPositions[field] + fieldSizes[field]);
+		return this.getLineAsString().substring(startPositions[field],
+				startPositions[field] + fieldSizes[field]);
 	}
 
 	@Override
 	public void setFields(List<Field<?>> fields) {
 		this.fields = fields;
+	}
+
+	@Override
+	public void copyValue(int field, Text output) {
+		output.set(this.text.getBytes(), startPositions[field], fieldSizes[field]);
 	}
 
 }

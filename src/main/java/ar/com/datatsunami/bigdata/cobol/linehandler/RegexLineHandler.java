@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang.NotImplementedException;
+import org.apache.hadoop.io.Text;
+
 import ar.com.datatsunami.bigdata.cobol.Field;
 
 /**
@@ -84,5 +87,15 @@ public class RegexLineHandler implements LineHandler {
 
 	public void setFields(List<Field<?>> fields) {
 		this.fields = fields;
+	}
+
+	@Override
+	public void prepareText(Text line) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void copyValue(int field, Text output) {
+		throw new NotImplementedException();
 	}
 }

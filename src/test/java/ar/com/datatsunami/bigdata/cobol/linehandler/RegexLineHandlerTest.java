@@ -8,14 +8,14 @@ import ar.com.datatsunami.bigdata.cobol.ParserException;
 public class RegexLineHandlerTest {
 
 	@Test
-	public void parseLineText() throws ParserException {
+	public void parseLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser();
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
 		LineHandlerTestUtils.parse(cp);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
-	public void parseShortLineText() throws ParserException {
+	public void parseShortLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser();
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
 		cp.getItemsWithLabels(LineHandlerTestUtils.shortLine);

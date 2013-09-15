@@ -2,7 +2,10 @@ package ar.com.datatsunami.bigdata.cobol.linehandler;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Map;
+
+import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
 import ar.com.datatsunami.bigdata.cobol.Field;
@@ -73,6 +76,23 @@ public class LineHandlerTestUtils {
 	final static String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
 	final static String shortLine = "002541PTRYYFilm 8mm x 7mm 0007199-00150";
 
+	final static Text line1AsText;
+	final static Text line2AsText;
+
+	static {
+		Text tmp1 = null;
+		Text tmp2 = null;
+
+		try {
+			tmp1 = new Text(line1.getBytes("UTF-8"));
+			tmp2 = new Text(line2.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+		}
+
+		line1AsText = tmp1;
+		line2AsText = tmp2;
+	}
+
 	public static void addFieldsToCobolDumpParser(CobolDumpParser cp) {
 		cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
 		cp.add(new Field<String>(5, "Code"));
@@ -103,4 +123,5 @@ public class LineHandlerTestUtils {
 		assertEquals(Long.valueOf(2541), values[0]);
 		assertEquals(Float.valueOf((float) 71.99), values[1]);
 	}
+
 }
