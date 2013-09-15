@@ -140,8 +140,15 @@ public class CobolDumpParser {
 	 * @return
 	 * @throws ParserException
 	 */
-	public Object[] getItemsValues(Text line, String[] fieldsNames) throws ParserException {
-		return getItemsValues(line.toString(), fieldsNames);
+	public Object[] getItemsValues(Text line, int[] fieldIndexes) throws ParserException {
+		this.lineHandler.prepareText(line);
+		Object[] ret = new Object[fieldIndexes.length];
+
+		for (int i = 0; i < fieldIndexes.length; i++) {
+			String string = this.lineHandler.getValueForField(fieldIndexes[i]);
+			ret[i] = getObjectFromString(string, fields.get(fieldIndexes[i]));
+		}
+		return ret;
 	}
 
 	/**

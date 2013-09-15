@@ -47,6 +47,8 @@ public class PositionalLineHandlerTest {
 		lineHandler.copyValue(cp.getFieldIndexFromFieldName("Code"), output);
 		assertEquals("PTRYY", output.toString().trim());
 
+		assertEquals("PTRYY", lineHandler.getValueForField(cp.getFieldIndexFromFieldName("Code")).trim());
+
 		/*
 		 * Check using CobolDumpParser
 		 */

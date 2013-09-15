@@ -1,5 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol.linehandler;
 
+import java.nio.charset.CharacterCodingException;
 import java.util.List;
 
 import org.apache.hadoop.io.Text;
@@ -98,8 +99,18 @@ public class PositionalLineHandler implements LineHandler {
 		// This creates a new String object. We should look for some way to
 		// avoid creating instances, and inject the data directly to the
 		// instance of Hadoop's writeables
-		return this.getLineAsString().substring(startPositions[field],
-				startPositions[field] + fieldSizes[field]);
+
+		if (this.text != null) {
+			try {
+				return Text.decode(this.text.getBytes(), startPositions[field], fieldSizes[field]);
+			} catch (CharacterCodingException e) {
+				throw new RuntimeException("CharacterCodingException detected "
+						+ "when trying to get string for field '" + field + "'");
+			}
+		} else {
+			return this.getLineAsString().substring(startPositions[field],
+					startPositions[field] + fieldSizes[field]);
+		}
 	}
 
 	@Override
