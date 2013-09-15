@@ -31,6 +31,9 @@ public class PositionalLineHandler implements LineHandler {
 
 	@Override
 	public void prepareLine(String line) {
+		/*
+		 * If the fields' boudaries were not calculated, we do that first
+		 */
 		if (startPositions == null) {
 			startPositions = new int[this.fields.size()];
 			fieldSizes = new int[this.fields.size()];
@@ -41,6 +44,10 @@ public class PositionalLineHandler implements LineHandler {
 			}
 		}
 
+		/*
+		 * Now check if the line is valid. To make this check fast, only the
+		 * line width is checked.
+		 */
 		if (line.length() != lineWidth) {
 			String msg = "Line didn't matched!\n";
 			msg += " - Line: '" + line + "'\n";
@@ -56,6 +63,9 @@ public class PositionalLineHandler implements LineHandler {
 	public String getValueForField(int field) {
 		if (field < 0 || field >= this.fieldSizes.length)
 			throw new IllegalArgumentException("Invalid field index: " + field);
+		// This creates a new String object. We should look for some way to
+		// avoid creating instances, and inject the data directly to the
+		// instance of Hadoop's writeables
 		return this.line.substring(startPositions[field], startPositions[field] + fieldSizes[field]);
 	}
 
