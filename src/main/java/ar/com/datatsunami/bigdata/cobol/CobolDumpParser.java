@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.hadoop.io.Text;
+
 import ar.com.datatsunami.bigdata.cobol.format.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.format.StringFormat;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
@@ -61,8 +63,7 @@ public class CobolDumpParser {
 	}
 
 	/**
-	 * Parses the line, using regular expresions, and returns a map with the
-	 * field found.
+	 * Parses the line and returns a map with all the field found.
 	 * 
 	 * @param line
 	 * @return
@@ -88,6 +89,18 @@ public class CobolDumpParser {
 		return map;
 	}
 
+	/**
+	 * Same than {@link #getItemsWithLabels(String)}, but receives a
+	 * {@link Text} instead of a String.
+	 * 
+	 * @param line
+	 * @return
+	 * @throws ParserException
+	 */
+	public Map<String, Object> getItemsWithLabels(Text line) throws ParserException {
+		return getItemsWithLabels(line.toString());
+	}
+
 	protected Object getObjectFromString(String string, Field<?> field) throws ParserException {
 		try {
 			if (field.format == null)
@@ -99,6 +112,14 @@ public class CobolDumpParser {
 		}
 	}
 
+	/**
+	 * Returns the values of the fields requested
+	 * 
+	 * @param line
+	 * @param fieldsNames
+	 * @return
+	 * @throws ParserException
+	 */
 	public Object[] getItemsValues(String line, String[] fieldsNames) throws ParserException {
 		this.lineHandler.prepareLine(line);
 		Object[] ret = new Object[fieldsNames.length];
@@ -108,6 +129,19 @@ public class CobolDumpParser {
 			ret[i] = getObjectFromString(string, fields.get(fieldIndex));
 		}
 		return ret;
+	}
+
+	/**
+	 * The same than {@link getItemsValues(String, String[])} , but receives a
+	 * {@link Text} instead of a String.
+	 * 
+	 * @param line
+	 * @param fieldsNames
+	 * @return
+	 * @throws ParserException
+	 */
+	public Object[] getItemsValues(Text line, String[] fieldsNames) throws ParserException {
+		return getItemsValues(line.toString(), fieldsNames);
 	}
 
 	/**
