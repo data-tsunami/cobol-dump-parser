@@ -38,6 +38,13 @@ public abstract class BaseCobolDumpParser {
 		return this;
 	}
 
+	/**
+	 * Returns map that maps:
+	 * 
+	 * 'field name' -> 'field index'
+	 * 
+	 * @return
+	 */
 	protected Map<String, Integer> getFieldNameToIndexMap() {
 		if (fieldNameToIndexMap == null) {
 			Map<String, Integer> tmp = new HashMap<String, Integer>();
@@ -106,6 +113,14 @@ public abstract class BaseCobolDumpParser {
 		} catch (InvalidFormatException ifv) {
 			throw new ParserException("No se pudo formatear field", ifv, field, string);
 		}
+	}
+
+	public int[] getFieldIndexesFromNames(String[] fieldsNames) {
+		int indexes[] = new int[fieldsNames.length];
+		for (int i = 0; i < fieldsNames.length; i++) {
+			indexes[i] = getFieldNameToIndexMap().get(fieldsNames[i]).intValue();
+		}
+		return indexes;
 	}
 
 }
