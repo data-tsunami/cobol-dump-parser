@@ -127,6 +127,8 @@ public class PositionalLineHandler implements LineHandler {
 	}
 
 	public String[] getFixedWidthLoaderSpec() {
+		this.setupPositions();
+
 		int fieldIndexes[] = new int[this.fields.size()];
 		for (int i = 0; i < fieldIndexes.length; i++)
 			fieldIndexes[i] = i;
@@ -140,6 +142,8 @@ public class PositionalLineHandler implements LineHandler {
 	 * @return
 	 */
 	public String[] getFixedWidthLoaderSpec(int fieldIndexes[]) {
+		this.setupPositions();
+
 		// records = LOAD '/fome-fixed-width-file.txt'
 		// USING ar.com.datatsunami.pig.FixedWidthLoader(
 		// '19-26,45-55', '',
