@@ -126,4 +126,40 @@ public class PositionalLineHandler implements LineHandler {
 		output.set(this.text.getBytes(), startPositions[field], fieldSizes[field]);
 	}
 
+	/**
+	 * Generate the two required string to instantiate FixedWidthLoader.
+	 * 
+	 * @param fieldIndexes
+	 * @return
+	 */
+	public String[] getFixedWidthLoaderSpec(int fieldIndexes[]) {
+		// records = LOAD '/fome-fixed-width-file.txt'
+		// USING ar.com.datatsunami.pig.FixedWidthLoader(
+		// '19-26,45-55', '',
+		// 'id:long,monto:long'
+		// );
+
+		// String columnSpec, String skipHeaderStr, String schemaStr
+
+		String spec[] = new String[2];
+		StringBuffer sbColumnSpec = new StringBuffer();
+		StringBuffer sbSchemaStr = new StringBuffer();
+
+		for (int i = 0; i < fieldIndexes.length; i++) {
+			if (i > 0) {
+				sbColumnSpec.append(",");
+				sbSchemaStr.append(",");
+			}
+			int start = this.startPositions[fieldIndexes[i]] + 1;
+			int end = start + this.fieldSizes[fieldIndexes[i]] - 1;
+			Field<?> field = this.fields.get(fieldIndexes[i]);
+			sbColumnSpec.append(start + "-" + end);
+			sbSchemaStr.append(field.label + ":" + field.getPigType());
+		}
+
+		spec[0] = sbColumnSpec.toString();
+		spec[1] = sbSchemaStr.toString();
+		return spec;
+	}
+
 }

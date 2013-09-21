@@ -1,5 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol.linehandler;
 
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
@@ -21,4 +23,31 @@ public class PositionalLineHandlerTest {
 		cp.getValues(LineHandlerTestUtils.shortLine, new String[] { "ItemID", "Price" });
 	}
 
+	@Test
+	public void testPig() throws ParserException {
+
+		PositionalLineHandler plh = new PositionalLineHandler();
+		CobolDumpParser cp = new CobolDumpParser(plh);
+		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
+		LineHandlerTestUtils.parse(cp);
+
+		// records = LOAD '/fome-fixed-width-file.txt'
+		// USING ar.com.datatsunami.pig.FixedWidthLoader(
+		// '19-26,45-55', '',
+		// 'id:long,monto:long'
+		// );
+
+		String spec[] = plh.getFixedWidthLoaderSpec(new int[] { 0 });
+		assertEquals("1-6", spec[0]);
+		assertEquals("ItemID:long", spec[1]);
+
+		spec = plh.getFixedWidthLoaderSpec(new int[] { 1 });
+		assertEquals("7-11", spec[0]);
+		assertEquals("Code:chararray", spec[1]);
+
+		spec = plh.getFixedWidthLoaderSpec(new int[] { 0, 1 });
+		assertEquals("1-6,7-11", spec[0]);
+		assertEquals("ItemID:long,Code:chararray", spec[1]);
+
+	}
 }
