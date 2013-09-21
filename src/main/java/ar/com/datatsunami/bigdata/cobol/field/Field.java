@@ -74,4 +74,13 @@ public abstract class Field<I> {
 	public long getErrorCount() {
 		return this.errorCount;
 	}
+
+	public int getStartFieldOffsetForPig() {
+		return 0;
+	}
+
+	public int getEndFieldOffsetForPig() {
+		return 0;
+	}
+
 }

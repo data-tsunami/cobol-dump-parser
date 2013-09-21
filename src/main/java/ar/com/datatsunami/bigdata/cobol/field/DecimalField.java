@@ -14,7 +14,20 @@ public class DecimalField extends Field<Float> {
 
 	@Override
 	public String getPigType() {
-		return "float";
+		/*
+		 * This should return 'float'... But since we are not using a custom Pig
+		 * Loader, it's only possible to use that number as a long.
+		 * 
+		 * // FIXME: add support for the SIGN!
+		 */
+		return "long";
+	}
+
+	public int getEndFieldOffsetForPig() {
+		if (((DecimalFormat) this.format).withSign)
+			return 1;
+		else
+			return 0;
 	}
 
 }

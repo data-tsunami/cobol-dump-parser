@@ -17,4 +17,11 @@ public class LongBasedDecimalField extends Field<Long> {
 		return "long";
 	}
 
+	public int getEndFieldOffsetForPig() {
+		if (((LongBasedDecimalFormat) this.format).withSign)
+			return 1;
+		else
+			return 0;
+	}
+
 }
