@@ -126,6 +126,13 @@ public class PositionalLineHandler implements LineHandler {
 		output.set(this.text.getBytes(), startPositions[field], fieldSizes[field]);
 	}
 
+	public String[] getFixedWidthLoaderSpec() {
+		int fieldIndexes[] = new int[this.fields.size()];
+		for (int i = 0; i < fieldIndexes.length; i++)
+			fieldIndexes[i] = i;
+		return getFixedWidthLoaderSpec(fieldIndexes);
+	}
+
 	/**
 	 * Generate the two required string to instantiate FixedWidthLoader.
 	 * 
