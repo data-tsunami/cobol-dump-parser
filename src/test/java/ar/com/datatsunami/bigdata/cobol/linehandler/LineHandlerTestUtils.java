@@ -10,6 +10,7 @@ import org.apache.hadoop.io.Text;
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
 import ar.com.datatsunami.bigdata.cobol.field.DecimalField;
+import ar.com.datatsunami.bigdata.cobol.field.LongBasedDecimalField;
 import ar.com.datatsunami.bigdata.cobol.field.LongField;
 import ar.com.datatsunami.bigdata.cobol.field.StringField;
 
@@ -72,8 +73,8 @@ public class LineHandlerTestUtils {
 	// xx PRICE PIC S9(5)V99. **************
 	// xx INDEX PIC 9(3)V999.
 
-	public final static String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+001500";
-	public final static String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-001500";
+	public final static String line1 = "002541PTRYYFilm 8mm x 7mm 0007199+0015000101";
+	public final static String line2 = "002541PTRYYFilm 8mm x 7mm 0007199-0015001234";
 	public final static String shortLine = "002541PTRYYFilm 8mm x 7mm 0007199-00150";
 
 	public final static Text line1AsText;
@@ -99,6 +100,7 @@ public class LineHandlerTestUtils {
 		cp.add(new StringField(15, "Description"));
 		cp.add(new DecimalField(8, "Price", 2, true));
 		cp.add(new DecimalField(6, "Index", 3, false));
+		cp.add(new LongBasedDecimalField(4, "Value", 1, false));
 	}
 
 	public static void parse(CobolDumpParser cp) throws ParserException {

@@ -49,5 +49,9 @@ public class PositionalLineHandlerTest {
 		assertEquals("1-6,7-11", spec[0]);
 		assertEquals("ItemID:long,Code:chararray", spec[1]);
 
+		spec = plh.getFixedWidthLoaderSpec(new int[] { 0, 1, 5 });
+		assertEquals("1-6,7-11,41-44", spec[0]);
+		assertEquals("ItemID:long,Code:chararray,Value:long", spec[1]);
+
 	}
 }
