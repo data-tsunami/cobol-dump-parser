@@ -12,4 +12,9 @@ public class LongField extends Field<Long> {
 		super(cantidadLugares, label, new LongFormat(valueForEmpty));
 	}
 
+	@Override
+	public String getPigType() {
+		return "long";
+	}
+
 }

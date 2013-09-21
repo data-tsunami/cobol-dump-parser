@@ -12,4 +12,9 @@ public class DecimalField extends Field<Float> {
 		super(cantidadLugares, label, new DecimalFormat(decimalPlaces, withSign));
 	}
 
+	@Override
+	public String getPigType() {
+		return "float";
+	}
+
 }

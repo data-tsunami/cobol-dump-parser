@@ -8,4 +8,9 @@ public class StringField extends Field<String> {
 		super(cantidadLugares, label, Format.DEFAULT_FORMAT);
 	}
 
+	@Override
+	public String getPigType() {
+		return "chararray";
+	}
+
 }

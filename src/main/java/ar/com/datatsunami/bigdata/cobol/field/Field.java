@@ -35,6 +35,19 @@ public abstract class Field<I> {
 	 */
 	protected long errorCount = 0;
 
+	/**
+	 * Returns the pig type associated with this field.
+	 * 
+	 * Some valid values are: int, long, float, double, chararray, bytearray,
+	 * boolean, datetime.
+	 * 
+	 * As a reference, see:
+	 * https://pig.apache.org/docs/r0.11.1/basic.html#schema-simple
+	 * 
+	 * @return
+	 */
+	public abstract String getPigType();
+
 	public Field(int cantidadLugares, String label, Format<I> format) {
 		this.width = cantidadLugares;
 		this.label = label;

@@ -12,4 +12,9 @@ public class LongBasedDecimalField extends Field<Long> {
 		super(cantidadLugares, label, new LongBasedDecimalFormat(decimalPlaces, withSign));
 	}
 
+	@Override
+	public String getPigType() {
+		return "long";
+	}
+
 }
