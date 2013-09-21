@@ -20,7 +20,7 @@ public class LongBasedDecimalFormat extends Format<Long> {
 	}
 
 	/** Whenever the field includes a + or - sign at the end */
-	boolean withSign;
+	public final boolean withSign;
 
 	/** How many places (at the end of the string) are for the decimals */
 	int decimalPlaces;

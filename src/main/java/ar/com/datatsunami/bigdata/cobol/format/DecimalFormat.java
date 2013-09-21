@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 public class DecimalFormat extends Format<Float> {
 
 	/** Whenever the field includes a + or - sign at the end */
-	boolean withSign;
+	final public boolean withSign;
 
 	/** How many places (at the end of the string) are for the decimals */
 	int decimalPlaces;
