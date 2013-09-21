@@ -123,4 +123,8 @@ public abstract class BaseCobolDumpParser {
 		return indexes;
 	}
 
+	public LineHandler getLineHandler() {
+		return lineHandler;
+	}
+
 }
