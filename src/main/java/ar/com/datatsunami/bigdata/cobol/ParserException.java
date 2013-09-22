@@ -12,7 +12,7 @@ public class ParserException extends Exception {
 
 	private static final long serialVersionUID = 5088113420235418928L;
 
-	public Field<?,?> field = null;
+	public Field<?, ?> field = null;
 	public String value = null;
 
 	public ParserException() {
@@ -31,10 +31,15 @@ public class ParserException extends Exception {
 		super(cause);
 	}
 
-	public ParserException(String message, Throwable cause, Field<?,?> field, String value) {
+	public ParserException(String message, Throwable cause, Field<?, ?> field, String value) {
 		super(message, cause);
 		this.field = field;
 		this.value = value;
+	}
+
+	@Override
+	public String toString() {
+		return super.toString() + " - Field: '" + this.field + "' - Value: '" + this.value + "'";
 	}
 
 }
