@@ -1,18 +1,46 @@
 cobol-dump-parser
 =================
 
-Parser for Cobol dumps in fixed-line-width format
+Parser for accessing *Cobol* dumps in fixed-line-width format from
+[Java](http://www.java.com/), [Hadoop](https://hadoop.apache.org/) and [Pig](https://pig.apache.org/).
+
+##### Quick Java example
+
+```java
+CobolDumpParser cp = new CobolDumpParser();
+cp.add(new LongField(6, "ItemID"));
+cp.add(new StringField(5, "Code"));
+cp.add(new StringField(15, "Description"));
+cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
+cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+// Get a 'line' from somewhere and...
+Object objects[] = cp.getValues(line, "ItemID", "Price");
+Long itemId = (Long) objects[0];
+Float price = (Float) objects[1];
+```
+
+##### Quick Pig example
+
+```sql
+-- Load fields 1 and 3 (1 -> 'Code', 3 -> 'Price')
+records =
+  LOAD '/cobol-dump-parser-sample.txt'
+  USING ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc(
+    'ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig',
+    '1,3');
+expensive_products = FILTER records BY price >= 10;
+STORE expensive_products INTO '/expensive_products.txt';
+```
 
 ## How to build
 
 To build using Maven:
 
-    $ mvn clean package
+    $ mvn package
 
-To install to the local repository:
+To install to the local repository (to be used as library from other java projects):
 
     $ mvn install
-
 
 ## Example
 
@@ -95,7 +123,7 @@ Here we use the `ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc()` UDF. The
 the reference to the package + class + method that generates the CobolDumpParser instance. The second
 parameter are the index of required fields (1 and 3 are the fields 'Code' and 'Price').
 
-The output of ILLUSTRATE whould be:
+The output of ILLUSTRATE would be:
 
 ```
 -------------------------------------------------------------------------------------------------
@@ -112,7 +140,7 @@ expensive_products = FILTER records BY price >= 10;
 DUMP expensive_products;
 ```
 
-The output of DUMP whould be:
+The output of DUMP would be:
 
 ```
 (PTRYY,71,99,+)
@@ -123,6 +151,27 @@ The output of DUMP whould be:
 
 Here are the [java](src/test/java/ar/com/datatsunami/pig/FixedWidthLoaderByStaticFuncTest.java)
 and [Pig](src/test/pig/sample_03_dump_expensive_products.pig) code used in this example.
+
+### How to run the sample Pig scripts
+
+You will need to run `mvn jar:test-jar` before run the Pig scripts:
+
+```shell
+mvn package jar:test-jar
+```
+
+Also, you will need to setup the `PATH` to `pig` and `HADOOP_CONF_DIR`.
+
+```shell
+export HADOOP_CONF_DIR=/path/to/hadoop/conf
+export PATH=/path/to/pig-0.11.1/bin:$PATH
+```
+
+Now you can run Pig, from the base directory of the project:
+
+```shell
+pig --debug WARN -f src/test/pig/sample_01.pig
+```
 
 <!--
 
