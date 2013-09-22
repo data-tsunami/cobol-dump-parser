@@ -9,7 +9,7 @@ import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
-import ar.com.datatsunami.bigdata.cobol.field.DecimalField;
+import ar.com.datatsunami.bigdata.cobol.field.FloatBasedDecimalField;
 import ar.com.datatsunami.bigdata.cobol.field.LongBasedDecimalField;
 import ar.com.datatsunami.bigdata.cobol.field.LongField;
 import ar.com.datatsunami.bigdata.cobol.field.StringField;
@@ -98,8 +98,8 @@ public class LineHandlerTestUtils {
 		cp.add(new LongField(6, "ItemID"));
 		cp.add(new StringField(5, "Code"));
 		cp.add(new StringField(15, "Description"));
-		cp.add(new DecimalField(8, "Price", 2, true));
-		cp.add(new DecimalField(6, "Index", 3, false));
+		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
+		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
 		cp.add(new LongBasedDecimalField(4, "Value", 1, false));
 	}
 

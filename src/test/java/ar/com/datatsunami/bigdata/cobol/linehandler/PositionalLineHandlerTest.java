@@ -46,38 +46,47 @@ public class PositionalLineHandlerTest {
 		// cp.add(new LongBasedDecimalField(4, "Value", 1, false));
 		// ........................ 41-44 (sin signo)
 
+		// LongField
 		String spec[] = plh.getFixedWidthLoaderSpec(new int[] { 0 });
 		assertEquals("1-6", spec[0]);
 		assertEquals("itemid:long", spec[1]);
 
+		// StringField
 		spec = plh.getFixedWidthLoaderSpec(new int[] { 1 });
 		assertEquals("7-11", spec[0]);
 		assertEquals("code:chararray", spec[1]);
 
+		// LongField + StringField
 		spec = plh.getFixedWidthLoaderSpec(new int[] { 0, 1 });
 		assertEquals("1-6,7-11", spec[0]);
 		assertEquals("itemid:long,code:chararray", spec[1]);
 
+		// LongBasedDecimalField
+		spec = plh.getFixedWidthLoaderSpec(new int[] { 5 });
+		assertEquals("41-43,44-44", spec[0]);
+		assertEquals("value:long,value_decimal:long", spec[1]);
+
+		// LongField + StringField + LongBasedDecimalField
 		spec = plh.getFixedWidthLoaderSpec(new int[] { 0, 1, 5 });
-		assertEquals("1-6,7-11,41-44", spec[0]);
-		assertEquals("itemid:long,code:chararray,value:long", spec[1]);
+		assertEquals("1-6,7-11,41-43,44-44", spec[0]);
+		assertEquals("itemid:long,code:chararray,value:long,value_decimal:long", spec[1]);
 
 		spec = plh.getFixedWidthLoaderSpec(cp.getFieldIndexesFromNames(new String[] { "Code", "ItemID",
 				"Value" }));
-		assertEquals("7-11,1-6,41-44", spec[0]);
-		assertEquals("code:chararray,itemid:long,value:long", spec[1]);
+		assertEquals("7-11,1-6,41-43,44-44", spec[0]);
+		assertEquals("code:chararray,itemid:long,value:long,value_decimal:long", spec[1]);
 
 		// with sign
 		// cp.add(new DecimalField(8, "Price", 2, true));
 		spec = plh.getFixedWidthLoaderSpec(new int[] { 3 });
-		assertEquals("27-33", spec[0]);
-		assertEquals("price:long", spec[1]);
+		assertEquals("27-31,32-33,34-34", spec[0]);
+		assertEquals("price:long,price_decimal:long,price_sign:chararray", spec[1]);
 
 		// without sign
 		// cp.add(new DecimalField(6, "Index", 3, false));
 		spec = plh.getFixedWidthLoaderSpec(new int[] { 4 });
-		assertEquals("35-40", spec[0]);
-		assertEquals("index:long", spec[1]);
+		assertEquals("35-37,38-40", spec[0]);
+		assertEquals("index:long,index_decimal:long", spec[1]);
 
 	}
 }
