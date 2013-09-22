@@ -22,7 +22,7 @@ public class DecimalFormat extends Format<Float> {
 	final public boolean withSign;
 
 	/** How many places (at the end of the string) are for the decimals */
-	int decimalPlaces;
+	public final int decimalPlaces;
 
 	Pattern pattern;
 

@@ -23,7 +23,7 @@ public class LongBasedDecimalFormat extends Format<Long> {
 	public final boolean withSign;
 
 	/** How many places (at the end of the string) are for the decimals */
-	int decimalPlaces;
+	public final int decimalPlaces;
 
 	/**
 	 * Creates a DecimalFormat instance.
