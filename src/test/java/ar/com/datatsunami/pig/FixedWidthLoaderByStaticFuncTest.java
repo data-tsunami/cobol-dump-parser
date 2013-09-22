@@ -2,21 +2,53 @@ package ar.com.datatsunami.pig;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.net.URISyntaxException;
+
 import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParserForHadoop;
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParserTestUtils;
+import ar.com.datatsunami.bigdata.cobol.field.FloatBasedDecimalField;
+import ar.com.datatsunami.bigdata.cobol.field.LongField;
+import ar.com.datatsunami.bigdata.cobol.field.StringField;
 import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public class FixedWidthLoaderByStaticFuncTest {
 
-	public static CobolDumpParser cobolDumpParserFactory() {
-		final CobolDumpParser cdp = new CobolDumpParser(new PositionalLineHandler());
-		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cdp);
+	/**
+	 * This method creates a CobolDumpParser. It's public and static by design.
+	 * 
+	 * This is used in the samples Pig scripts, to instantiate the UDF
+	 * <code>FixedWidthLoader</code>.
+	 * 
+	 */
+	public static CobolDumpParser cobolDumpParserFactoryForPig() {
+		/*
+		 * Create the instance
+		 */
+		CobolDumpParser cdp = new CobolDumpParser(new PositionalLineHandler());
+
+		/*
+		 * Populate the fields
+		 */
+		cdp.add(new LongField(6, "ItemID"));
+		cdp.add(new StringField(5, "Code"));
+		cdp.add(new StringField(15, "Description"));
+		cdp.add(new FloatBasedDecimalField(8, "Price", 2, true));
+		cdp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+
 		return cdp;
 	}
 
+	/*
+	 * This method isn't used directly by the Java code, but IT IS used for
+	 * testing FixedWidthLoaderByStaticFunc()
+	 */
 	public static CobolDumpParser cobolDumpParserFactoryForHadoop() {
 		final CobolDumpParser cdp = new CobolDumpParserForHadoop(new PositionalLineHandler());
 		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cdp);
@@ -33,7 +65,7 @@ public class FixedWidthLoaderByStaticFuncTest {
 	@Test
 	public void testFixedWidthLoaderByStaticFunc() {
 		String columnSpecAndSchemaStr[] = FixedWidthLoaderByStaticFunc.get(
-				"ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactory", "0");
+				"ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig", "0");
 		assertEquals("1-6", columnSpecAndSchemaStr[0]);
 		assertEquals("itemid:long", columnSpecAndSchemaStr[1]);
 	}
@@ -45,6 +77,23 @@ public class FixedWidthLoaderByStaticFuncTest {
 				"1");
 		assertEquals("7-11", columnSpecAndSchemaStr[0]);
 		assertEquals("code:chararray", columnSpecAndSchemaStr[1]);
+	}
+
+	@Test
+	public void testCobolDumpParserFactoryForPigWithSampleDump() throws Exception {
+		CobolDumpParser cp = cobolDumpParserFactoryForPig();
+		BufferedReader reader = this.getBufferedReader();
+		cp.getValuesAsMap(reader.readLine());
+		cp.getValuesAsMap(reader.readLine());
+		cp.getValuesAsMap(reader.readLine());
+		cp.getValuesAsMap(reader.readLine());
+		cp.getValuesAsMap(reader.readLine());
+	}
+
+	private BufferedReader getBufferedReader() throws FileNotFoundException, URISyntaxException {
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		FileReader fs = new FileReader(new File(cl.getResource("cobol-dump.txt").toURI()));
+		return new BufferedReader(fs);
 	}
 
 }

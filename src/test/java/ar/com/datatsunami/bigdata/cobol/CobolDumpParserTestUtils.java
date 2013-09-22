@@ -94,6 +94,11 @@ public class CobolDumpParserTestUtils {
 		line2AsText = tmp2;
 	}
 
+	/**
+	 * Populate CobolDumpParser with the fields
+	 * 
+	 * @param cp
+	 */
 	public static void addFieldsToCobolDumpParser(CobolDumpParser cp) {
 		cp.add(new LongField(6, "ItemID"));
 		cp.add(new StringField(5, "Code"));
@@ -103,6 +108,9 @@ public class CobolDumpParserTestUtils {
 		cp.add(new LongBasedDecimalField(4, "Value", 1, false));
 	}
 
+	/**
+	 * Parse the test lineas with the received CobolDumpParser
+	 */
 	public static void parse(CobolDumpParser cp) throws ParserException {
 		Map<String, Object> fields = cp.getValuesAsMap(line1);
 		assertEquals(Long.valueOf(2541), fields.get("ItemID"));
