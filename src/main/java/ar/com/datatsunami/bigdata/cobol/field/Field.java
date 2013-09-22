@@ -27,9 +27,9 @@ public abstract class Field<I> {
 	public final String label;
 
 	/**
-	 * The associated format.
+	 * The associated converter.
 	 */
-	public final CobolFieldToJavaConverter<I> format;
+	public final CobolFieldToJavaConverter<I> converter;
 
 	/**
 	 * Count of errors associated with this field
@@ -52,10 +52,10 @@ public abstract class Field<I> {
 	 */
 	public abstract PigSchema getPigSchema();
 
-	public Field(int cantidadLugares, String label, CobolFieldToJavaConverter<I> format) {
+	public Field(int cantidadLugares, String label, CobolFieldToJavaConverter<I> converter) {
 		this.width = cantidadLugares;
 		this.label = label;
-		this.format = format;
+		this.converter = converter;
 	}
 
 	public String genRegex() {
@@ -63,7 +63,7 @@ public abstract class Field<I> {
 	}
 
 	public String toString() {
-		String formatName = this.format.getClass().getSimpleName();
+		String formatName = this.converter.getClass().getSimpleName();
 		return formatName + "[" + this.width + "] (" + this.label + ")";
 	}
 
