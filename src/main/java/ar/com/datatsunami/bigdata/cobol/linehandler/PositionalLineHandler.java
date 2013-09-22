@@ -157,20 +157,13 @@ public class PositionalLineHandler implements LineHandler {
 		StringBuffer sbSchemaStr = new StringBuffer();
 
 		for (int i = 0; i < fieldIndexes.length; i++) {
-			if (i > 0) {
-				sbColumnSpec.append(",");
-				sbSchemaStr.append(",");
-			}
 			Field<?> field = this.fields.get(fieldIndexes[i]);
-			int start = this.startPositions[fieldIndexes[i]] + 1 + field.getStartFieldOffsetForPig();
-			int end = start + this.fieldSizes[fieldIndexes[i]] - 1 - field.getEndFieldOffsetForPig();
-			sbColumnSpec.append(start + "-" + end);
-			sbSchemaStr.append(field.label.toLowerCase() + ":" + field.getPigType());
+			field.getPigSchema().fillStringBuffers(this.startPositions[fieldIndexes[i]] + 1, sbColumnSpec,
+					sbSchemaStr, (i == 0));
 		}
 
 		spec[0] = sbColumnSpec.toString();
 		spec[1] = sbSchemaStr.toString();
 		return spec;
 	}
-
 }
