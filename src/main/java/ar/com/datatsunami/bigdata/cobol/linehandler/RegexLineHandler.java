@@ -13,9 +13,13 @@ import ar.com.datatsunami.bigdata.cobol.field.Field;
  * Handles the parsing and extracting of data from a line using regular
  * expressions.
  * 
+ * @deprecated The <code>PositionalLineHandler</code> has much better
+ *             performance, support for Pig, etc.
+ * 
  * @author Horacio G. de Oro
  * 
  */
+@Deprecated
 public class RegexLineHandler implements LineHandler {
 
 	/**

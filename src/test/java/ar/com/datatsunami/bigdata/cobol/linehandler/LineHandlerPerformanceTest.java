@@ -31,6 +31,7 @@ public class LineHandlerPerformanceTest {
 		 * RegexLineHandler
 		 */
 		System.out.println(" - Checking performance of RegexLineHandler...");
+		@SuppressWarnings("deprecation")
 		CobolDumpParser cdpDefault = new CobolDumpParser(new RegexLineHandler());
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cdpDefault);
 		final long startRegexLineHandler = System.currentTimeMillis();
