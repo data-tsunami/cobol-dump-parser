@@ -57,6 +57,73 @@ System.out.println(" + The code is: " + map.get("Code"));
 
 You can see this and other examples in [SimpleTestFromFile.java](src/test/java/ar/com/datatsunami/bigdata/cobol/SimpleTestFromFile.java).
 
+## Pig
+
+You can use the definition of the data from Pig. This means: cobol-dump-parser is *not* used to load the data... it's only used to create the strings required to specify the schema to the UDF, but it's very usefull and avoids code duplication.
+
+Imagine you need to access the same data as the previous example with Pig. You will need to create a static method that returns the instance of CobolDumpParser, something like:
+
+```java
+package ar.com.datatsunami.pig;
+
+public class FixedWidthLoaderByStaticFuncTest {
+	public static CobolDumpParser cobolDumpParserFactoryForPig() {
+		CobolDumpParser cdp = new CobolDumpParser(new PositionalLineHandler());
+		cdp.add(new LongField(6, "ItemID"));
+		cdp.add(new StringField(5, "Code"));
+		cdp.add(new StringField(15, "Description"));
+		cdp.add(new FloatBasedDecimalField(8, "Price", 2, true));
+		cdp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+		return cdp;
+	}
+}
+```
+
+That method will be called by Pig to generate the UDF to access the data. For example:
+
+```sql
+records =
+  LOAD '/cobol-dump-parser-sample.txt'
+  USING ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc(
+    'ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig',
+    '1,3');
+
+ILLUSTRATE records;
+```
+
+Here we use the `ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc()` UDF. The first parameter is
+the reference to the package + class + method that generates the CobolDumpParser instance. The second
+parameter are the index of required fields (1 and 3 are the fields 'Code' and 'Price').
+
+The output of ILLUSTRATE whould be:
+
+```
+-------------------------------------------------------------------------------------------------
+| records     | code:chararray   | price:long   | price_decimal:long   | price_sign:chararray   | 
+-------------------------------------------------------------------------------------------------
+|             | MOUSE            | 14           | 99                   | +                      | 
+-------------------------------------------------------------------------------------------------
+```
+
+To filter the expensive products (assuming 'expensive' as products with price >= 10), we whoud do:
+
+```sql
+expensive_products = FILTER records BY price >= 10;
+DUMP expensive_products;
+```
+
+The output of DUMP whould be:
+
+```
+(PTRYY,71,99,+)
+(MOUSE,14,99,+)
+(KBD_X,20,99,+)
+(PROM1,10,0,-)
+```
+
+Here are the [java](src/test/java/ar/com/datatsunami/pig/FixedWidthLoaderByStaticFuncTest.java)
+and [Pig](src/test/pig/sample_03_dump_expensive_products.pig) code used in this example.
+
 <!--
 
 ## Hadoop
