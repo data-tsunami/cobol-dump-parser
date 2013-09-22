@@ -6,7 +6,7 @@ import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
 public class StringField extends Field<String> {
 
 	public StringField(int cantidadLugares, String label) {
-		super(cantidadLugares, label, CobolFieldToJavaConverter.DEFAULT_FORMAT);
+		super(cantidadLugares, label, CobolFieldToJavaConverter.DEFAULT_CONVERTER);
 	}
 
 	@Override

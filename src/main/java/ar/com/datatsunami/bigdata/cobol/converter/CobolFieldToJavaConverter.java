@@ -13,7 +13,7 @@ public abstract class CobolFieldToJavaConverter<T> {
 	/**
 	 * Default parser
 	 */
-	public static final CobolFieldToJavaConverter<String> DEFAULT_FORMAT = new StringConverter();
+	public static final CobolFieldToJavaConverter<String> DEFAULT_CONVERTER = new StringConverter();
 
 	protected T valueForEmpty = null;
 
