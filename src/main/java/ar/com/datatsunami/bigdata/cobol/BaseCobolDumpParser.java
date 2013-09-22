@@ -109,7 +109,7 @@ public abstract class BaseCobolDumpParser {
 	 */
 	protected Object getObjectFromString(String string, Field<?> field) throws ParserException {
 		try {
-			return field.format.format(string);
+			return field.format.convert(string);
 		} catch (InvalidFormatException ifv) {
 			throw new ParserException("No se pudo formatear field", ifv, field, string);
 		}

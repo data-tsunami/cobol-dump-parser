@@ -45,7 +45,7 @@ public class DecimalToFloatConverter extends BaseDecimalConverter<Float> {
 	}
 
 	@Override
-	public Float format(String value) throws InvalidFormatException {
+	public Float convert(String value) throws InvalidFormatException {
 
 		if (value == null)
 			throw new InvalidFormatException("Value can't be null");

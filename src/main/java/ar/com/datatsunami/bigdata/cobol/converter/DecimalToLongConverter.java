@@ -40,7 +40,7 @@ public class DecimalToLongConverter extends BaseDecimalConverter<Long> {
 	}
 
 	@Override
-	public Long format(String value) throws InvalidFormatException {
+	public Long convert(String value) throws InvalidFormatException {
 
 		if (value == null)
 			throw new InvalidFormatException("Value can't be null");

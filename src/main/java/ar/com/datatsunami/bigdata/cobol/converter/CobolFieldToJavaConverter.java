@@ -43,7 +43,7 @@ public abstract class CobolFieldToJavaConverter<T> {
 		throw new NoDefaultDefinedOrValueNotEmptyException();
 	}
 
-	public abstract T format(String value) throws InvalidFormatException;
+	public abstract T convert(String value) throws InvalidFormatException;
 
 	/*
 	 * Setter
