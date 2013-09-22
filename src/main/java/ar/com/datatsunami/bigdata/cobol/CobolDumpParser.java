@@ -25,7 +25,11 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	}
 
 	/**
-	 * Parses the line and returns a map with all the field found.
+	 * Parses the line and returns a map with all the field.
+	 * 
+	 * This method is very handy, but parses all the fields. If only a subset of
+	 * the fields are required, it's recomended to use one of the
+	 * <code>getValues()</code> methods.
 	 * 
 	 * @param line
 	 * @return
@@ -37,7 +41,7 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		for (int i = 0; i < this.fields.size(); i++) {
 
-			final Field<?,?> item = this.fields.get(i);
+			final Field<?, ?> item = this.fields.get(i);
 			final String fieldString = this.lineHandler.getValueForField(i);
 
 			String label = item.label;
@@ -58,7 +62,7 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	 * @return
 	 * @throws ParserException
 	 */
-	public Object[] getValues(String line, String[] fieldsNames) throws ParserException {
+	public Object[] getValues(String line, String... fieldsNames) throws ParserException {
 		this.lineHandler.prepareLine(line);
 		Object[] ret = new Object[fieldsNames.length];
 		for (int i = 0; i < fieldsNames.length; i++) {
@@ -77,7 +81,7 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	 * @return
 	 * @throws ParserException
 	 */
-	public Object[] getValues(String line, int[] fields) throws ParserException {
+	public Object[] getValues(String line, int... fields) throws ParserException {
 		this.lineHandler.prepareLine(line);
 		Object[] ret = new Object[fields.length];
 		for (int i = 0; i < fields.length; i++) {
@@ -88,7 +92,7 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	}
 
 	/**
-	 * Returns the value of the requested field
+	 * Returns the value of one field
 	 * 
 	 * @param line
 	 * @param fieldName
@@ -96,7 +100,19 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	 * @throws ParserException
 	 */
 	public Object getValue(String line, String fieldName) throws ParserException {
-		return getValues(line, new String[] { fieldName })[0];
+		return getValues(line, fieldName)[0];
+	}
+
+	/**
+	 * Returns the value of one field
+	 * 
+	 * @param line
+	 * @param fieldName
+	 * @return
+	 * @throws ParserException
+	 */
+	public Object getValue(String line, int field) throws ParserException {
+		return getValues(line, field)[0];
 	}
 
 }

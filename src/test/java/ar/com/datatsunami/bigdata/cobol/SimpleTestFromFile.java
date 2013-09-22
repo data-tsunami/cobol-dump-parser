@@ -76,7 +76,7 @@ public class SimpleTestFromFile {
 		/*
 		 * Get the objects for 'ItemID' and 'Price'
 		 */
-		Object objects[] = cp.getValues(line, new int[] { 0, 3 });
+		Object objects[] = cp.getValues(line, "ItemID", "Price");
 		Long itemId = (Long) objects[0];
 		Float price = (Float) objects[1];
 

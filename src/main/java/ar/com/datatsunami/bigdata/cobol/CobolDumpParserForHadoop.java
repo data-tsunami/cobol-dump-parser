@@ -14,7 +14,7 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 		super(lineHandler);
 	}
 
-	public Object[] getValuesFromText(Text text, int[] fieldIndexes) throws ParserException {
+	public Object[] getValuesFromText(Text text, int... fieldIndexes) throws ParserException {
 		this.lineHandler.prepareText(text);
 		Object[] ret = new Object[fieldIndexes.length];
 
