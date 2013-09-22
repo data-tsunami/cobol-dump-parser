@@ -84,10 +84,10 @@ public class PositionalLineHandler implements LineHandler {
 		 * each character!
 		 */
 		if (line.length() != lineWidth) {
-			String msg = "Line didn't matched!\n";
-			msg += " - Line: '" + line + "'\n";
-			msg += " - Line width: '" + line.length() + "'\n";
-			msg += " - Expected line width: " + this.lineWidth + "\n";
+			String msg = "Line didn't matched!";
+			msg += "\n - Line: '" + line + "'";
+			msg += "\n - Line width: '" + line.length() + "'";
+			msg += "\n - Expected line width: " + this.lineWidth;
 			throw new IllegalArgumentException(msg);
 		}
 
