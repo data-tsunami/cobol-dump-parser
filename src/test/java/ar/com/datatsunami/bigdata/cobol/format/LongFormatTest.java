@@ -31,5 +31,4 @@ public class LongFormatTest {
 		LongFormat lf = new LongFormat(Long.valueOf(2));
 		assertEquals(lf.format(" "), Long.valueOf(2));
 	}
-
 }
