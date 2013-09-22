@@ -34,12 +34,53 @@ public class SimpleTestFromFile {
 		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
 
-		BufferedReader reader = this.getBufferedReader();
-		String line = reader.readLine();
+		/*
+		 * Get a line from the file
+		 */
+		String line = this.getBufferedReader().readLine();
+
+		/*
+		 * Parse the line
+		 */
 		Map<String, Object> map = cp.getValuesAsMap(line);
 
+		/*
+		 * Print some values
+		 */
 		System.out.println(" + The item ID is: " + map.get("ItemID"));
 		System.out.println(" + The code is: " + map.get("Code"));
+	}
+
+	@Test
+	public void testGetValues() throws URISyntaxException, IOException, ParserException {
+
+		/*
+		 * Create the parser
+		 */
+		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+
+		/*
+		 * Populate the fields
+		 */
+		cp.add(new LongField(6, "ItemID"));
+		cp.add(new StringField(5, "Code"));
+		cp.add(new StringField(15, "Description"));
+		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
+		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+
+		/*
+		 * Get a line from the file
+		 */
+		String line = this.getBufferedReader().readLine();
+
+		/*
+		 * Get the objects for 'ItemID' and 'Price'
+		 */
+		Object objects[] = cp.getValues(line, new int[] { 0, 3 });
+		Long itemId = (Long) objects[0];
+		Float price = (Float) objects[1];
+
+		System.out.println("The price of item #" + itemId + "is $ " + price);
 	}
 
 	private BufferedReader getBufferedReader() throws FileNotFoundException, URISyntaxException {
