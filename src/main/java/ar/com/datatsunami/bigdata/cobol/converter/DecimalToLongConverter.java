@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol.format;
+package ar.com.datatsunami.bigdata.cobol.converter;
 
 /**
  * Parses strings to a Long. You must specify how many places occupy the

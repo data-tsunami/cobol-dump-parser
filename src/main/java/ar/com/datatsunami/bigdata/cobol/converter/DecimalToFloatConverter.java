@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol.format;
+package ar.com.datatsunami.bigdata.cobol.converter;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

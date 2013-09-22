@@ -1,7 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
+import ar.com.datatsunami.bigdata.cobol.converter.CobolFieldToJavaConverter;
 import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
-import ar.com.datatsunami.bigdata.cobol.format.CobolFieldToJavaConverter;
 
 /**
  * Represents a field to parse.

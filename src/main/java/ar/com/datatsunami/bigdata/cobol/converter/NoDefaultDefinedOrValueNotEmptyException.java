@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol.format;
+package ar.com.datatsunami.bigdata.cobol.converter;
 
 public class NoDefaultDefinedOrValueNotEmptyException extends Exception {
 

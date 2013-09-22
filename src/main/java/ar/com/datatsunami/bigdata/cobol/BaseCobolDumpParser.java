@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import ar.com.datatsunami.bigdata.cobol.converter.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.field.Field;
-import ar.com.datatsunami.bigdata.cobol.format.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
 import ar.com.datatsunami.bigdata.cobol.linehandler.RegexLineHandler;
 

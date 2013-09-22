@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ar.com.datatsunami.bigdata.cobol.converter.DecimalToLongConverter;
+import ar.com.datatsunami.bigdata.cobol.converter.InvalidFormatException;
+
 public class LongBasedDecimalFormatTest {
 
 	@Test

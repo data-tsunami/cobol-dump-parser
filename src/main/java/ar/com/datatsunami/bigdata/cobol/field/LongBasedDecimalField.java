@@ -1,6 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
-import ar.com.datatsunami.bigdata.cobol.format.DecimalToLongConverter;
+import ar.com.datatsunami.bigdata.cobol.converter.DecimalToLongConverter;
 
 public class LongBasedDecimalField extends BaseDecimalField<Long> {
 

@@ -1,6 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
-import ar.com.datatsunami.bigdata.cobol.format.DecimalToFloatConverter;
+import ar.com.datatsunami.bigdata.cobol.converter.DecimalToFloatConverter;
 
 public class FloatBasedDecimalField extends BaseDecimalField<Float> {
 

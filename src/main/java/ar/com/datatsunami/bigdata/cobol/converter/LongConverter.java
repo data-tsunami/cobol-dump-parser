@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol.format;
+package ar.com.datatsunami.bigdata.cobol.converter;
 
 /**
  * Parses strings to Long. Valid values are '1', '-1', ' 1 ', ' -1 '.

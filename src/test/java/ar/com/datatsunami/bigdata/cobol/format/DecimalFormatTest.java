@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import ar.com.datatsunami.bigdata.cobol.converter.DecimalToFloatConverter;
+import ar.com.datatsunami.bigdata.cobol.converter.InvalidFormatException;
+
 public class DecimalFormatTest {
 
 	@Test

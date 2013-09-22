@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol.format;
+package ar.com.datatsunami.bigdata.cobol.converter;
 
 /**
  * Base class for classes that convert a field from a Cobol dump (txt) to a Java
