@@ -111,7 +111,7 @@ public abstract class BaseCobolDumpParser {
 		try {
 			return field.converter.convert(string);
 		} catch (InvalidFormatException ifv) {
-			throw new ParserException("No se pudo formatear field", ifv, field, string);
+			throw new ParserException("Couldn't convert field", ifv, field, string);
 		}
 	}
 

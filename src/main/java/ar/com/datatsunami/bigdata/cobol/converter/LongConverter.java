@@ -21,7 +21,7 @@ public class LongConverter extends CobolFieldToJavaConverter<Long> {
 	@Override
 	public Long convert(String value) throws InvalidFormatException {
 		if (value == null)
-			throw new InvalidFormatException("value no debe ser null");
+			throw new InvalidFormatException("Value is null");
 
 		value = value.trim();
 		try {

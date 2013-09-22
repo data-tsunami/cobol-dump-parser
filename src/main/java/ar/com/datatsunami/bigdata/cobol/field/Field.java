@@ -6,8 +6,8 @@ import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
 /**
  * Represents a field to parse.
  * 
- * A Field has an associated Format instance and the count of spaces it uses.
- * The format represents some way to interpret the text, and allows converting
+ * A Field has an associated converter instance and the count of spaces it uses.
+ * The converter represents some way to interpret the text, and allows converting
  * that text to a Java object.
  * 
  * @author Horacio G. de Oro
@@ -63,8 +63,8 @@ public abstract class Field<I> {
 	}
 
 	public String toString() {
-		String formatName = this.converter.getClass().getSimpleName();
-		return formatName + "[" + this.width + "] (" + this.label + ")";
+		String converterName = this.converter.getClass().getSimpleName();
+		return converterName + "[" + this.width + "] (" + this.label + ")";
 	}
 
 	public int getWidth() {

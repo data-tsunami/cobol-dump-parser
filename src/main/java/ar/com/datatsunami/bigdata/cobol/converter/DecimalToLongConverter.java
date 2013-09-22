@@ -20,7 +20,7 @@ public class DecimalToLongConverter extends BaseDecimalConverter<Long> {
 	}
 
 	/**
-	 * Creates a DecimalFormat instance.
+	 * Creates a DecimalToLongConverter instance.
 	 * 
 	 * @param cantidadDecimales
 	 * @param withSign
@@ -30,7 +30,7 @@ public class DecimalToLongConverter extends BaseDecimalConverter<Long> {
 	}
 
 	/**
-	 * Creates a DecimalFormat instance, by default, with sign.
+	 * Creates a DecimalToLongConverter instance, by default, with sign.
 	 * 
 	 * @param decimalPlaces
 	 */

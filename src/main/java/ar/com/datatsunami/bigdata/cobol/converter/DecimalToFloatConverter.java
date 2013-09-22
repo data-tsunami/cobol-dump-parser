@@ -21,7 +21,7 @@ public class DecimalToFloatConverter extends BaseDecimalConverter<Float> {
 	Pattern pattern;
 
 	/**
-	 * Creates a DecimalFormat instance.
+	 * Creates a DecimalToFloatConverter instance.
 	 * 
 	 * @param cantidadDecimales
 	 * @param withSign
@@ -35,7 +35,7 @@ public class DecimalToFloatConverter extends BaseDecimalConverter<Float> {
 	}
 
 	/**
-	 * Creates a DecimalFormat instance, by default, with sign.
+	 * Creates a DecimalToFloatConverter instance, by default, with sign.
 	 * 
 	 * @param decimalPlaces
 	 */
