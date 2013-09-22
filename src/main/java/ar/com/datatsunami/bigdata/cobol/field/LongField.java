@@ -1,7 +1,16 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
+import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
 import ar.com.datatsunami.bigdata.cobol.format.LongFormat;
 
+/**
+ * Represents an unsigned long.
+ * 
+ * // FIXME: maybe should be renamed to UnsignedLong?
+ * 
+ * @author Horacio G. de Oro
+ * 
+ */
 public class LongField extends Field<Long> {
 
 	public LongField(int cantidadLugares, String label) {
@@ -13,8 +22,8 @@ public class LongField extends Field<Long> {
 	}
 
 	@Override
-	public String getPigType() {
-		return "long";
+	public PigSchema getPigSchema() {
+		return new PigSchema(PigSchema.LONG, label.toLowerCase(), this.width, 0);
 	}
 
 }

@@ -1,5 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
+import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
 import ar.com.datatsunami.bigdata.cobol.format.Format;
 
 public class StringField extends Field<String> {
@@ -9,8 +10,8 @@ public class StringField extends Field<String> {
 	}
 
 	@Override
-	public String getPigType() {
-		return "chararray";
+	public PigSchema getPigSchema() {
+		return new PigSchema(PigSchema.CHARARRAY, label.toLowerCase(), this.width, 0);
 	}
 
 }
