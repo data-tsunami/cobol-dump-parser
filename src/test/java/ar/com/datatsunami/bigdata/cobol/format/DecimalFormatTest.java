@@ -8,7 +8,7 @@ public class DecimalFormatTest {
 
 	@Test
 	public void testFormatString() throws InvalidFormatException {
-		DecimalFormat df = new DecimalFormat(2);
+		DecimalToFloatConverter df = new DecimalToFloatConverter(2);
 
 		for (String value : new String[] { "123+", " 123+ ", " 123+" }) {
 			assertEquals("Didn't format value: '" + value + "'", Float.valueOf((float) 1.23),
@@ -32,7 +32,7 @@ public class DecimalFormatTest {
 
 	@Test
 	public void testCheckEmpty() throws InvalidFormatException {
-		DecimalFormat df = new DecimalFormat(2);
+		DecimalToFloatConverter df = new DecimalToFloatConverter(2);
 		df.setValueForEmpty(Float.valueOf((float) 3.69));
 
 		assertEquals(df.format(" "), Float.valueOf((float) 3.69));

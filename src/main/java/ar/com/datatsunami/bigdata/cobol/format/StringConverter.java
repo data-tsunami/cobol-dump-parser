@@ -1,6 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol.format;
 
-public class StringFormat extends Format<String> {
+public class StringConverter extends CobolFieldToJavaConverter<String> {
 
 	@Override
 	public String format(String value) throws InvalidFormatException {

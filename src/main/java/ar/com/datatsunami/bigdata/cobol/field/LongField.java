@@ -1,7 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
 import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
-import ar.com.datatsunami.bigdata.cobol.format.LongFormat;
+import ar.com.datatsunami.bigdata.cobol.format.LongConverter;
 
 /**
  * Represents an unsigned long.
@@ -14,11 +14,11 @@ import ar.com.datatsunami.bigdata.cobol.format.LongFormat;
 public class LongField extends Field<Long> {
 
 	public LongField(int cantidadLugares, String label) {
-		super(cantidadLugares, label, new LongFormat());
+		super(cantidadLugares, label, new LongConverter());
 	}
 
 	public LongField(int cantidadLugares, String label, Long valueForEmpty) {
-		super(cantidadLugares, label, new LongFormat(valueForEmpty));
+		super(cantidadLugares, label, new LongConverter(valueForEmpty));
 	}
 
 	@Override

@@ -13,7 +13,7 @@ package ar.com.datatsunami.bigdata.cobol.format;
  * @author Horacio G. de Oro
  * 
  */
-public class LongBasedDecimalFormat extends Format<Long> {
+public class DecimalToLongConverter extends CobolFieldToJavaConverter<Long> {
 
 	public static double toDouble(long value, int decimalPlaces) {
 		return ((double) value) / Math.pow(10, decimalPlaces);
@@ -31,7 +31,7 @@ public class LongBasedDecimalFormat extends Format<Long> {
 	 * @param cantidadDecimales
 	 * @param withSign
 	 */
-	public LongBasedDecimalFormat(int cantidadDecimales, boolean withSign) {
+	public DecimalToLongConverter(int cantidadDecimales, boolean withSign) {
 		this.withSign = withSign;
 		this.decimalPlaces = cantidadDecimales;
 		if (this.decimalPlaces <= 0)
@@ -43,7 +43,7 @@ public class LongBasedDecimalFormat extends Format<Long> {
 	 * 
 	 * @param decimalPlaces
 	 */
-	public LongBasedDecimalFormat(int decimalPlaces) {
+	public DecimalToLongConverter(int decimalPlaces) {
 		// Default: WITH SIGN
 		this(decimalPlaces, true);
 	}

@@ -1,15 +1,26 @@
 package ar.com.datatsunami.bigdata.cobol.format;
 
-public abstract class Format<T> {
+/**
+ * Base class for classes that convert a field from a Cobol dump (txt) to a Java
+ * object.
+ * 
+ * @author Horacio G. de Oro
+ * 
+ * @param <T>
+ */
+public abstract class CobolFieldToJavaConverter<T> {
 
-	public static final Format<String> DEFAULT_FORMAT = new StringFormat();
+	/**
+	 * Default parser
+	 */
+	public static final CobolFieldToJavaConverter<String> DEFAULT_FORMAT = new StringConverter();
 
 	protected T valueForEmpty = null;
 
-	public Format() {
+	public CobolFieldToJavaConverter() {
 	}
 
-	public Format(T valueForEmpty) {
+	public CobolFieldToJavaConverter(T valueForEmpty) {
 		this.valueForEmpty = valueForEmpty;
 	}
 
@@ -34,6 +45,9 @@ public abstract class Format<T> {
 
 	public abstract T format(String value) throws InvalidFormatException;
 
+	/*
+	 * Setter
+	 */
 	public void setValueForEmpty(T valueforEmpty) {
 		this.valueForEmpty = valueforEmpty;
 	}

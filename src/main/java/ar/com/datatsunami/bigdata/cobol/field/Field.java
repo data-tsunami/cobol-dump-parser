@@ -1,7 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
 import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
-import ar.com.datatsunami.bigdata.cobol.format.Format;
+import ar.com.datatsunami.bigdata.cobol.format.CobolFieldToJavaConverter;
 
 /**
  * Represents a field to parse.
@@ -29,7 +29,7 @@ public abstract class Field<I> {
 	/**
 	 * The associated format.
 	 */
-	public final Format<I> format;
+	public final CobolFieldToJavaConverter<I> format;
 
 	/**
 	 * Count of errors associated with this field
@@ -52,7 +52,7 @@ public abstract class Field<I> {
 	 */
 	public abstract PigSchema getPigSchema();
 
-	public Field(int cantidadLugares, String label, Format<I> format) {
+	public Field(int cantidadLugares, String label, CobolFieldToJavaConverter<I> format) {
 		this.width = cantidadLugares;
 		this.label = label;
 		this.format = format;

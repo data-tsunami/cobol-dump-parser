@@ -4,8 +4,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * Parses strings to Float. You must specify how many places occupy the
- * decimals, and if the string contains the sign or not.
+ * Parses a Cobol 'decimal' field to a Float. You must specify how many places
+ * occupy the decimals, and if the string contains the sign or not.
  * 
  * Assuming 2 position for decimals and including the sign, valid values are:
  * '123+', '123-' (both equals to +/-1.23).
@@ -16,7 +16,7 @@ import java.util.regex.Pattern;
  * @author Horacio G. de Oro
  * 
  */
-public class DecimalFormat extends Format<Float> {
+public class DecimalToFloatConverter extends CobolFieldToJavaConverter<Float> {
 
 	/** Whenever the field includes a + or - sign at the end */
 	final public boolean withSign;
@@ -32,7 +32,7 @@ public class DecimalFormat extends Format<Float> {
 	 * @param cantidadDecimales
 	 * @param withSign
 	 */
-	public DecimalFormat(int cantidadDecimales, boolean withSign) {
+	public DecimalToFloatConverter(int cantidadDecimales, boolean withSign) {
 		this.withSign = withSign;
 		this.decimalPlaces = cantidadDecimales;
 		if (this.decimalPlaces <= 0)
@@ -49,7 +49,7 @@ public class DecimalFormat extends Format<Float> {
 	 * 
 	 * @param decimalPlaces
 	 */
-	public DecimalFormat(int decimalPlaces) {
+	public DecimalToFloatConverter(int decimalPlaces) {
 		// Default: WITH SIGN
 		this(decimalPlaces, true);
 	}

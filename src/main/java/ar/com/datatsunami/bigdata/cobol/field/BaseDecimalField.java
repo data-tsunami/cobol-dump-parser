@@ -1,7 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol.field;
 
 import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
-import ar.com.datatsunami.bigdata.cobol.format.Format;
+import ar.com.datatsunami.bigdata.cobol.format.CobolFieldToJavaConverter;
 
 public abstract class BaseDecimalField<I> extends Field<I> {
 
@@ -13,7 +13,7 @@ public abstract class BaseDecimalField<I> extends Field<I> {
 
 	protected final boolean withSign;
 
-	public BaseDecimalField(int width, String label, Format<I> format, int decimalPlaces,
+	public BaseDecimalField(int width, String label, CobolFieldToJavaConverter<I> format, int decimalPlaces,
 			boolean withSign) {
 		super(width, label, format);
 		this.decimalPlaces = decimalPlaces;

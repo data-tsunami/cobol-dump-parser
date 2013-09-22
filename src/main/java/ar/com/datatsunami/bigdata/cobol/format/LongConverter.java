@@ -8,13 +8,13 @@ package ar.com.datatsunami.bigdata.cobol.format;
  * @author Horacio G. de Oro
  * 
  */
-public class LongFormat extends Format<Long> {
+public class LongConverter extends CobolFieldToJavaConverter<Long> {
 
-	public LongFormat() {
+	public LongConverter() {
 		super();
 	}
 
-	public LongFormat(Long valueForEmpty) {
+	public LongConverter(Long valueForEmpty) {
 		super(valueForEmpty);
 	}
 
