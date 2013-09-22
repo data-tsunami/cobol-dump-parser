@@ -13,17 +13,11 @@ package ar.com.datatsunami.bigdata.cobol.converter;
  * @author Horacio G. de Oro
  * 
  */
-public class DecimalToLongConverter extends CobolFieldToJavaConverter<Long> {
+public class DecimalToLongConverter extends BaseDecimalConverter<Long> {
 
 	public static double toDouble(long value, int decimalPlaces) {
 		return ((double) value) / Math.pow(10, decimalPlaces);
 	}
-
-	/** Whenever the field includes a + or - sign at the end */
-	public final boolean withSign;
-
-	/** How many places (at the end of the string) are for the decimals */
-	public final int decimalPlaces;
 
 	/**
 	 * Creates a DecimalFormat instance.
@@ -31,11 +25,8 @@ public class DecimalToLongConverter extends CobolFieldToJavaConverter<Long> {
 	 * @param cantidadDecimales
 	 * @param withSign
 	 */
-	public DecimalToLongConverter(int cantidadDecimales, boolean withSign) {
-		this.withSign = withSign;
-		this.decimalPlaces = cantidadDecimales;
-		if (this.decimalPlaces <= 0)
-			throw new IllegalArgumentException("cantidadDecimales must be greater than 0");
+	public DecimalToLongConverter(int decimalPlaces, boolean withSign) {
+		super(decimalPlaces, withSign);
 	}
 
 	/**
@@ -45,7 +36,7 @@ public class DecimalToLongConverter extends CobolFieldToJavaConverter<Long> {
 	 */
 	public DecimalToLongConverter(int decimalPlaces) {
 		// Default: WITH SIGN
-		this(decimalPlaces, true);
+		super(decimalPlaces, true);
 	}
 
 	@Override

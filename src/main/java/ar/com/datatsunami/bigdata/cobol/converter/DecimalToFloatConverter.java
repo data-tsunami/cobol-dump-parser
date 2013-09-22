@@ -16,13 +16,7 @@ import java.util.regex.Pattern;
  * @author Horacio G. de Oro
  * 
  */
-public class DecimalToFloatConverter extends CobolFieldToJavaConverter<Float> {
-
-	/** Whenever the field includes a + or - sign at the end */
-	final public boolean withSign;
-
-	/** How many places (at the end of the string) are for the decimals */
-	public final int decimalPlaces;
+public class DecimalToFloatConverter extends BaseDecimalConverter<Float> {
 
 	Pattern pattern;
 
@@ -32,12 +26,8 @@ public class DecimalToFloatConverter extends CobolFieldToJavaConverter<Float> {
 	 * @param cantidadDecimales
 	 * @param withSign
 	 */
-	public DecimalToFloatConverter(int cantidadDecimales, boolean withSign) {
-		this.withSign = withSign;
-		this.decimalPlaces = cantidadDecimales;
-		if (this.decimalPlaces <= 0)
-			throw new IllegalArgumentException("cantidadDecimales must be greater than 0");
-
+	public DecimalToFloatConverter(int decimalPlaces, boolean withSign) {
+		super(decimalPlaces, withSign);
 		if (this.withSign)
 			this.pattern = Pattern.compile("^(\\d+)(\\d{" + this.decimalPlaces + "})(.)$");
 		else
