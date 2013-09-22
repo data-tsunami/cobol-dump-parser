@@ -51,4 +51,16 @@ public interface LineHandler {
 	 */
 	public void copyValue(int field, Text output);
 
+	//
+	// If someday Pig support UDF from static methods, this will be a really
+	// good idea. But since Pig doesn't support anything like that, it makes no
+	// sense to put this functionallity here.
+	//
+	// /*
+	// * Generates a Pig UDF instance to load the data
+	// *
+	// * @return
+	// */
+	// public LoadFunc getUDF();
+	//
 }
