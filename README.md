@@ -13,46 +13,53 @@ To install to the local repository:
 
     $ mvn install
 
-## Performance
-
-Using `CobolDumpParser.getItemsWithLabels()` I've processed a dump with 45.000.000 lines (> 8GB) and took 6 minutes.
-
-Using `PositionalLineHandler` and `CobolDumpParser.getItemsValues()` I've processed the same dump (45.000.000 lines) and took 3 minutes 45 seconds.
-
-TODO: check performance of `copyItemsValuesByFieldIndexes(Text text, int[] fieldIndexes, Text[] out)`. That method uses Text's byte[] buffers, avoiding converting to String.
 
 ## Example
 
-If you have the following Cobol structure:
+Suppose you have the following Cobol structure:
 
-    ITEMID PIC 9(6).
-    CODE PIC X(5).
-    DESCRIPTION PIC X(15).
-    PRICE PIC S9(5)V99.
-    INDEX PIC 9(3)V999.
+```cobol
+000110   ITEMID      PIC 9(6).
+000120   CODE        PIC X(5).
+000130   DESCRIPTION PIC X(15).
+000140   PRICE       PIC S9(5)V99.
+000150   INDEX       PIC 9(3)V999.
+```
 
-and you dump the data to a plain file, each line will have 40 characters. For example:
+and you dump the data to a plain file, one line per Cobol record, fixed width without separator. Each line will have 40 characters, for example:
 
     002541PTRYYFilm 8mm x 7mm 0007199+001500
 
-To build a parser for that structure:
+To read that line, you need to build a parser instance and populate the parser with the fields:
 
-    CobolDumpParser cp = new CobolDumpParser();
-    cp.add(new Field<Long>(6, "ItemID", new LongFormat()));
-    cp.add(new Field<String>(5, "Code"));
-    cp.add(new Field<String>(15, "Description"));
-    cp.add(new Field<Float>(8, "Price", new DecimalFormat(2, true)));
-    cp.add(new Field<Float>(6, "Index", new DecimalFormat(3, false)));
+```java
+// Create a parser instance
+CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
 
-To parse a line:
+// Populate the fields
+cp.add(new LongField(6, "ItemID"));
+cp.add(new StringField(5, "Code"));
+cp.add(new StringField(15, "Description"));
+cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
+cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+```
 
-    Map<String, Object> fields = cp.getItemsWithLabels(line);
+To parse a line and receive a Map, with the field name as keys and the Java object as values, you can use `cp.getValuesAsMap()`:
 
-To get the data:
+```java
+// Parse the line and get the values
+Map<String, Object> map = cp.getValuesAsMap(line);
 
-    fields.get("ItemID")      -> returns a Long
-    fields.get("Description") -> returns a String
-    fields.get("Price")       -> returns a Float
+// Print the values
+System.out.println(" + The item ID is: " + map.get("ItemID"));
+System.out.println(" + The code is: " + map.get("Code"));
+```
+
+You can see this and other examples in [SimpleTestFromFile.java](src/test/java/ar/com/datatsunami/bigdata/cobol/SimpleTestFromFile.java).
+
+<!--
+
+## Hadoop
 
 To avoid converting to String(), and use Hadoop's Text instances:
 
@@ -74,6 +81,17 @@ To avoid converting to String(), and use Hadoop's Text instances:
 	cp.copyValueToText(inputValue, cobolFieldWithValue, OUTPUT_VALUE);
 
 TODO: add example with `PositionalLineHandler` + `CobolDumpParser.getItemsValues()`
+
+
+## Performance
+
+Using `CobolDumpParser.getItemsWithLabels()` I've processed a dump with 45.000.000 lines (> 8GB) and took 6 minutes.
+
+Using `PositionalLineHandler` and `CobolDumpParser.getItemsValues()` I've processed the same dump (45.000.000 lines) and took 3 minutes 45 seconds.
+
+TODO: check performance of `copyItemsValuesByFieldIndexes(Text text, int[] fieldIndexes, Text[] out)`. That method uses Text's byte[] buffers, avoiding converting to String.
+
+-->
 
 # License
 
