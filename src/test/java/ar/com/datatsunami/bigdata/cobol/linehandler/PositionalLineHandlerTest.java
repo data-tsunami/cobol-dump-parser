@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
+import ar.com.datatsunami.bigdata.cobol.CobolDumpParserTestUtils;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
 
 public class PositionalLineHandlerTest {
@@ -12,15 +13,15 @@ public class PositionalLineHandlerTest {
 	@Test
 	public void parseLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
-		LineHandlerTestUtils.parse(cp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
+		CobolDumpParserTestUtils.parse(cp);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void parseShortLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
-		cp.getValues(LineHandlerTestUtils.shortLine, new String[] { "ItemID", "Price" });
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
+		cp.getValues(CobolDumpParserTestUtils.shortLine, new String[] { "ItemID", "Price" });
 	}
 
 	@Test
@@ -28,8 +29,8 @@ public class PositionalLineHandlerTest {
 
 		PositionalLineHandler plh = new PositionalLineHandler();
 		CobolDumpParser cp = new CobolDumpParser(plh);
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
-		LineHandlerTestUtils.parse(cp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
+		CobolDumpParserTestUtils.parse(cp);
 
 		// records = LOAD '/fome-fixed-width-file.txt'
 		// USING ar.com.datatsunami.pig.FixedWidthLoader(

@@ -6,20 +6,20 @@ import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParserForHadoop;
-import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandlerTestUtils;
+import ar.com.datatsunami.bigdata.cobol.CobolDumpParserTestUtils;
 import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public class FixedWidthLoaderByStaticFuncTest {
 
 	public static CobolDumpParser cobolDumpParserFactory() {
 		final CobolDumpParser cdp = new CobolDumpParser(new PositionalLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cdp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cdp);
 		return cdp;
 	}
 
 	public static CobolDumpParser cobolDumpParserFactoryForHadoop() {
 		final CobolDumpParser cdp = new CobolDumpParserForHadoop(new PositionalLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cdp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cdp);
 		return cdp;
 	}
 

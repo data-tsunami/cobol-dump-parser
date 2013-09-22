@@ -1,4 +1,4 @@
-package ar.com.datatsunami.bigdata.cobol.linehandler;
+package ar.com.datatsunami.bigdata.cobol;
 
 import static org.junit.Assert.assertEquals;
 
@@ -14,7 +14,7 @@ import ar.com.datatsunami.bigdata.cobol.field.LongBasedDecimalField;
 import ar.com.datatsunami.bigdata.cobol.field.LongField;
 import ar.com.datatsunami.bigdata.cobol.field.StringField;
 
-public class LineHandlerTestUtils {
+public class CobolDumpParserTestUtils {
 
 	// ------------------------------
 	// Cobol structure:

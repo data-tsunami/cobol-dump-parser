@@ -3,6 +3,7 @@ package ar.com.datatsunami.bigdata.cobol.linehandler;
 import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
+import ar.com.datatsunami.bigdata.cobol.CobolDumpParserTestUtils;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
 
 public class RegexLineHandlerTest {
@@ -11,16 +12,16 @@ public class RegexLineHandlerTest {
 	@SuppressWarnings("deprecation")
 	public void parseLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser(new RegexLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
-		LineHandlerTestUtils.parse(cp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
+		CobolDumpParserTestUtils.parse(cp);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	@SuppressWarnings("deprecation")
 	public void parseShortLine() throws ParserException {
 		CobolDumpParser cp = new CobolDumpParser(new RegexLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
-		cp.getValuesAsMap(LineHandlerTestUtils.shortLine);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
+		cp.getValuesAsMap(CobolDumpParserTestUtils.shortLine);
 	}
 
 }

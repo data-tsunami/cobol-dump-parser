@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParserForHadoop;
+import ar.com.datatsunami.bigdata.cobol.CobolDumpParserTestUtils;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
 
 public class PositionalLineHandlerForHadoopTest {
@@ -16,11 +17,11 @@ public class PositionalLineHandlerForHadoopTest {
 
 		PositionalLineHandler lineHandler = new PositionalLineHandler();
 		CobolDumpParser cp = new CobolDumpParserForHadoop(lineHandler);
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
 
 		Text output = new Text();
 
-		lineHandler.prepareText(LineHandlerTestUtils.line1AsText);
+		lineHandler.prepareText(CobolDumpParserTestUtils.line1AsText);
 
 		/*
 		 * Check using LineHandler
@@ -42,7 +43,7 @@ public class PositionalLineHandlerForHadoopTest {
 	public void testUsingCobolDumpParserForHadoop() throws ParserException {
 
 		CobolDumpParserForHadoop cp = new CobolDumpParserForHadoop(new PositionalLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
 
 		/*
 		 * Lets simulate a mapper function
@@ -58,7 +59,7 @@ public class PositionalLineHandlerForHadoopTest {
 
 		// map() { ... }
 
-		Text inputValue = LineHandlerTestUtils.line1AsText;
+		Text inputValue = CobolDumpParserTestUtils.line1AsText;
 
 		cp.copyValueToText(inputValue, cobolFieldWithKey, OUTPUT_KEY);
 		cp.copyValueToText(inputValue, cobolFieldWithValue, OUTPUT_VALUE);
@@ -74,7 +75,7 @@ public class PositionalLineHandlerForHadoopTest {
 		Text outputs[] = new Text[] { new Text(), new Text() };
 
 		cp.copyValuesToTextArray(
-				LineHandlerTestUtils.line1AsText,
+				CobolDumpParserTestUtils.line1AsText,
 				new int[] { cp.getFieldIndexFromFieldName("ItemID"), cp.getFieldIndexFromFieldName("Price") },
 				outputs);
 

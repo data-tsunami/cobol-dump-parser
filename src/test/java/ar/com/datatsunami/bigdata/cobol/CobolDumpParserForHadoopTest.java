@@ -5,7 +5,6 @@ import static org.junit.Assert.*;
 import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
-import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandlerTestUtils;
 import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public class CobolDumpParserForHadoopTest {
@@ -22,7 +21,7 @@ public class CobolDumpParserForHadoopTest {
 	final Long line1itemId = Long.valueOf(2541);
 
 	public CobolDumpParserForHadoopTest() {
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
 		cobolFieldWithCode = cp.getFieldIndexFromFieldName("Code");
 		cobolFieldWithDescription = cp.getFieldIndexFromFieldName("Description");
 		cobolFieldWithItemId = cp.getFieldIndexFromFieldName("ItemID");
@@ -31,25 +30,25 @@ public class CobolDumpParserForHadoopTest {
 
 	@Test
 	public void testGetValuesFromText() throws ParserException {
-		Object res[] = cp.getValuesFromText(LineHandlerTestUtils.line1AsText, keyAndValueArray);
+		Object res[] = cp.getValuesFromText(CobolDumpParserTestUtils.line1AsText, keyAndValueArray);
 		assertEquals(line1Code, res[0]);
 		assertEquals(line1Description, res[1]);
 
 		assertArrayEquals(new Object[] { line1itemId },
-				cp.getValuesFromText(LineHandlerTestUtils.line1AsText, new int[] { cobolFieldWithItemId }));
+				cp.getValuesFromText(CobolDumpParserTestUtils.line1AsText, new int[] { cobolFieldWithItemId }));
 	}
 
 	@Test
 	public void testGetValueFromText() throws ParserException {
-		assertEquals(line1Code, cp.getValueFromText(LineHandlerTestUtils.line1AsText, cobolFieldWithCode));
-		assertEquals(line1itemId, cp.getValueFromText(LineHandlerTestUtils.line1AsText, cobolFieldWithItemId));
+		assertEquals(line1Code, cp.getValueFromText(CobolDumpParserTestUtils.line1AsText, cobolFieldWithCode));
+		assertEquals(line1itemId, cp.getValueFromText(CobolDumpParserTestUtils.line1AsText, cobolFieldWithItemId));
 	}
 
 	@Test
 	public void testCopyValuesToTextArray() throws ParserException {
 
 		Text out[] = new Text[] { new Text(), new Text() };
-		cp.copyValuesToTextArray(LineHandlerTestUtils.line1AsText, keyAndValueArray, out);
+		cp.copyValuesToTextArray(CobolDumpParserTestUtils.line1AsText, keyAndValueArray, out);
 		assertEquals(line1Code, out[0].toString().trim());
 		assertEquals(line1Description, out[1].toString().trim());
 	}
@@ -58,17 +57,17 @@ public class CobolDumpParserForHadoopTest {
 	public void testCopyValueToText() throws ParserException {
 		Text out = new Text();
 
-		cp.copyValueToText(LineHandlerTestUtils.line1AsText, cobolFieldWithDescription, out);
+		cp.copyValueToText(CobolDumpParserTestUtils.line1AsText, cobolFieldWithDescription, out);
 		assertEquals(line1Description, out.toString().trim());
 
-		cp.copyValueToText(LineHandlerTestUtils.line1AsText, cobolFieldWithItemId, out);
+		cp.copyValueToText(CobolDumpParserTestUtils.line1AsText, cobolFieldWithItemId, out);
 		assertEquals("002541", out.toString().trim());
 	}
 
 	@Test
 	public void testCopyValuesToObjectArray() throws ParserException {
 		Object out[] = new Object[2];
-		cp.copyValuesToObjectArray(LineHandlerTestUtils.line1AsText, keyAndValueArray, out);
+		cp.copyValuesToObjectArray(CobolDumpParserTestUtils.line1AsText, keyAndValueArray, out);
 		assertEquals(line1Code, out[0]);
 		assertEquals(line1Description, out[1]);
 

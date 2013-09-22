@@ -3,6 +3,7 @@ package ar.com.datatsunami.bigdata.cobol.linehandler;
 import org.junit.Test;
 
 import ar.com.datatsunami.bigdata.cobol.CobolDumpParser;
+import ar.com.datatsunami.bigdata.cobol.CobolDumpParserTestUtils;
 import ar.com.datatsunami.bigdata.cobol.ParserException;
 
 public class LineHandlerPerformanceTest {
@@ -33,15 +34,15 @@ public class LineHandlerPerformanceTest {
 		System.out.println(" - Checking performance of RegexLineHandler...");
 		@SuppressWarnings("deprecation")
 		CobolDumpParser cdpDefault = new CobolDumpParser(new RegexLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cdpDefault);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cdpDefault);
 		final long startRegexLineHandler = System.currentTimeMillis();
 
 		// --- 8< 8< 8< ---
 		startTime = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
-				cdpDefault.getValuesAsMap(LineHandlerTestUtils.line1).get("Code");
-				cdpDefault.getValuesAsMap(LineHandlerTestUtils.line2).get("Code");
+				cdpDefault.getValuesAsMap(CobolDumpParserTestUtils.line1).get("Code");
+				cdpDefault.getValuesAsMap(CobolDumpParserTestUtils.line2).get("Code");
 				iterationsRegexLineHandler++;
 			}
 		}
@@ -53,7 +54,7 @@ public class LineHandlerPerformanceTest {
 		 */
 		System.out.println(" - Checking performance of PositionalLineHandler...");
 		CobolDumpParser cdpPositional = new CobolDumpParser(new PositionalLineHandler());
-		LineHandlerTestUtils.addFieldsToCobolDumpParser(cdpPositional);
+		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cdpPositional);
 		String[] fieldsNamed = new String[] { "Code" };
 		final long startPositionalLineHandler = System.currentTimeMillis();
 
@@ -61,8 +62,8 @@ public class LineHandlerPerformanceTest {
 		startTime = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
-				cdpDefault.getValues(LineHandlerTestUtils.line1, fieldsNamed);
-				cdpDefault.getValues(LineHandlerTestUtils.line2, fieldsNamed);
+				cdpDefault.getValues(CobolDumpParserTestUtils.line1, fieldsNamed);
+				cdpDefault.getValues(CobolDumpParserTestUtils.line2, fieldsNamed);
 				iterationsPositionalLineHandler++;
 			}
 		}
@@ -80,8 +81,8 @@ public class LineHandlerPerformanceTest {
 		startTime = System.currentTimeMillis();
 		while ((System.currentTimeMillis() - startTime) < msToRun) {
 			for (int i = 0; i < iterationSize; i++) {
-				cdpDefault.getValues(LineHandlerTestUtils.line1, fieldIndexes);
-				cdpDefault.getValues(LineHandlerTestUtils.line2, fieldIndexes);
+				cdpDefault.getValues(CobolDumpParserTestUtils.line1, fieldIndexes);
+				cdpDefault.getValues(CobolDumpParserTestUtils.line2, fieldIndexes);
 				iterationsPositionalLineHandlerByFieldIndex++;
 			}
 		}
