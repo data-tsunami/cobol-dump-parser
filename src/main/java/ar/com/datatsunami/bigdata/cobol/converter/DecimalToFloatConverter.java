@@ -58,7 +58,7 @@ public class DecimalToFloatConverter extends BaseDecimalConverter<Float> {
 				return this.checkEmpty(value);
 			} catch (NoDefaultDefinedOrValueNotEmptyException e) {
 			}
-			throw new InvalidFormatException("The value isn't a valid decimal with sign: " + value);
+			throw new InvalidFormatException("The value isn't a valid decimal with sign: '" + value + "'");
 		}
 
 		try {
