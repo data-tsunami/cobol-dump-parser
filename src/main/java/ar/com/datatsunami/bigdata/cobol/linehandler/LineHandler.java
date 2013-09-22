@@ -19,7 +19,7 @@ public interface LineHandler {
 	 * 
 	 * @param fields
 	 */
-	public void setFields(List<Field<?>> fields);
+	public void setFields(List<Field<?, ?>> fields);
 
 	/**
 	 * Prepares the handler to process a line.

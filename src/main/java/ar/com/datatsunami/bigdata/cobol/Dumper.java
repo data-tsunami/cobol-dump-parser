@@ -149,7 +149,7 @@ public class Dumper {
 		out.println("" + (((this.lineErrorsCount * 1.0) / (this.lineNum * 1.0)) * 100.0)
 				+ "% of lines are non-parseables.");
 
-		for (Field<?> field : cobolParser.getFieldsWithError()) {
+		for (Field<?,?> field : cobolParser.getFieldsWithError()) {
 			out.println("  * " + field.getErrorCount() + " errors -> " + field);
 		}
 	}

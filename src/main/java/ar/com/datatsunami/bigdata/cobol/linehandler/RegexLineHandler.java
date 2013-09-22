@@ -30,13 +30,13 @@ public class RegexLineHandler implements LineHandler {
 
 	Matcher matcher = null;
 
-	List<Field<?>> fields;
+	List<Field<?, ?>> fields;
 
 	public RegexLineHandler() {
 		this.fields = null;
 	}
 
-	public RegexLineHandler(List<Field<?>> fields) {
+	public RegexLineHandler(List<Field<?, ?>> fields) {
 		this.fields = fields;
 	}
 
@@ -45,7 +45,7 @@ public class RegexLineHandler implements LineHandler {
 			return this.pattern;
 
 		String pat = "^";
-		for (Field<?> item : this.fields) {
+		for (Field<?, ?> item : this.fields) {
 			pat += item.genRegex();
 			this.lineWidth += item.getWidth();
 		}
@@ -85,7 +85,7 @@ public class RegexLineHandler implements LineHandler {
 		return matcher.group(field + 1);
 	}
 
-	public void setFields(List<Field<?>> fields) {
+	public void setFields(List<Field<?, ?>> fields) {
 		this.fields = fields;
 	}
 

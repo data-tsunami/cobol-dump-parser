@@ -7,14 +7,14 @@ import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
  * Represents a field to parse.
  * 
  * A Field has an associated converter instance and the count of spaces it uses.
- * The converter represents some way to interpret the text, and allows converting
- * that text to a Java object.
+ * The converter represents some way to interpret the text, and allows
+ * converting that text to a Java object.
  * 
  * @author Horacio G. de Oro
  * 
  * @param <I>
  */
-public abstract class Field<I> {
+public abstract class Field<I, J extends CobolFieldToJavaConverter<I>> {
 
 	/**
 	 * Width in characters.
@@ -29,7 +29,7 @@ public abstract class Field<I> {
 	/**
 	 * The associated converter.
 	 */
-	public final CobolFieldToJavaConverter<I> converter;
+	public final J converter;
 
 	/**
 	 * Count of errors associated with this field
@@ -52,7 +52,7 @@ public abstract class Field<I> {
 	 */
 	public abstract PigSchema getPigSchema();
 
-	public Field(int cantidadLugares, String label, CobolFieldToJavaConverter<I> converter) {
+	public Field(int cantidadLugares, String label, J converter) {
 		this.width = cantidadLugares;
 		this.label = label;
 		this.converter = converter;

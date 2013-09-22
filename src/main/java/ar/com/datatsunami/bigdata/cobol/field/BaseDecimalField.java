@@ -3,21 +3,14 @@ package ar.com.datatsunami.bigdata.cobol.field;
 import ar.com.datatsunami.bigdata.cobol.converter.BaseDecimalConverter;
 import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
 
-public abstract class BaseDecimalField<I> extends Field<I> {
+public abstract class BaseDecimalField<I, J extends BaseDecimalConverter<I>> extends Field<I, J> {
 
 	public static final String DECIMAL_FIELD_PREFIX_FOR_PIG = "_decimal";
 
 	public static final String SIGN_FIELD_PREFIX_FOR_PIG = "_sign";
 
-	protected final int decimalPlaces;
-
-	protected final boolean withSign;
-
-	public BaseDecimalField(int width, String label, BaseDecimalConverter<I> converter, int decimalPlaces,
-			boolean withSign) {
+	public BaseDecimalField(int width, String label, J converter) {
 		super(width, label, converter);
-		this.decimalPlaces = decimalPlaces;
-		this.withSign = withSign;
 	}
 
 	@Override
@@ -26,19 +19,19 @@ public abstract class BaseDecimalField<I> extends Field<I> {
 		String intFieldName = this.label.toLowerCase();
 		String decFieldName = this.label.toLowerCase() + DECIMAL_FIELD_PREFIX_FOR_PIG;
 
-		if (!this.withSign) {
+		if (!this.isWithSign()) {
 
 			/*
 			 * Without sign
 			 */
 
-			int integerPartWidth = this.width - decimalPlaces;
+			int integerPartWidth = this.width - getDecimalPlaces();
 
 			// add integer part
 			schema.add(PigSchema.LONG, intFieldName, integerPartWidth, 0);
 
 			// add decimal part
-			schema.add(PigSchema.LONG, decFieldName, decimalPlaces, this.width - decimalPlaces /* offset */);
+			schema.add(PigSchema.LONG, decFieldName, getDecimalPlaces(), this.width - getDecimalPlaces());
 
 		} else {
 
@@ -46,19 +39,27 @@ public abstract class BaseDecimalField<I> extends Field<I> {
 			 * With sign
 			 */
 
-			int integerPartWidth = this.width - decimalPlaces - 1;
+			int integerPartWidth = this.width - getDecimalPlaces() - 1;
 			String fieldName = this.label.toLowerCase() + SIGN_FIELD_PREFIX_FOR_PIG;
 
 			// add integer
 			schema.add(PigSchema.LONG, intFieldName, integerPartWidth, 0);
 
 			// add decimal part
-			schema.add(PigSchema.LONG, decFieldName, decimalPlaces, integerPartWidth);
+			schema.add(PigSchema.LONG, decFieldName, getDecimalPlaces(), integerPartWidth);
 
 			// add sign
 			schema.add(PigSchema.CHARARRAY, fieldName, 1, this.width - 1);
 
 		}
 		return schema;
+	}
+
+	public int getDecimalPlaces() {
+		return this.converter.decimalPlaces;
+	}
+
+	public boolean isWithSign() {
+		return this.converter.withSign;
 	}
 }

@@ -11,7 +11,7 @@ import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
  * @author Horacio G. de Oro
  * 
  */
-public class LongField extends Field<Long> {
+public class LongField extends Field<Long, LongConverter> {
 
 	public LongField(int cantidadLugares, String label) {
 		super(cantidadLugares, label, new LongConverter());

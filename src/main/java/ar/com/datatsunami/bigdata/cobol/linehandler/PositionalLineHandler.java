@@ -15,7 +15,7 @@ import ar.com.datatsunami.bigdata.cobol.field.Field;
  */
 public class PositionalLineHandler implements LineHandler {
 
-	List<Field<?>> fields;
+	List<Field<?, ?>> fields;
 
 	int lineWidth = 0;
 
@@ -30,7 +30,7 @@ public class PositionalLineHandler implements LineHandler {
 	public PositionalLineHandler() {
 	}
 
-	public PositionalLineHandler(List<Field<?>> fields) {
+	public PositionalLineHandler(List<Field<?, ?>> fields) {
 		this.fields = fields;
 	}
 
@@ -117,7 +117,7 @@ public class PositionalLineHandler implements LineHandler {
 	}
 
 	@Override
-	public void setFields(List<Field<?>> fields) {
+	public void setFields(List<Field<?, ?>> fields) {
 		this.fields = fields;
 	}
 
@@ -157,7 +157,7 @@ public class PositionalLineHandler implements LineHandler {
 		StringBuffer sbSchemaStr = new StringBuffer();
 
 		for (int i = 0; i < fieldIndexes.length; i++) {
-			Field<?> field = this.fields.get(fieldIndexes[i]);
+			Field<?, ?> field = this.fields.get(fieldIndexes[i]);
 			field.getPigSchema().fillStringBuffers(this.startPositions[fieldIndexes[i]] + 1, sbColumnSpec,
 					sbSchemaStr, (i == 0));
 		}

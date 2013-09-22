@@ -37,7 +37,7 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 		Map<String, Object> map = new LinkedHashMap<String, Object>();
 		for (int i = 0; i < this.fields.size(); i++) {
 
-			final Field<?> item = this.fields.get(i);
+			final Field<?,?> item = this.fields.get(i);
 			final String fieldString = this.lineHandler.getValueForField(i);
 
 			String label = item.label;
