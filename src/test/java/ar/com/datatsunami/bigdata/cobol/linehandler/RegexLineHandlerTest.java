@@ -9,14 +9,14 @@ public class RegexLineHandlerTest {
 
 	@Test
 	public void parseLine() throws ParserException {
-		CobolDumpParser cp = new CobolDumpParser();
+		CobolDumpParser cp = new CobolDumpParser(new RegexLineHandler());
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
 		LineHandlerTestUtils.parse(cp);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void parseShortLine() throws ParserException {
-		CobolDumpParser cp = new CobolDumpParser();
+		CobolDumpParser cp = new CobolDumpParser(new RegexLineHandler());
 		LineHandlerTestUtils.addFieldsToCobolDumpParser(cp);
 		cp.getValuesAsMap(LineHandlerTestUtils.shortLine);
 	}

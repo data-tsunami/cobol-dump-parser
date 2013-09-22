@@ -10,7 +10,7 @@ import java.util.Set;
 import ar.com.datatsunami.bigdata.cobol.converter.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.field.Field;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
-import ar.com.datatsunami.bigdata.cobol.linehandler.RegexLineHandler;
+import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public abstract class BaseCobolDumpParser {
 
@@ -18,14 +18,14 @@ public abstract class BaseCobolDumpParser {
 	 * The fields to be found in each line. This list is shared with
 	 * LineHandlers.
 	 */
-	protected final List<Field<?,?>> fields = new ArrayList<Field<?,?>>();
+	protected final List<Field<?, ?>> fields = new ArrayList<Field<?, ?>>();
 
 	protected LineHandler lineHandler = null;
 
 	protected Map<String, Integer> fieldNameToIndexMap = null;
 
 	public BaseCobolDumpParser() {
-		this.lineHandler = new RegexLineHandler(fields);
+		this.lineHandler = new PositionalLineHandler();
 	}
 
 	public BaseCobolDumpParser(LineHandler lineHandler) {
@@ -33,7 +33,7 @@ public abstract class BaseCobolDumpParser {
 		this.lineHandler.setFields(this.fields);
 	}
 
-	public BaseCobolDumpParser add(Field<?,?> item) {
+	public BaseCobolDumpParser add(Field<?, ?> item) {
 		this.fields.add(item);
 		return this;
 	}
@@ -80,9 +80,9 @@ public abstract class BaseCobolDumpParser {
 	 * 
 	 * @return
 	 */
-	public List<Field<?,?>> getFieldsWithError() {
-		List<Field<?,?>> withErrors = new ArrayList<Field<?,?>>();
-		for (Field<?,?> field : this.fields)
+	public List<Field<?, ?>> getFieldsWithError() {
+		List<Field<?, ?>> withErrors = new ArrayList<Field<?, ?>>();
+		for (Field<?, ?> field : this.fields)
 			if (field.getErrorCount() > 0)
 				withErrors.add(field);
 		return withErrors;
@@ -107,7 +107,7 @@ public abstract class BaseCobolDumpParser {
 	 * @return
 	 * @throws ParserException
 	 */
-	protected Object getObjectFromString(String string, Field<?,?> field) throws ParserException {
+	protected Object getObjectFromString(String string, Field<?, ?> field) throws ParserException {
 		try {
 			return field.converter.convert(string);
 		} catch (InvalidFormatException ifv) {

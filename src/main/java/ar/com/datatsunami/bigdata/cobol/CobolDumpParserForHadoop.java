@@ -3,11 +3,16 @@ package ar.com.datatsunami.bigdata.cobol;
 import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
+import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public class CobolDumpParserForHadoop extends CobolDumpParser {
 
+	/**
+	 * Creates a CobolDumpParserForHadoop instance, with an instance of
+	 * 'PositionalLineHandler' as line handler.
+	 */
 	public CobolDumpParserForHadoop() {
-		super();
+		super(new PositionalLineHandler());
 	}
 
 	public CobolDumpParserForHadoop(LineHandler lineHandler) {
