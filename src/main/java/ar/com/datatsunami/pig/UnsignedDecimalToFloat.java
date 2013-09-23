@@ -45,56 +45,15 @@ public class UnsignedDecimalToFloat extends EvalFunc<Float> {
 		long decimalPlaces;
 
 		try {
-			intPart = getLong(input.get(0));
-			decimalPart = getLong(input.get(1));
-			decimalPlaces = getLong(input.get(2));
+			intPart = Utils.getLong(input.get(0));
+			decimalPart = Utils.getLong(input.get(1));
+			decimalPlaces = Utils.getLong(input.get(2));
 		} catch (NumberFormatException nfe) {
 			logger.debug("Returning null because getLong() raised NumberFormatException");
 			return null;
 		}
 
-		return toFloat(intPart, decimalPart, decimalPlaces);
-	}
-
-	/*
-	 * Transform 3 long to a float
-	 */
-	public static float toFloat(long intPart, long decimalPart, long decimalPlaces) {
-		if (decimalPart == 0) {
-			return (float) intPart;
-		}
-		long divisor = (long) Math.pow(10, decimalPlaces);
-		return ((float) intPart) + (((float) decimalPart) / ((float) divisor));
-	}
-
-	/*
-	 * Try to get a long from the object
-	 */
-	public long getLong(Object object) throws NumberFormatException {
-
-		if (Number.class.isAssignableFrom(object.getClass()))
-			return (long) ((Number) object).longValue();
-
-		if (logger.isDebugEnabled())
-			logger.debug("getLong(): object isn't Number: " + object.getClass());
-
-		String string;
-		try {
-			string = object.toString();
-		} catch (Exception e) {
-			if (logger.isDebugEnabled())
-				logger.debug("object.toString() raised an exception", e);
-			throw new NumberFormatException("object.toString() raised the exception: " + e);
-		}
-
-		try {
-			return Long.parseLong(string);
-		} catch (NumberFormatException nfe) {
-			if (logger.isDebugEnabled())
-				logger.debug("Couldn't get a valid long from the object of type '" + object.getClass()
-						+ "', represented by string: '" + string + "'");
-			throw nfe;
-		}
+		return Utils.toFloat(intPart, decimalPart, decimalPlaces);
 	}
 
 }
