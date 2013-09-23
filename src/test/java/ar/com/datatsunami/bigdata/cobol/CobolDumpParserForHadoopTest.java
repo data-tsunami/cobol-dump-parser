@@ -35,14 +35,15 @@ public class CobolDumpParserForHadoopTest {
 		assertEquals(line1Code, res[0]);
 		assertEquals(line1Description, res[1]);
 
-		assertArrayEquals(new Object[] { line1itemId },
-				cp.getValuesFromText(CobolDumpParserTestUtils.line1AsText, new int[] { cobolFieldWithItemId }));
+		assertArrayEquals(new Object[] { line1itemId }, cp.getValuesFromText(
+				CobolDumpParserTestUtils.line1AsText, new int[] { cobolFieldWithItemId }));
 	}
 
 	@Test
 	public void testGetValueFromText() throws ParserException {
 		assertEquals(line1Code, cp.getValueFromText(CobolDumpParserTestUtils.line1AsText, cobolFieldWithCode));
-		assertEquals(line1itemId, cp.getValueFromText(CobolDumpParserTestUtils.line1AsText, cobolFieldWithItemId));
+		assertEquals(line1itemId,
+				cp.getValueFromText(CobolDumpParserTestUtils.line1AsText, cobolFieldWithItemId));
 	}
 
 	@Test
@@ -73,4 +74,29 @@ public class CobolDumpParserForHadoopTest {
 		assertEquals(line1Description, out[1]);
 
 	}
+
+	/*
+	 * Assert FieldNotFoundException is thrown
+	 */
+
+	@Test(expected = FieldNotFoundException.class)
+	public void testGetNonExistingField() throws ParserException {
+		this.cp.getFieldIndexesFromNames("x");
+	}
+
+	@Test(expected = FieldNotFoundException.class)
+	public void testFieldWithNameEmptyString() throws ParserException {
+		this.cp.getFieldIndexesFromNames("");
+	}
+
+	@Test(expected = FieldNotFoundException.class)
+	public void testFieldWithNameSpace() throws ParserException {
+		this.cp.getFieldIndexesFromNames("");
+	}
+
+	@Test(expected = FieldNotFoundException.class)
+	public void testFieldWithNameNull() throws ParserException {
+		this.cp.getFieldIndexesFromNames((String) null);
+	}
+
 }

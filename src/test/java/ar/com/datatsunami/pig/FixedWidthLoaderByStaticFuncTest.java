@@ -93,6 +93,17 @@ public class FixedWidthLoaderByStaticFuncTest {
 	}
 
 	@Test
+	public void testFixedWidthLoaderByStaticFuncAllTheFields() {
+		String columnSpecAndSchemaStr[] = FixedWidthLoaderByStaticFunc.get(
+				"ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForHadoop",
+				"*");
+		assertEquals("1-6,7-11,12-26,27-31,32-33,34-34,35-37,38-40,41-43,44-44", columnSpecAndSchemaStr[0]);
+		assertEquals("itemid:long,code:chararray,description:chararray,price:long,price_decimal:long,"
+				+ "price_sign:chararray,index:long,index_decimal:long,value:long,value_decimal:long",
+				columnSpecAndSchemaStr[1]);
+	}
+
+	@Test
 	public void testCobolDumpParserFactoryForPigWithSampleDump() throws Exception {
 		CobolDumpParser cp = cobolDumpParserFactoryForPig();
 		BufferedReader reader = this.getBufferedReader();

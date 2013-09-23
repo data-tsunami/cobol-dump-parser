@@ -59,13 +59,20 @@ public class FixedWidthLoaderByStaticFunc extends FixedWidthLoader {
 		/*
 		 * Parse field indexes
 		 */
-		String fieldTokens[] = fields.split(",");
-		int fieldIndexes[] = new int[fieldTokens.length];
-		for (int i = 0; i < fieldTokens.length; i++) {
-			try {
-				fieldIndexes[i] = Integer.valueOf(fieldTokens[i]);
-			} catch (NumberFormatException nfe) {
-				fieldIndexes[i] = cobolDumpParser.getFieldIndexFromFieldName(fieldTokens[i]);
+		int fieldIndexes[];
+		if ("*".equals(fields.trim())) {
+			fieldIndexes = new int[cobolDumpParser.getFieldCount()];
+			for (int i = 0; i < fieldIndexes.length; i++)
+				fieldIndexes[i] = i;
+		} else {
+			String fieldTokens[] = fields.split(",");
+			fieldIndexes = new int[fieldTokens.length];
+			for (int i = 0; i < fieldTokens.length; i++) {
+				try {
+					fieldIndexes[i] = Integer.valueOf(fieldTokens[i]);
+				} catch (NumberFormatException nfe) {
+					fieldIndexes[i] = cobolDumpParser.getFieldIndexFromFieldName(fieldTokens[i]);
+				}
 			}
 		}
 
