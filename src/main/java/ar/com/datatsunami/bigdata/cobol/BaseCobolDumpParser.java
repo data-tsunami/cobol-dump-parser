@@ -11,6 +11,7 @@ import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.converter.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.field.Field;
+import ar.com.datatsunami.bigdata.cobol.field.FieldNotFoundException;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
 import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
@@ -110,13 +111,19 @@ public abstract class BaseCobolDumpParser {
 	}
 
 	/**
-	 * Returns the index for a field
+	 * Returns the index for a field.
 	 * 
 	 * @param fieldName
 	 * @return
+	 * @throws FieldNotFoundException
 	 */
 	public int getFieldIndexFromFieldName(String fieldName) {
-		return this.fieldNameToIndexMap.get(fieldName);
+		if (fieldName == null)
+			throw FieldNotFoundException.forField(null);
+		Integer fieldIndex = this.fieldNameToIndexMap.get(fieldName.trim());
+		if (fieldIndex == null)
+			throw FieldNotFoundException.forField(fieldName);
+		return fieldIndex.intValue();
 	}
 
 	/**
@@ -143,9 +150,8 @@ public abstract class BaseCobolDumpParser {
 	 */
 	public int[] getFieldIndexesFromNames(String... fieldsNames) {
 		int indexes[] = new int[fieldsNames.length];
-		for (int i = 0; i < fieldsNames.length; i++) {
-			indexes[i] = this.fieldNameToIndexMap.get(fieldsNames[i]).intValue();
-		}
+		for (int i = 0; i < fieldsNames.length; i++)
+			indexes[i] = this.getFieldIndexFromFieldName(fieldsNames[i]);
 		return indexes;
 	}
 

@@ -5,6 +5,7 @@ import static org.junit.Assert.*;
 import org.apache.hadoop.io.Text;
 import org.junit.Test;
 
+import ar.com.datatsunami.bigdata.cobol.field.FieldNotFoundException;
 import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public class CobolDumpParserForHadoopTest {

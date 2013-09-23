@@ -70,7 +70,7 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	public Object[] getValuesFast(String... fieldsNames) throws ParserException {
 		Object[] ret = new Object[fieldsNames.length];
 		for (int i = 0; i < fieldsNames.length; i++) {
-			int fieldIndex = this.fieldNameToIndexMap.get(fieldsNames[i]);
+			int fieldIndex = this.getFieldIndexFromFieldName(fieldsNames[i]);
 			String string = this.lineHandler.getValueForField(fieldIndex);
 			ret[i] = getObjectFromString(string, fields.get(fieldIndex));
 		}
