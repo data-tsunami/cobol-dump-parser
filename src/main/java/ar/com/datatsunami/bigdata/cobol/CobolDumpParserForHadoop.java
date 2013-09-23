@@ -19,6 +19,11 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 		super(lineHandler);
 	}
 
+	/**
+	 * Get the values of the fields referenced by <code>fieldIndexes</code> from
+	 * the Text instance. This avoid the conversion of the entire line to
+	 * String.
+	 */
 	public Object[] getValuesFromText(Text text, int... fieldIndexes) throws ParserException {
 		this.lineHandler.prepareText(text);
 		Object[] ret = new Object[fieldIndexes.length];
@@ -30,6 +35,9 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 		return ret;
 	}
 
+	/**
+	 * Like <code>getValuesFromText()</code> but only for a field.
+	 */
 	public Object getValueFromText(Text text, int fieldIndex) throws ParserException {
 		this.lineHandler.prepareText(text);
 		String string = this.lineHandler.getValueForField(fieldIndex);
@@ -43,11 +51,20 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 		}
 	}
 
+	/**
+	 * Copies the value of the field from one text instance to another.
+	 */
 	public void copyValueToText(Text textIn, int fieldIndex, Text out) throws ParserException {
 		this.lineHandler.prepareText(textIn);
 		this.lineHandler.copyValue(fieldIndex, out);
 	}
 
+	/**
+	 * Copy the values of the fields referenced by <code>fieldIndexes</code>
+	 * from the Text instance to the specified Object[] array. This avoid the
+	 * conversion of the entire line to String, and allows the reuse of the
+	 * Object[] array.
+	 */
 	public void copyValuesToObjectArray(Text text, int[] fieldIndexes, Object[] out) throws ParserException {
 		this.lineHandler.prepareText(text);
 		for (int i = 0; i < fieldIndexes.length; i++) {
