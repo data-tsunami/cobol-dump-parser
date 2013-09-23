@@ -183,4 +183,12 @@ public abstract class BaseCobolDumpParser {
 		return lineHandler;
 	}
 
+	/**
+	 * Return the number of fields
+	 * 
+	 * @return
+	 */
+	public int getFieldCount() {
+		return this.fields.size();
+	}
 }
