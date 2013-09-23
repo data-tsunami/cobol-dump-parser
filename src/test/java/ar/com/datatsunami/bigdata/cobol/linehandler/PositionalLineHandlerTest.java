@@ -12,14 +12,14 @@ public class PositionalLineHandlerTest {
 
 	@Test
 	public void parseLine() throws ParserException {
-		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cp = new CobolDumpParser();
 		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
 		CobolDumpParserTestUtils.parse(cp);
 	}
 
 	@Test(expected = IllegalArgumentException.class)
 	public void parseShortLine() throws ParserException {
-		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cp = new CobolDumpParser();
 		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cp);
 		cp.getValues(CobolDumpParserTestUtils.shortLine, new String[] { "ItemID", "Price" });
 	}

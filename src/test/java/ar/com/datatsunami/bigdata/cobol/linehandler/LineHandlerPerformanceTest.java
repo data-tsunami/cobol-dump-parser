@@ -53,7 +53,7 @@ public class LineHandlerPerformanceTest {
 		 * PositionalLineHandler
 		 */
 		System.out.println(" - Checking performance of PositionalLineHandler...");
-		CobolDumpParser cdpPositional = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cdpPositional = new CobolDumpParser();
 		CobolDumpParserTestUtils.addFieldsToCobolDumpParser(cdpPositional);
 		String[] fieldsNamed = new String[] { "Code" };
 		final long startPositionalLineHandler = System.currentTimeMillis();

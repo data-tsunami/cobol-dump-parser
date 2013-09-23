@@ -1,6 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertArrayEquals;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,7 +15,6 @@ import org.junit.Test;
 import ar.com.datatsunami.bigdata.cobol.field.FloatBasedDecimalField;
 import ar.com.datatsunami.bigdata.cobol.field.LongField;
 import ar.com.datatsunami.bigdata.cobol.field.StringField;
-import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
 public class SimpleTestFromFile {
 
@@ -25,7 +24,7 @@ public class SimpleTestFromFile {
 		/*
 		 * Create the parser
 		 */
-		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cp = new CobolDumpParser();
 
 		/*
 		 * Populate the fields
@@ -60,7 +59,7 @@ public class SimpleTestFromFile {
 		/*
 		 * Create the parser
 		 */
-		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cp = new CobolDumpParser();
 
 		/*
 		 * Populate the fields
@@ -99,7 +98,7 @@ public class SimpleTestFromFile {
 		/*
 		 * Create the parser
 		 */
-		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cp = new CobolDumpParser();
 
 		/*
 		 * Populate the fields
@@ -126,7 +125,7 @@ public class SimpleTestFromFile {
 		/*
 		 * Create the parser
 		 */
-		CobolDumpParser cp = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cp = new CobolDumpParser();
 
 		/*
 		 * Populate the fields

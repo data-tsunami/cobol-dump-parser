@@ -31,7 +31,7 @@ public class FixedWidthLoaderByStaticFuncTest {
 		/*
 		 * Create the instance
 		 */
-		CobolDumpParser cdp = new CobolDumpParser(new PositionalLineHandler());
+		CobolDumpParser cdp = new CobolDumpParser();
 
 		/*
 		 * Populate the fields
