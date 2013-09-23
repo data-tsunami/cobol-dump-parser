@@ -12,13 +12,6 @@ public class ToFloatTest {
 	}
 
 	@Test
-	public void testGetLong() {
-		assertEquals(11l, Utils.getLong(Integer.valueOf(11)));
-		assertEquals(22l, Utils.getLong(Long.valueOf(22)));
-		assertEquals(33l, Utils.getLong("33"));
-	}
-
-	@Test
 	public void testGetSign() {
 		assertEquals(1f, Utils.getSign("+"), 0.001d);
 		assertEquals(-1f, Utils.getSign("-"), 0.001d);

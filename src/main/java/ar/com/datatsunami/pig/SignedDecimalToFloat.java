@@ -48,21 +48,12 @@ public class SignedDecimalToFloat extends EvalFunc<Float> {
 			return null;
 		}
 
-		long intPart;
-		long decimalPart;
-		long decimalPlaces;
-		float sign; // +1 or -1
+		// Cast to force ClassCastException
+		long intPart = ((Number) input.get(0)).longValue();
+		long decimalPart = ((Number) input.get(1)).longValue();
+		long decimalPlaces = ((Number) input.get(3)).longValue();
+		float sign = Utils.getSign((String) input.get(2)); // +1 or -1
 
-		try {
-			intPart = Utils.getLong(input.get(0));
-			decimalPart = Utils.getLong(input.get(1));
-			decimalPlaces = Utils.getLong(input.get(3));
-		} catch (NumberFormatException nfe) {
-			logger.debug("Returning null because getLong() raised NumberFormatException");
-			return null;
-		}
-
-		sign = Utils.getSign(input.get(2));
 		if (sign == 0) {
 			logger.debug("Returning null because couldn't get a valid sign");
 			return null;

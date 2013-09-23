@@ -46,18 +46,10 @@ public class UnsignedDecimalToFloat extends EvalFunc<Float> {
 			return null;
 		}
 
-		long intPart;
-		long decimalPart;
-		long decimalPlaces;
-
-		try {
-			intPart = Utils.getLong(input.get(0));
-			decimalPart = Utils.getLong(input.get(1));
-			decimalPlaces = Utils.getLong(input.get(2));
-		} catch (NumberFormatException nfe) {
-			logger.debug("Returning null because getLong() raised NumberFormatException");
-			return null;
-		}
+		// Cast to force ClassCastException
+		long intPart = ((Number) input.get(0)).longValue();
+		long decimalPart = ((Number) input.get(1)).longValue();
+		long decimalPlaces = ((Number) input.get(2)).longValue();
 
 		return Utils.toFloat(intPart, decimalPart, decimalPlaces);
 	}

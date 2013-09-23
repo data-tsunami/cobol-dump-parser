@@ -8,53 +8,10 @@ public class Utils {
 	static final Log logger = LogFactory.getLog(Utils.class);
 
 	/*
-	 * Try to get a long from the object
-	 */
-	public static long getLong(Object object) throws NumberFormatException {
-
-		if (Number.class.isAssignableFrom(object.getClass()))
-			return (long) ((Number) object).longValue();
-
-		throw new NumberFormatException("object isn't a Number");
-
-		/*
-		 * Now that we have 'getArgToFuncMapping()', only valid objects should
-		 * reach this function.
-		 * 
-		 * Leaving the old code here for reference, unti we are sure it's not
-		 * needed.
-		 */
-
-		// if (logger.isDebugEnabled())
-		// logger.debug("getLong(): object isn't Number: " + object.getClass());
-		//
-		// String string;
-		// try {
-		// string = object.toString();
-		// } catch (Exception e) {
-		// if (logger.isDebugEnabled())
-		// logger.debug("getLong(): object.toString() raised an exception", e);
-		// throw new
-		// NumberFormatException("object.toString() raised the exception: " +
-		// e);
-		// }
-		//
-		// try {
-		// return Long.parseLong(string);
-		// } catch (NumberFormatException nfe) {
-		// if (logger.isDebugEnabled())
-		// logger.debug("Couldn't get a valid long from the object of type '" +
-		// object.getClass()
-		// + "', represented by string: '" + string + "'");
-		// throw nfe;
-		// }
-	}
-
-	/*
 	 * Transform 3 long to a float
 	 */
 	public static float toFloat(long intPart, long decimalPart, long decimalPlaces) {
-		if (decimalPart == 0) {
+		if (decimalPart == 0 || decimalPlaces == 0) {
 			return (float) intPart;
 		}
 		long divisor = (long) Math.pow(10, decimalPlaces);
