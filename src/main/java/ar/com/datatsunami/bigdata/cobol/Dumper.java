@@ -77,7 +77,7 @@ public class Dumper {
 	/**
 	 * Parses the data and prints it as a CSV
 	 * 
-	 * Returns: line read
+	 * @return lines read
 	 * 
 	 * @throws IllegalArgumentException
 	 * @throws IOException
@@ -149,9 +149,19 @@ public class Dumper {
 		out.println("" + (((this.lineErrorsCount * 1.0) / (this.lineNum * 1.0)) * 100.0)
 				+ "% of lines are non-parseables.");
 
-		for (Field<?,?> field : cobolParser.getFieldsWithError()) {
+		for (Field<?, ?> field : cobolParser.getFieldsWithError()) {
 			out.println("  * " + field.getErrorCount() + " errors -> " + field);
 		}
+	}
+
+	/**
+	 * Reads a line from the reader
+	 * 
+	 * @return
+	 * @throws IOException
+	 */
+	public String readLine() throws IOException {
+		return this.bufferedReader.readLine();
 	}
 
 	/* -------------------- Getters & setters -------------------- */
