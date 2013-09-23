@@ -9,6 +9,11 @@ public class ToFloatTest {
 	@Test
 	public void testToFloat() {
 		assertEquals(100.01f, Utils.toFloat(100l, 1l, 2l), 0.0001);
+		assertEquals(100f, Utils.toFloat(100l, 0l, 2l), 0.0001);
+		assertEquals(100f, Utils.toFloat(100l, 1l, 0l), 0.0001);
+		assertEquals(null, Utils.toFloat(-100l, 1l, 2l));
+		assertEquals(null, Utils.toFloat(100l, -1l, 2l));
+		assertEquals(null, Utils.toFloat(100l, 1l, -2l));
 	}
 
 	@Test

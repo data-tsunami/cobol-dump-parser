@@ -10,12 +10,16 @@ public class Utils {
 	/*
 	 * Transform 3 long to a float
 	 */
-	public static float toFloat(long intPart, long decimalPart, long decimalPlaces) {
+	public static Float toFloat(long intPart, long decimalPart, long decimalPlaces) {
+		if (intPart < 0 || decimalPart < 0 || decimalPlaces < 0)
+			return null;
+
 		if (decimalPart == 0 || decimalPlaces == 0) {
-			return (float) intPart;
+			return Float.valueOf(intPart);
 		}
-		long divisor = (long) Math.pow(10, decimalPlaces);
-		return ((float) intPart) + (((float) decimalPart) / ((float) divisor));
+
+		float divisor = (float) Math.pow(10, decimalPlaces);
+		return Float.valueOf(((float) intPart) + (((float) decimalPart) / divisor));
 	}
 
 	/*
