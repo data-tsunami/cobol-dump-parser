@@ -13,6 +13,7 @@ cp.add(new StringField(5, "Code"));
 cp.add(new StringField(15, "Description"));
 cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+cp.freeze();
 // Get a 'line' from somewhere and...
 Object objects[] = cp.getValues(line, "ItemID", "Price");
 Long itemId = (Long) objects[0];
@@ -76,6 +77,7 @@ cp.add(new StringField(5, "Code"));
 cp.add(new StringField(15, "Description"));
 cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+cp.freeze();
 ```
 
 To parse a line and receive a Map, with the field name as keys and the Java object as values, you can use `cp.getValuesAsMap()`:
@@ -108,6 +110,7 @@ public class FixedWidthLoaderByStaticFuncTest {
 		cdp.add(new StringField(15, "Description"));
 		cdp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cdp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+		cdp.freeze();
 		return cdp;
 	}
 }
