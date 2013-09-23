@@ -27,7 +27,7 @@ records =
   LOAD '/cobol-dump-parser-sample.txt'
   USING ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc(
     'ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig',
-    '1,3');
+    'Code,Price');
 expensive_products = FILTER records BY price >= 10;
 STORE expensive_products INTO '/expensive_products.txt';
 ```
@@ -114,7 +114,7 @@ records =
   LOAD '/cobol-dump-parser-sample.txt'
   USING ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc(
     'ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig',
-    '1,3');
+    'Code,Price');
 
 ILLUSTRATE records;
 ```

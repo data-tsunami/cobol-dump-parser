@@ -32,14 +32,14 @@ register target/cobol-dump-parser-0.0.1-SNAPSHOT-custom-jar-with-dependencies.ja
 -- Then, load the records, using 'ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc' as the UDF.
 -- You must specify 2 parameters:
 --  1) The static Java method that returns the CobolDumpParser instance to use
---  2) The indexes of the fields to use
+--  2) The indexes of the fields to use (0 based) or the field names as defined in CobolDumpParser
 --
 
 records =
   LOAD '/cobol-dump-parser-sample.txt'
   USING ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc(
     'ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig',
-    '0,1,2,3,4');
+    'ItemID,Code,Description,Price,Index');
 
 --
 -- Check the data

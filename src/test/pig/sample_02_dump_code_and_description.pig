@@ -10,6 +10,6 @@ records =
   LOAD '/cobol-dump-parser-sample.txt'
   USING ar.com.datatsunami.pig.FixedWidthLoaderByStaticFunc(
     'ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig',
-    '1,2');
+    'Code,Description');
 
 DUMP records;

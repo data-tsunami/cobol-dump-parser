@@ -71,6 +71,18 @@ public class FixedWidthLoaderByStaticFuncTest {
 	}
 
 	@Test
+	public void testFixedWidthLoaderByStaticFuncByFieldNameNotInt() {
+		String factory = "ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForPig";
+		String columnSpecAndSchemaStr[] = FixedWidthLoaderByStaticFunc.get(factory, "ItemID");
+		assertEquals("1-6", columnSpecAndSchemaStr[0]);
+		assertEquals("itemid:long", columnSpecAndSchemaStr[1]);
+
+		columnSpecAndSchemaStr = FixedWidthLoaderByStaticFunc.get(factory, "Code");
+		assertEquals("7-11", columnSpecAndSchemaStr[0]);
+		assertEquals("code:chararray", columnSpecAndSchemaStr[1]);
+	}
+
+	@Test
 	public void testFixedWidthLoaderByStaticFuncCDPForHadoop() {
 		String columnSpecAndSchemaStr[] = FixedWidthLoaderByStaticFunc.get(
 				"ar.com.datatsunami.pig.FixedWidthLoaderByStaticFuncTest.cobolDumpParserFactoryForHadoop",

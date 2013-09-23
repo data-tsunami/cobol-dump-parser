@@ -30,14 +30,6 @@ public class FixedWidthLoaderByStaticFunc extends FixedWidthLoader {
 	public static String[] get(String staticFunction, String fields) {
 
 		/*
-		 * Parse field indexes
-		 */
-		String fieldTokens[] = fields.split(",");
-		int fieldIndexes[] = new int[fieldTokens.length];
-		for (int i = 0; i < fieldTokens.length; i++)
-			fieldIndexes[i] = Integer.valueOf(fieldTokens[i]);
-
-		/*
 		 * Call static method
 		 */
 		Object ret = StaticMethodCaller.call(staticFunction);
@@ -62,6 +54,19 @@ public class FixedWidthLoaderByStaticFunc extends FixedWidthLoader {
 		if (!PositionalLineHandler.class.isAssignableFrom(lineHandler.getClass())) {
 			throw new RuntimeException("The lineHandler if of type '"
 					+ lineHandler.getClass().getCanonicalName() + "', which is not a PositionalLineHandler.");
+		}
+
+		/*
+		 * Parse field indexes
+		 */
+		String fieldTokens[] = fields.split(",");
+		int fieldIndexes[] = new int[fieldTokens.length];
+		for (int i = 0; i < fieldTokens.length; i++) {
+			try {
+				fieldIndexes[i] = Integer.valueOf(fieldTokens[i]);
+			} catch (NumberFormatException nfe) {
+				fieldIndexes[i] = cobolDumpParser.getFieldIndexFromFieldName(fieldTokens[i]);
+			}
 		}
 
 		PositionalLineHandler positionalLineHandler = (PositionalLineHandler) lineHandler;
