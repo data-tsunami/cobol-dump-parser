@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.hadoop.io.Text;
+
 import ar.com.datatsunami.bigdata.cobol.converter.InvalidFormatException;
 import ar.com.datatsunami.bigdata.cobol.field.Field;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
@@ -145,6 +147,26 @@ public abstract class BaseCobolDumpParser {
 			indexes[i] = this.fieldNameToIndexMap.get(fieldsNames[i]).intValue();
 		}
 		return indexes;
+	}
+
+	/**
+	 * Prepare the line to be processed. The 'xxxxFast()' methods can be used
+	 * after calling 'prepareLine()'
+	 * 
+	 * @param line
+	 */
+	public void prepareLine(String line) {
+		this.lineHandler.prepareLine(line);
+	}
+
+	/**
+	 * Prepare the line to be processed. The 'xxxxFast()' methods can be used
+	 * after calling 'prepareText()'
+	 * 
+	 * @param line
+	 */
+	public void prepareText(Text line) {
+		this.lineHandler.prepareText(line);
 	}
 
 	/*

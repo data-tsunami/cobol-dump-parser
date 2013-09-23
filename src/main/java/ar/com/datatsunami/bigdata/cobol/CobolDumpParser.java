@@ -64,6 +64,10 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	 */
 	public Object[] getValues(String line, String... fieldsNames) throws ParserException {
 		this.lineHandler.prepareLine(line);
+		return this.getValuesFast(fieldsNames);
+	}
+
+	public Object[] getValuesFast(String... fieldsNames) throws ParserException {
 		Object[] ret = new Object[fieldsNames.length];
 		for (int i = 0; i < fieldsNames.length; i++) {
 			int fieldIndex = this.fieldNameToIndexMap.get(fieldsNames[i]);
@@ -83,6 +87,10 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	 */
 	public Object[] getValues(String line, int... fields) throws ParserException {
 		this.lineHandler.prepareLine(line);
+		return getValuesFast(fields);
+	}
+
+	public Object[] getValuesFast(int... fields) throws ParserException {
 		Object[] ret = new Object[fields.length];
 		for (int i = 0; i < fields.length; i++) {
 			String string = this.lineHandler.getValueForField(fields[i]);
@@ -103,6 +111,10 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 		return getValues(line, fieldName)[0];
 	}
 
+	public Object getValueFast(String fieldName) throws ParserException {
+		return getValuesFast(fieldName)[0];
+	}
+
 	/**
 	 * Returns the value of one field
 	 * 
@@ -113,6 +125,10 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 	 */
 	public Object getValue(String line, int field) throws ParserException {
 		return getValues(line, field)[0];
+	}
+
+	public Object getValue(int field) throws ParserException {
+		return getValuesFast(field)[0];
 	}
 
 }

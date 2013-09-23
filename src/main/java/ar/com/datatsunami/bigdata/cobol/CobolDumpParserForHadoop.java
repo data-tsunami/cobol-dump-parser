@@ -16,6 +16,9 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 		super(new PositionalLineHandler());
 	}
 
+	/**
+	 * Creates a CobolDumpParserForHadoop instance.
+	 */
 	public CobolDumpParserForHadoop(LineHandler lineHandler) {
 		super(lineHandler);
 	}
@@ -27,6 +30,13 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 	 */
 	public Object[] getValuesFromText(Text text, int... fieldIndexes) throws ParserException {
 		this.lineHandler.prepareText(text);
+		return getValuesFromTextFast(fieldIndexes);
+	}
+
+	/*
+	 * Fast version
+	 */
+	public Object[] getValuesFromTextFast(int... fieldIndexes) throws ParserException {
 		Object[] ret = new Object[fieldIndexes.length];
 
 		for (int i = 0; i < fieldIndexes.length; i++) {
@@ -34,6 +44,7 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 			ret[i] = getObjectFromString(string, fields.get(fieldIndexes[i]));
 		}
 		return ret;
+
 	}
 
 	/**
@@ -41,12 +52,29 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 	 */
 	public Object getValueFromText(Text text, int fieldIndex) throws ParserException {
 		this.lineHandler.prepareText(text);
+		return getValueFromTextFast(fieldIndex);
+	}
+
+	/*
+	 * Fast version
+	 */
+	public Object getValueFromTextFast(int fieldIndex) throws ParserException {
 		String string = this.lineHandler.getValueForField(fieldIndex);
 		return getObjectFromString(string, fields.get(fieldIndex));
 	}
 
+	/**
+	 * Copies the value of the fields to the Text instances.
+	 */
 	public void copyValuesToTextArray(Text text, int[] fieldIndexes, Text[] out) throws ParserException {
 		this.lineHandler.prepareText(text);
+		copyValuesToTextArrayFast(fieldIndexes, out);
+	}
+
+	/*
+	 * Fast version
+	 */
+	public void copyValuesToTextArrayFast(int[] fieldIndexes, Text[] out) throws ParserException {
 		for (int i = 0; i < fieldIndexes.length; i++) {
 			this.lineHandler.copyValue(fieldIndexes[i], out[i]);
 		}
@@ -60,6 +88,13 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 		this.lineHandler.copyValue(fieldIndex, out);
 	}
 
+	/*
+	 * Fast version
+	 */
+	public void copyValueToTextFast(int fieldIndex, Text out) throws ParserException {
+		this.lineHandler.copyValue(fieldIndex, out);
+	}
+
 	/**
 	 * Copy the values of the fields referenced by <code>fieldIndexes</code>
 	 * from the Text instance to the specified Object[] array. This avoid the
@@ -68,6 +103,13 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 	 */
 	public void copyValuesToObjectArray(Text text, int[] fieldIndexes, Object[] out) throws ParserException {
 		this.lineHandler.prepareText(text);
+		copyValuesToObjectArrayFast(fieldIndexes, out);
+	}
+
+	/*
+	 * Fast version
+	 */
+	public void copyValuesToObjectArrayFast(int[] fieldIndexes, Object[] out) throws ParserException {
 		for (int i = 0; i < fieldIndexes.length; i++) {
 			out[i] = getObjectFromString(this.lineHandler.getValueForField(fieldIndexes[i]),
 					fields.get(fieldIndexes[i]));
@@ -81,6 +123,14 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 	public void writeValuesToBytesWritableArray(Text text, int[] fieldIndexes, BytesWritable[] out)
 			throws ParserException {
 		this.lineHandler.prepareText(text);
+		writeValuesToBytesWritableArrayFast(fieldIndexes, out);
+	}
+
+	/*
+	 * Fast version
+	 */
+	public void writeValuesToBytesWritableArrayFast(int[] fieldIndexes, BytesWritable[] out)
+			throws ParserException {
 		for (int i = 0; i < fieldIndexes.length; i++) {
 			this.lineHandler.copyBytes(fieldIndexes[i], out[i]);
 		}
