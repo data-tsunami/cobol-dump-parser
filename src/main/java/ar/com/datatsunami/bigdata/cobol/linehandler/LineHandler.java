@@ -2,6 +2,7 @@ package ar.com.datatsunami.bigdata.cobol.linehandler;
 
 import java.util.List;
 
+import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.field.Field;
@@ -50,6 +51,12 @@ public interface LineHandler {
 	 * @param output
 	 */
 	public void copyValue(int field, Text output);
+
+	/**
+	 * Copy the bytes of a field to the BytesWritable instance.
+	 * 
+	 */
+	public void copyBytes(int field, BytesWritable bytesWritable);
 
 	//
 	// If someday Pig support UDF from static methods, this will be a really

@@ -3,6 +3,7 @@ package ar.com.datatsunami.bigdata.cobol.linehandler;
 import java.nio.charset.CharacterCodingException;
 import java.util.List;
 
+import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.field.Field;
@@ -126,6 +127,15 @@ public class PositionalLineHandler implements LineHandler {
 		output.set(this.text.getBytes(), startPositions[field], fieldSizes[field]);
 	}
 
+	@Override
+	public void copyBytes(int fieldIndex, BytesWritable bytesWritable) {
+		bytesWritable.set(this.text.getBytes(), startPositions[fieldIndex], fieldSizes[fieldIndex]);
+	}
+
+	/*
+	 * Pig-related functions
+	 */
+
 	public String[] getFixedWidthLoaderSpec() {
 		this.setupPositions();
 
@@ -166,4 +176,5 @@ public class PositionalLineHandler implements LineHandler {
 		spec[1] = sbSchemaStr.toString();
 		return spec;
 	}
+
 }

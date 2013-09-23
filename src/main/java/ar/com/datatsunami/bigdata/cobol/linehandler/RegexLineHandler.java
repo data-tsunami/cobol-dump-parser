@@ -5,6 +5,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.NotImplementedException;
+import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.field.Field;
@@ -100,6 +101,11 @@ public class RegexLineHandler implements LineHandler {
 
 	@Override
 	public void copyValue(int field, Text output) {
+		throw new NotImplementedException();
+	}
+
+	@Override
+	public void copyBytes(int field, BytesWritable bytesWritable) {
 		throw new NotImplementedException();
 	}
 }

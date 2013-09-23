@@ -1,5 +1,6 @@
 package ar.com.datatsunami.bigdata.cobol;
 
+import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
@@ -70,6 +71,18 @@ public class CobolDumpParserForHadoop extends CobolDumpParser {
 		for (int i = 0; i < fieldIndexes.length; i++) {
 			out[i] = getObjectFromString(this.lineHandler.getValueForField(fieldIndexes[i]),
 					fields.get(fieldIndexes[i]));
+		}
+	}
+
+	/**
+	 * Copy the values of the fields referenced by <code>fieldIndexes</code>
+	 * from the Text instance to the specified BytesWritables.
+	 */
+	public void writeValuesToBytesWritableArray(Text text, int[] fieldIndexes, BytesWritable[] out)
+			throws ParserException {
+		this.lineHandler.prepareText(text);
+		for (int i = 0; i < fieldIndexes.length; i++) {
+			this.lineHandler.copyBytes(fieldIndexes[i], out[i]);
 		}
 	}
 
