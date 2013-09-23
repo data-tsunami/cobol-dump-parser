@@ -1,11 +1,13 @@
 package ar.com.datatsunami.bigdata.cobol.linehandler;
 
 import java.nio.charset.CharacterCodingException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.hadoop.io.Text;
 
 import ar.com.datatsunami.bigdata.cobol.field.Field;
+import ar.com.datatsunami.bigdata.cobol.field.pig.PigSchema;
 
 /**
  * Handles the parsing and extracting of data from a line using substring()
@@ -166,4 +168,16 @@ public class PositionalLineHandler implements LineHandler {
 		spec[1] = sbSchemaStr.toString();
 		return spec;
 	}
+
+	public List<PigSchema> getPigSchemas(int fieldIndexes[]) {
+		this.setupPositions();
+		List<PigSchema> list = new ArrayList<PigSchema>();
+
+		for (int i = 0; i < fieldIndexes.length; i++) {
+			Field<?, ?> field = this.fields.get(fieldIndexes[i]);
+			list.add(field.getPigSchema());
+		}
+		return list;
+	}
+
 }
