@@ -16,7 +16,7 @@ import ar.com.datatsunami.bigdata.cobol.field.Field;
  */
 public class PositionalLineHandler implements LineHandler {
 
-	List<Field<?, ?>> fields;
+	List<Field<?, ?>> fields = null;
 
 	int lineWidth = 0;
 
@@ -28,11 +28,33 @@ public class PositionalLineHandler implements LineHandler {
 
 	Text text = null;
 
+	/*
+	 * Constructor
+	 */
 	public PositionalLineHandler() {
 	}
 
+	/*
+	 * Constructor
+	 */
 	public PositionalLineHandler(List<Field<?, ?>> fields) {
 		this.fields = fields;
+	}
+
+	/**
+	 * Freeze the line handler
+	 */
+	@Override
+	public void freeze() {
+		if (this.fields == null)
+			throw new RuntimeException("fields is NULL");
+		startPositions = new int[this.fields.size()];
+		fieldSizes = new int[this.fields.size()];
+		for (int i = 0; i < startPositions.length; i++) {
+			fieldSizes[i] = this.fields.get(i).getWidth();
+			startPositions[i] = lineWidth;
+			lineWidth += fieldSizes[i];
+		}
 	}
 
 	private String getLineAsString() {
@@ -41,24 +63,8 @@ public class PositionalLineHandler implements LineHandler {
 		return this.text.toString();
 	}
 
-	private void setupPositions() {
-		/*
-		 * If the fields' boudaries were not calculated, we do that first
-		 */
-		if (startPositions == null) {
-			startPositions = new int[this.fields.size()];
-			fieldSizes = new int[this.fields.size()];
-			for (int i = 0; i < startPositions.length; i++) {
-				fieldSizes[i] = this.fields.get(i).getWidth();
-				startPositions[i] = lineWidth;
-				lineWidth += fieldSizes[i];
-			}
-		}
-	}
-
 	@Override
 	public void prepareText(Text text) {
-		this.setupPositions();
 
 		if (text.getLength() != lineWidth) {
 			String msg = "Line length in bytes didn't matched!\n";
@@ -74,8 +80,6 @@ public class PositionalLineHandler implements LineHandler {
 
 	@Override
 	public void prepareLine(String line) {
-
-		this.setupPositions();
 
 		/*
 		 * Now check if the line is valid. To make this check fast, only the
@@ -118,11 +122,6 @@ public class PositionalLineHandler implements LineHandler {
 	}
 
 	@Override
-	public void setFields(List<Field<?, ?>> fields) {
-		this.fields = fields;
-	}
-
-	@Override
 	public void copyValue(int field, Text output) {
 		output.set(this.text.getBytes(), startPositions[field], fieldSizes[field]);
 	}
@@ -133,11 +132,19 @@ public class PositionalLineHandler implements LineHandler {
 	}
 
 	/*
+	 * Getters / Setters
+	 */
+
+	@Override
+	public void setFields(List<Field<?, ?>> fields) {
+		this.fields = fields;
+	}
+
+	/*
 	 * Pig-related functions
 	 */
 
 	public String[] getFixedWidthLoaderSpec() {
-		this.setupPositions();
 
 		int fieldIndexes[] = new int[this.fields.size()];
 		for (int i = 0; i < fieldIndexes.length; i++)
@@ -152,7 +159,6 @@ public class PositionalLineHandler implements LineHandler {
 	 * @return
 	 */
 	public String[] getFixedWidthLoaderSpec(int fieldIndexes[]) {
-		this.setupPositions();
 
 		// records = LOAD '/fome-fixed-width-file.txt'
 		// USING ar.com.datatsunami.pig.FixedWidthLoader(

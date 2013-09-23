@@ -12,7 +12,18 @@ import ar.com.datatsunami.bigdata.cobol.field.Field;
 import ar.com.datatsunami.bigdata.cobol.linehandler.LineHandler;
 import ar.com.datatsunami.bigdata.cobol.linehandler.PositionalLineHandler;
 
+/**
+ * Base class for CobolDumpParsers.
+ * 
+ * The just created instance is in state "OPEN". While is open, the fields can
+ * be added. When finish to add fields, a call to 'close()' must be done.
+ * 
+ * @author Horacio G. de Oro
+ * 
+ */
 public abstract class BaseCobolDumpParser {
+
+	protected boolean freezed = false;
 
 	/**
 	 * The fields to be found in each line. This list is shared with
@@ -35,29 +46,36 @@ public abstract class BaseCobolDumpParser {
 	}
 
 	public BaseCobolDumpParser add(Field<?, ?> item) {
+		if (freezed)
+			throw new RuntimeException("Instance is closed");
 		this.fields.add(item);
 		return this;
 	}
 
 	/**
-	 * Returns map that maps:
-	 * 
-	 * 'field name' -> 'field index'
+	 * Freeze the instance and preare all the internal structures.
 	 * 
 	 * @return
 	 */
-	protected Map<String, Integer> getFieldNameToIndexMap() {
-		if (fieldNameToIndexMap == null) {
-			Map<String, Integer> tmp = new HashMap<String, Integer>();
-			for (int i = 0; i < this.fields.size(); i++) {
-				String fieldName = this.fields.get(i).label;
-				while (tmp.containsKey(fieldName))
-					fieldName += "@";
-				tmp.put(fieldName, Integer.valueOf(i));
-			}
-			this.fieldNameToIndexMap = tmp;
+	public BaseCobolDumpParser freeze() {
+		if (freezed)
+			throw new RuntimeException("Instance is closed");
+		// Set the internal var
+		this.freezed = true;
+
+		// Freeze the line handler
+		this.lineHandler.freeze();
+
+		// Populate 'fieldNameToIndexMap'
+		this.fieldNameToIndexMap = new HashMap<String, Integer>();
+		for (int i = 0; i < this.fields.size(); i++) {
+			String fieldName = this.fields.get(i).label;
+			while (this.fieldNameToIndexMap.containsKey(fieldName))
+				fieldName += "@";
+			this.fieldNameToIndexMap.put(fieldName, Integer.valueOf(i));
 		}
-		return this.fieldNameToIndexMap;
+
+		return this;
 	}
 
 	/**
@@ -96,7 +114,7 @@ public abstract class BaseCobolDumpParser {
 	 * @return
 	 */
 	public int getFieldIndexFromFieldName(String fieldName) {
-		return getFieldNameToIndexMap().get(fieldName);
+		return this.fieldNameToIndexMap.get(fieldName);
 	}
 
 	/**
@@ -116,13 +134,22 @@ public abstract class BaseCobolDumpParser {
 		}
 	}
 
-	public int[] getFieldIndexesFromNames(String[] fieldsNames) {
+	/**
+	 * Returns an array of int, which represents the position of the passed
+	 * fields.
+	 * 
+	 */
+	public int[] getFieldIndexesFromNames(String... fieldsNames) {
 		int indexes[] = new int[fieldsNames.length];
 		for (int i = 0; i < fieldsNames.length; i++) {
-			indexes[i] = getFieldNameToIndexMap().get(fieldsNames[i]).intValue();
+			indexes[i] = this.fieldNameToIndexMap.get(fieldsNames[i]).intValue();
 		}
 		return indexes;
 	}
+
+	/*
+	 * Getter
+	 */
 
 	public LineHandler getLineHandler() {
 		return lineHandler;

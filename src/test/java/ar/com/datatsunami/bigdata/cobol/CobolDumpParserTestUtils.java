@@ -95,7 +95,7 @@ public class CobolDumpParserTestUtils {
 	}
 
 	/**
-	 * Populate CobolDumpParser with the fields
+	 * Populate CobolDumpParser with the fields and freeze it.
 	 * 
 	 * @param cp
 	 */
@@ -106,6 +106,7 @@ public class CobolDumpParserTestUtils {
 		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
 		cp.add(new LongBasedDecimalField(4, "Value", 1, false));
+		cp.freeze();
 	}
 
 	/**

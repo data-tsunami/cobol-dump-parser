@@ -23,6 +23,14 @@ public interface LineHandler {
 	public void setFields(List<Field<?, ?>> fields);
 
 	/**
+	 * Freeze the line handler: this is called 'freeze' to emulate the
+	 * CobolDumpParser 'freeze', but since this LineHandler don't have a
+	 * 'add()', freeze isn't the best name...
+	 * 
+	 */
+	public void freeze();
+
+	/**
 	 * Prepares the handler to process a line.
 	 * 
 	 * @param line

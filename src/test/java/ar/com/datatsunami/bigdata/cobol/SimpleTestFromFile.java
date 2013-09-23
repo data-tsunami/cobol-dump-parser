@@ -35,6 +35,7 @@ public class SimpleTestFromFile {
 		cp.add(new StringField(15, "Description"));
 		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+		cp.freeze();
 
 		/*
 		 * Get a line from the file
@@ -69,6 +70,7 @@ public class SimpleTestFromFile {
 		cp.add(new StringField(15, "Description"));
 		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+		cp.freeze();
 
 		/*
 		 * Get a line from the file
@@ -107,6 +109,7 @@ public class SimpleTestFromFile {
 		cp.add(new StringField(15, "Description"));
 		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+		cp.freeze();
 
 		BufferedReader reader = this.getBufferedReader();
 		String line = reader.readLine();
@@ -133,6 +136,7 @@ public class SimpleTestFromFile {
 		cp.add(new StringField(15, "Description"));
 		cp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+		cp.freeze();
 
 		BufferedReader reader = this.getBufferedReader();
 		reader.readLine(); // Ignore 1st line

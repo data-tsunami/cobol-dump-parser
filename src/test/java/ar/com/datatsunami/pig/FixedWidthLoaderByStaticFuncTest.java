@@ -41,6 +41,7 @@ public class FixedWidthLoaderByStaticFuncTest {
 		cdp.add(new StringField(15, "Description"));
 		cdp.add(new FloatBasedDecimalField(8, "Price", 2, true));
 		cdp.add(new FloatBasedDecimalField(6, "Index", 3, false));
+		cdp.freeze();
 
 		return cdp;
 	}

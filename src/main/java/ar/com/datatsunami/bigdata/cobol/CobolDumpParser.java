@@ -66,7 +66,7 @@ public class CobolDumpParser extends BaseCobolDumpParser {
 		this.lineHandler.prepareLine(line);
 		Object[] ret = new Object[fieldsNames.length];
 		for (int i = 0; i < fieldsNames.length; i++) {
-			int fieldIndex = getFieldNameToIndexMap().get(fieldsNames[i]);
+			int fieldIndex = this.fieldNameToIndexMap.get(fieldsNames[i]);
 			String string = this.lineHandler.getValueForField(fieldIndex);
 			ret[i] = getObjectFromString(string, fields.get(fieldIndex));
 		}

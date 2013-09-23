@@ -45,10 +45,8 @@ public class RegexLineHandler implements LineHandler {
 		this.fields = fields;
 	}
 
-	private Pattern getPattern() {
-		if (this.pattern != null)
-			return this.pattern;
-
+	@Override
+	public void freeze() {
 		String pat = "^";
 		for (Field<?, ?> item : this.fields) {
 			pat += item.genRegex();
@@ -56,8 +54,6 @@ public class RegexLineHandler implements LineHandler {
 		}
 		pat += ".*$";
 		this.pattern = Pattern.compile(pat);
-
-		return this.pattern;
 	}
 
 	/*
@@ -69,11 +65,11 @@ public class RegexLineHandler implements LineHandler {
 	 */
 	@Override
 	public void prepareLine(String line) {
-		matcher = this.getPattern().matcher(line);
+		matcher = this.pattern.matcher(line);
 		if (!matcher.matches()) {
 			String msg = "Line didn't matched!\n";
 			msg += " - Line: '" + line + "'\n";
-			msg += " - Pattern: '" + this.getPattern().pattern() + "'\n";
+			msg += " - Pattern: '" + this.pattern.pattern() + "'\n";
 			msg += " - Line width: '" + line.length() + "'\n";
 			msg += " - Expected line width: " + this.lineWidth + "\n";
 			throw new IllegalArgumentException(msg);
@@ -108,4 +104,5 @@ public class RegexLineHandler implements LineHandler {
 	public void copyBytes(int field, BytesWritable bytesWritable) {
 		throw new NotImplementedException();
 	}
+
 }
