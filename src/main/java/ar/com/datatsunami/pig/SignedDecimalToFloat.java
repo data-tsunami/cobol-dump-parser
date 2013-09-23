@@ -59,7 +59,11 @@ public class SignedDecimalToFloat extends EvalFunc<Float> {
 			return null;
 		}
 
-		return sign * Utils.toFloat(intPart, decimalPart, decimalPlaces);
+		Float value = Utils.toFloat(intPart, decimalPart, decimalPlaces);
+		if (value == null)
+			return null;
+
+		return sign * value.floatValue();
 	}
 
 	@Override
