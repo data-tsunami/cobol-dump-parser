@@ -56,7 +56,13 @@ Suppose you have the following Cobol structure:
 
 and you dump the data to a plain file, one line per Cobol record, fixed width without separator. Each line will have 40 characters, for example:
 
-    002541PTRYYFilm 8mm x 7mm 0007199+001500
+```
+002541PTRYYFilm 8mm x 7mm 0007199+001500
+659382MOUSEOptical Mouse  0001499+000000
+836482KBD_XUsb Keyboard PS0002099+000000
+000000PROM1Discount u$s10 0001000-000000
+000001PROM2Discount 10%   0000000+010000
+```
 
 To read that line, you need to build a parser instance and populate the parser with the fields:
 
