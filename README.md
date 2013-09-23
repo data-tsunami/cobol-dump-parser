@@ -158,6 +158,26 @@ The output of DUMP would be:
 Here are the [java](src/test/java/ar/com/datatsunami/pig/FixedWidthLoaderByStaticFuncTest.java)
 and [Pig](src/test/pig/sample_03_dump_expensive_products.pig) code used in this example.
 
+### How to get a float from the 'price' + 'price_decimal' + 'price_sign'
+
+To get a float from the three fields, you need to use the UDF SignedDecimalToFloat().
+
+```sql
+bag_of_floats = FOREACH records
+	GENERATE ar.com.datatsunami.pig.SignedDecimalToFloat(price, price_decimal, price_sign, 2);
+```
+
+If the original Cobol data is unsigned, you would get only 'price' and 'price_decimal'. In this case
+you need to use UnsignedDecimalToFloat().
+
+```sql
+bag_of_floats = FOREACH records
+	GENERATE ar.com.datatsunami.pig.UnsignedDecimalToFloat(price, price_decimal, 2);
+```
+
+See the full samples in [test_SignedDecimalToFloat.pig](src/test/pig/test_SignedDecimalToFloat.pig)
+and [test_UnsignedDecimalToFloat.pig](src/test/pig/test_UnsignedDecimalToFloat.pig).
+
 ### How to run the sample Pig scripts
 
 You will need to run `mvn jar:test-jar` before run the Pig scripts:
