@@ -26,6 +26,7 @@ public abstract class BaseCobolDumpParser {
 
 	public BaseCobolDumpParser() {
 		this.lineHandler = new PositionalLineHandler();
+		this.lineHandler.setFields(this.fields);
 	}
 
 	public BaseCobolDumpParser(LineHandler lineHandler) {
