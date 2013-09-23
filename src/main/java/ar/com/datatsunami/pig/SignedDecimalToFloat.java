@@ -52,9 +52,9 @@ public class SignedDecimalToFloat extends EvalFunc<Float> {
 		long intPart = ((Number) input.get(0)).longValue();
 		long decimalPart = ((Number) input.get(1)).longValue();
 		long decimalPlaces = ((Number) input.get(3)).longValue();
-		float sign = Utils.getSign((String) input.get(2)); // +1 or -1
+		Float sign = Utils.getSign((String) input.get(2)); // +1 or -1
 
-		if (sign == 0) {
+		if (sign == null) {
 			logger.debug("Returning null because couldn't get a valid sign");
 			return null;
 		}
@@ -63,7 +63,7 @@ public class SignedDecimalToFloat extends EvalFunc<Float> {
 		if (value == null)
 			return null;
 
-		return sign * value.floatValue();
+		return sign.floatValue() * value.floatValue();
 	}
 
 	@Override

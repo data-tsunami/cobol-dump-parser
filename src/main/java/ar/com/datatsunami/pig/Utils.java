@@ -1,11 +1,16 @@
 package ar.com.datatsunami.pig;
 
+import java.io.IOException;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 public class Utils {
 
 	static final Log logger = LogFactory.getLog(Utils.class);
+
+	public static final Float NEGATIVE = new Float(-1);
+	public static final Float POSITIVE = new Float(1);
 
 	/*
 	 * Transform 3 long to a float
@@ -29,66 +34,22 @@ public class Utils {
 	 * 
 	 * Returns '-1' if the sign is '-'.
 	 * 
-	 * Returns '0' if can't get a sign.
+	 * Returns 'null' if can't get a sign.
 	 */
-	public static float getSign(Object object) throws NumberFormatException {
+	public static Float getSign(Object object) throws IOException {
 
 		if (String.class.isAssignableFrom(object.getClass())) {
 			//
 			// Object is a String, check value and return
 			//
 			if ("+".equals(object))
-				return 1f;
+				return POSITIVE;
 			if ("-".equals(object))
-				return -1f;
-			return 0f;
+				return NEGATIVE;
+			return null;
 		}
 
-		throw new NumberFormatException("Object isn't a String");
-
-		/*
-		 * Now that we have 'getArgToFuncMapping()', only valid objects should
-		 * reach this function.
-		 * 
-		 * Leaving the old code here for reference, unti we are sure it's not
-		 * needed.
-		 */
-
-		// if (logger.isDebugEnabled())
-		// logger.debug("getSign(): object isn't the string '+' nor '-' - class: '"
-		// + object.getClass()
-		// + "' - object: '" + object + "'");
-		//
-		// logger.warn("Object for sign isn't a String instance");
-		//
-		// //
-		// // Object isn't a String. If equals to '+' or '-', return
-		// //
-		// if ("+".equals(object))
-		// return 1f;
-		// if ("-".equals(object))
-		// return -1f;
-		//
-		// //
-		// // Try to get a String representing the object
-		// //
-		// String string;
-		// try {
-		// string = object.toString();
-		// } catch (Exception e) {
-		// if (logger.isDebugEnabled())
-		// logger.debug("object.toString() raised an exception", e);
-		// throw new
-		// NumberFormatException("object.toString() raised the exception: " +
-		// e);
-		// }
-		//
-		// if ("+".equals(string))
-		// return 1f;
-		// if ("-".equals(string))
-		// return -1f;
-		//
-		// return 0f;
+		throw new IOException("Object to get the sign from is not a String");
 	}
 
 }

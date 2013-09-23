@@ -2,6 +2,8 @@ package ar.com.datatsunami.pig;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 public class ToFloatTest {
@@ -17,11 +19,11 @@ public class ToFloatTest {
 	}
 
 	@Test
-	public void testGetSign() {
-		assertEquals(1f, Utils.getSign("+"), 0.001d);
-		assertEquals(-1f, Utils.getSign("-"), 0.001d);
-		assertEquals(0f, Utils.getSign(""), 0.001d);
-		assertEquals(0f, Utils.getSign("x"), 0.001d);
+	public void testGetSign() throws IOException {
+		assertEquals(1f, Utils.getSign("+").floatValue(), 0.001d);
+		assertEquals(-1f, Utils.getSign("-").floatValue(), 0.001d);
+		assertEquals(null, Utils.getSign(""));
+		assertEquals(null, Utils.getSign("x"));
 	}
 
 	// @Test
