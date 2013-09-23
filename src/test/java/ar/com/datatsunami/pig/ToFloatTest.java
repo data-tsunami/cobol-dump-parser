@@ -26,15 +26,4 @@ public class ToFloatTest {
 		assertEquals(null, Utils.getSign("x"));
 	}
 
-	// @Test
-	// public void testUnsignedDecimalToFloat() throws IOException {
-	// UnsignedDecimalToFloat udf = new UnsignedDecimalToFloat();
-	// Tuple tuple = TupleFactory.getInstance().newTuple();
-	// tuple.append(Long.valueOf(11));
-	// tuple.append(Long.valueOf(33));
-	// tuple.append(Long.valueOf(2));
-	// Float result = udf.exec(tuple);
-	// assertEquals(11.33f, result.floatValue(), 0.01f);
-	// }
-
 }
