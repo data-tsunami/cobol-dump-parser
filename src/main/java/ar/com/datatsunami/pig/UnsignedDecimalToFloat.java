@@ -1,11 +1,17 @@
 package ar.com.datatsunami.pig;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.pig.EvalFunc;
+import org.apache.pig.FuncSpec;
+import org.apache.pig.data.DataType;
 import org.apache.pig.data.Tuple;
+import org.apache.pig.impl.logicalLayer.FrontendException;
+import org.apache.pig.impl.logicalLayer.schema.Schema;
 
 /**
  * This UDF receives the integer and decimal part of a number, and the number of
@@ -56,4 +62,23 @@ public class UnsignedDecimalToFloat extends EvalFunc<Float> {
 		return Utils.toFloat(intPart, decimalPart, decimalPlaces);
 	}
 
+	@Override
+	public List<FuncSpec> getArgToFuncMapping() throws FrontendException {
+		List<FuncSpec> funcList = new ArrayList<FuncSpec>();
+		Schema schema;
+
+		schema = new Schema();
+		schema.add(new Schema.FieldSchema(null, DataType.LONG));
+		schema.add(new Schema.FieldSchema(null, DataType.LONG));
+		schema.add(new Schema.FieldSchema(null, DataType.INTEGER));
+		funcList.add(new FuncSpec(this.getClass().getName(), schema));
+
+		schema = new Schema();
+		schema.add(new Schema.FieldSchema(null, DataType.LONG));
+		schema.add(new Schema.FieldSchema(null, DataType.LONG));
+		schema.add(new Schema.FieldSchema(null, DataType.LONG));
+		funcList.add(new FuncSpec(this.getClass().getName(), schema));
+
+		return funcList;
+	}
 }

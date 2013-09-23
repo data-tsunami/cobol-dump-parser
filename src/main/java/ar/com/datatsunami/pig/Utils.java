@@ -15,26 +15,39 @@ public class Utils {
 		if (Number.class.isAssignableFrom(object.getClass()))
 			return (long) ((Number) object).longValue();
 
-		if (logger.isDebugEnabled())
-			logger.debug("getLong(): object isn't Number: " + object.getClass());
+		throw new NumberFormatException("object isn't a Number");
 
-		String string;
-		try {
-			string = object.toString();
-		} catch (Exception e) {
-			if (logger.isDebugEnabled())
-				logger.debug("object.toString() raised an exception", e);
-			throw new NumberFormatException("object.toString() raised the exception: " + e);
-		}
+		/*
+		 * Now that we have 'getArgToFuncMapping()', only valid objects should
+		 * reach this function.
+		 * 
+		 * Leaving the old code here for reference, unti we are sure it's not
+		 * needed.
+		 */
 
-		try {
-			return Long.parseLong(string);
-		} catch (NumberFormatException nfe) {
-			if (logger.isDebugEnabled())
-				logger.debug("Couldn't get a valid long from the object of type '" + object.getClass()
-						+ "', represented by string: '" + string + "'");
-			throw nfe;
-		}
+		// if (logger.isDebugEnabled())
+		// logger.debug("getLong(): object isn't Number: " + object.getClass());
+		//
+		// String string;
+		// try {
+		// string = object.toString();
+		// } catch (Exception e) {
+		// if (logger.isDebugEnabled())
+		// logger.debug("getLong(): object.toString() raised an exception", e);
+		// throw new
+		// NumberFormatException("object.toString() raised the exception: " +
+		// e);
+		// }
+		//
+		// try {
+		// return Long.parseLong(string);
+		// } catch (NumberFormatException nfe) {
+		// if (logger.isDebugEnabled())
+		// logger.debug("Couldn't get a valid long from the object of type '" +
+		// object.getClass()
+		// + "', represented by string: '" + string + "'");
+		// throw nfe;
+		// }
 	}
 
 	/*
@@ -70,38 +83,51 @@ public class Utils {
 			return 0f;
 		}
 
-		if (logger.isDebugEnabled())
-			logger.debug("getSign(): object isn't the string '+' nor '-' - class: '" + object.getClass()
-					+ "' - object: '" + object + "'");
+		throw new NumberFormatException("Object isn't a String");
 
-		logger.warn("Object for sign isn't a String instance");
+		/*
+		 * Now that we have 'getArgToFuncMapping()', only valid objects should
+		 * reach this function.
+		 * 
+		 * Leaving the old code here for reference, unti we are sure it's not
+		 * needed.
+		 */
 
+		// if (logger.isDebugEnabled())
+		// logger.debug("getSign(): object isn't the string '+' nor '-' - class: '"
+		// + object.getClass()
+		// + "' - object: '" + object + "'");
 		//
-		// Object isn't a String. If equals to '+' or '-', return
+		// logger.warn("Object for sign isn't a String instance");
 		//
-		if ("+".equals(object))
-			return 1f;
-		if ("-".equals(object))
-			return -1f;
-
+		// //
+		// // Object isn't a String. If equals to '+' or '-', return
+		// //
+		// if ("+".equals(object))
+		// return 1f;
+		// if ("-".equals(object))
+		// return -1f;
 		//
-		// Try to get a String representing the object
+		// //
+		// // Try to get a String representing the object
+		// //
+		// String string;
+		// try {
+		// string = object.toString();
+		// } catch (Exception e) {
+		// if (logger.isDebugEnabled())
+		// logger.debug("object.toString() raised an exception", e);
+		// throw new
+		// NumberFormatException("object.toString() raised the exception: " +
+		// e);
+		// }
 		//
-		String string;
-		try {
-			string = object.toString();
-		} catch (Exception e) {
-			if (logger.isDebugEnabled())
-				logger.debug("object.toString() raised an exception", e);
-			throw new NumberFormatException("object.toString() raised the exception: " + e);
-		}
-
-		if ("+".equals(string))
-			return 1f;
-		if ("-".equals(string))
-			return -1f;
-
-		return 0f;
+		// if ("+".equals(string))
+		// return 1f;
+		// if ("-".equals(string))
+		// return -1f;
+		//
+		// return 0f;
 	}
 
 }
