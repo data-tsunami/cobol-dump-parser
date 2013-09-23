@@ -54,3 +54,7 @@ ILLUSTRATE records;
  * |             | 2541          | PTRYY            | Film 8mm x 7mm          | 71           | 99                   | +                      | 1            | 500                  | 
  * ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
  */ 
+
+bag_of_floats = FOREACH records GENERATE ar.com.datatsunami.pig.UnsignedDecimalToFloat(price, price_decimal, 2);
+
+ILLUSTRATE bag_of_floats;
