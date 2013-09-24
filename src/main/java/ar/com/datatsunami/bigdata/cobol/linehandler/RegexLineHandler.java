@@ -47,6 +47,8 @@ public class RegexLineHandler implements LineHandler {
 
 	@Override
 	public void freeze() {
+		// FIXME: track 'freeze' state
+
 		String pat = "^";
 		for (Field<?, ?> item : this.fields) {
 			pat += item.genRegex();

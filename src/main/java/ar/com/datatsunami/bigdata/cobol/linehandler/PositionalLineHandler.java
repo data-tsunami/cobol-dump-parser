@@ -1,6 +1,7 @@
 package ar.com.datatsunami.bigdata.cobol.linehandler;
 
 import java.nio.charset.CharacterCodingException;
+import java.util.Collections;
 import java.util.List;
 
 import org.apache.hadoop.io.BytesWritable;
@@ -48,6 +49,8 @@ public class PositionalLineHandler implements LineHandler {
 	public void freeze() {
 		if (this.fields == null)
 			throw new RuntimeException("fields is NULL");
+		this.fields = Collections.unmodifiableList(this.fields);
+
 		startPositions = new int[this.fields.size()];
 		fieldSizes = new int[this.fields.size()];
 		for (int i = 0; i < startPositions.length; i++) {

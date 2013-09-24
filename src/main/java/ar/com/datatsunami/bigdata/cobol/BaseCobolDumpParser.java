@@ -1,11 +1,13 @@
 package ar.com.datatsunami.bigdata.cobol;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.hadoop.io.Text;
 
@@ -37,6 +39,7 @@ public abstract class BaseCobolDumpParser {
 	protected LineHandler lineHandler = null;
 
 	protected Map<String, Integer> fieldNameToIndexMap = null;
+	protected Set<String> _fieldNamesTmp = new TreeSet<String>();
 
 	public BaseCobolDumpParser() {
 		this.lineHandler = new PositionalLineHandler();
@@ -44,6 +47,8 @@ public abstract class BaseCobolDumpParser {
 	}
 
 	public BaseCobolDumpParser(LineHandler lineHandler) {
+		if (lineHandler == null)
+			throw new NullPointerException("lineHandler parameter can't be null");
 		this.lineHandler = lineHandler;
 		this.lineHandler.setFields(this.fields);
 	}
@@ -51,6 +56,11 @@ public abstract class BaseCobolDumpParser {
 	public BaseCobolDumpParser add(Field<?, ?> item) {
 		if (freezed)
 			throw new RuntimeException("Instance is closed");
+
+		if (this._fieldNamesTmp.contains(item.label.trim().toLowerCase()))
+			throw new RuntimeException("A field with the same label exists");
+
+		this._fieldNamesTmp.add(item.label.trim().toLowerCase());
 		this.fields.add(item);
 		return this;
 	}
@@ -66,6 +76,8 @@ public abstract class BaseCobolDumpParser {
 		// Set the internal var
 		this.freezed = true;
 
+		this._fieldNamesTmp = null;
+
 		// Freeze the line handler
 		this.lineHandler.freeze();
 
@@ -77,6 +89,8 @@ public abstract class BaseCobolDumpParser {
 				fieldName += "@";
 			this.fieldNameToIndexMap.put(fieldName, Integer.valueOf(i));
 		}
+
+		this.fieldNameToIndexMap = Collections.unmodifiableMap(this.fieldNameToIndexMap);
 
 		return this;
 	}
