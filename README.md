@@ -202,6 +202,12 @@ Now you can run Pig, from the base directory of the project:
 pig --debug WARN -f src/test/pig/sample_01.pig
 ```
 
+
+## TODO
+
++ See: http://engineering.linkedin.com/datafu/datafu-10#aliasableevalfunc
+
+
 <!--
 
 ## Hadoop
